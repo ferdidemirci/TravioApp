@@ -98,6 +98,27 @@ class MapVC: UIViewController, MKMapViewDelegate{
         }
     }
     
+    func getAddressFromCoordinate(coordinate: CLLocationCoordinate2D, complate: @escaping () -> Void){
+        let geocoder = CLGeocoder()
+           
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+           
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            if let error = error {
+                print("Reverse geocoding error: \(error.localizedDescription)")
+                return
+            }
+            if let placemark = placemarks?.first {
+                if let street = placemark.thoroughfare,
+                   let city = placemark.locality,
+                    let country = placemark.country {
+                    self.place = "\(city), \(country)"
+                    complate()
+                }
+            }
+        }
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             return nil
@@ -126,26 +147,20 @@ class MapVC: UIViewController, MKMapViewDelegate{
         return annotationView
     }
     
-    func getAddressFromCoordinate(coordinate: CLLocationCoordinate2D, complate: @escaping () -> Void){
-        let geocoder = CLGeocoder()
-           
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-           
-        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
-            if let error = error {
-                print("Reverse geocoding error: \(error.localizedDescription)")
-                return
-            }
-            if let placemark = placemarks?.first {
-                if let street = placemark.thoroughfare,
-                   let city = placemark.locality,
-                    let country = placemark.country {
-                    self.place = "\(city), \(country)"
-                    complate()
-                }
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? MKPointAnnotation {
+            let coordinate = annotation.coordinate
+            let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+            
+            let region = MKCoordinateRegion(center: coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+            if let index = viewModel.mapPlaces.firstIndex(where: { $0.latitude == annotation.coordinate.latitude && $0.longitude == annotation.coordinate.longitude }) {
+                let indexPath = IndexPath(item: index, section: 0)
+                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
         }
     }
+    
 }
 
 extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
@@ -175,6 +190,19 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
         navigationController?.pushViewController(vc, animated: true)
         
     }
+}
+
+extension MapVC: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+           let cellWidthIncludingSpacing = collectionView.frame.size.width - 42
+           
+           var offset = targetContentOffset.pointee
+           let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+           let roundedIndex = round(index)
+           
+           offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
+           targetContentOffset.pointee = offset
+       }
 }
 
 extension MapVC: ReturnToMap {
