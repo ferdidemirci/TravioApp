@@ -90,7 +90,7 @@
 		81E0C7262AA0B03100299DF3 /* VisitCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitCVC.swift; sourceTree = "<group>"; };
 		81E0C7282AA0B06800299DF3 /* VisitsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisitsVC.swift; sourceTree = "<group>"; };
 		81E0C72B2AA0B0CC00299DF3 /* MainTabBarC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarC.swift; sourceTree = "<group>"; };
-		81E0C72D2AA0B10E00299DF3 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ResponseModel.swift; path = Login/ResponseModel.swift; sourceTree = "<group>"; };
+		81E0C72D2AA0B10E00299DF3 /* ResponseModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResponseModel.swift; sourceTree = "<group>"; };
 		81E0C72F2AA0B12B00299DF3 /* MeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeModel.swift; sourceTree = "<group>"; };
 		81E0C7312AA0B12C00299DF3 /* UploadResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UploadResponse.swift; sourceTree = "<group>"; };
 		81E0C7332AA0B12D00299DF3 /* PlaceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceModel.swift; sourceTree = "<group>"; };
@@ -140,11 +140,8 @@
 			children = (
 				81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */,
 				81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */,
-				81E0C6D92AA0A67D00299DF3 /* Authentication */,
-				81E0C6D82AA0A67900299DF3 /* Home */,
-				81E0C6DA2AA0A69000299DF3 /* Visits */,
-				81E0C6DB2AA0A69700299DF3 /* Map */,
-				81E0C6DC2AA0A6AE00299DF3 /* Shared */,
+				81E0C7422AA0CC3100299DF3 /* Views */,
+				81E0C7412AA0CA2900299DF3 /* Model */,
 				81E0C6D72AA0A65E00299DF3 /* Router */,
 				81E0C6DE2AA0A70400299DF3 /* Helper */,
 				81E0C6DF2AA0A72200299DF3 /* CustomElements */,
@@ -174,17 +171,8 @@
 		81E0C6D92AA0A67D00299DF3 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				81E0C72A2AA0B0A000299DF3 /* TabBar */,
 				81E0C70E2AA0ACE000299DF3 /* Signup */,
 				81E0C70B2AA0ACBF00299DF3 /* Login */,
-				81E0C7392AA0B13700299DF3 /* UserModel.swift */,
-				81E0C72F2AA0B12B00299DF3 /* MeModel.swift */,
-				81E0C72D2AA0B10E00299DF3 /* ResponseModel.swift */,
-				81E0C73B2AA0B13700299DF3 /* TokenModel.swift */,
-				81E0C7332AA0B12D00299DF3 /* PlaceModel.swift */,
-				81E0C7372AA0B13600299DF3 /* GalleryModel.swift */,
-				81E0C7352AA0B12E00299DF3 /* VisitModel.swift */,
-				81E0C7312AA0B12C00299DF3 /* UploadResponse.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -300,8 +288,36 @@
 			isa = PBXGroup;
 			children = (
 				81E0C72B2AA0B0CC00299DF3 /* MainTabBarC.swift */,
+				81E0C6DB2AA0A69700299DF3 /* Map */,
+				81E0C6DA2AA0A69000299DF3 /* Visits */,
+				81E0C6D82AA0A67900299DF3 /* Home */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		81E0C7412AA0CA2900299DF3 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				81E0C7392AA0B13700299DF3 /* UserModel.swift */,
+				81E0C72F2AA0B12B00299DF3 /* MeModel.swift */,
+				81E0C72D2AA0B10E00299DF3 /* ResponseModel.swift */,
+				81E0C73B2AA0B13700299DF3 /* TokenModel.swift */,
+				81E0C7332AA0B12D00299DF3 /* PlaceModel.swift */,
+				81E0C7372AA0B13600299DF3 /* GalleryModel.swift */,
+				81E0C7352AA0B12E00299DF3 /* VisitModel.swift */,
+				81E0C7312AA0B12C00299DF3 /* UploadResponse.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		81E0C7422AA0CC3100299DF3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				81E0C6D92AA0A67D00299DF3 /* Authentication */,
+				81E0C72A2AA0B0A000299DF3 /* TabBar */,
+				81E0C6DC2AA0A6AE00299DF3 /* Shared */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
