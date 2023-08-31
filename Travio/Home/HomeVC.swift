@@ -6,14 +6,18 @@
 //
 
 import UIKit
+import SnapKit
 
-class ViewController: UIViewController {
-
+class HomeVC: UIViewController {
+    
+    var onDataFetch: ((Bool) -> Void)?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        self.view.backgroundColor = .white
+
     }
-
-
+    
 }
+
 
