@@ -27,7 +27,7 @@ public enum Router: URLRequestConvertible {
         return accessToken
     }
     
-    private var baseURL: URL {
+    var baseURL: URL {
         return URL(string: "https://api.iosclass.live")!
     }
     
@@ -40,7 +40,7 @@ public enum Router: URLRequestConvertible {
         }
     }
     
-    private var path: String {
+    var path: String {
         switch self {
         case .login:
             return "/v1/auth/login"

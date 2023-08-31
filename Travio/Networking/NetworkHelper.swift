@@ -39,8 +39,7 @@ class NetworkHelper {
                 switch response.result {
                 case .success(let value):
                     do {
-                        let jsonData = try JSONSerialization.data(withJSONObject: value)
-                        let decodedData = try JSONDecoder().decode(T.self, from: jsonData)
+                        let decodedData = try JSONDecoder().decode(T.self, from: value)
                         callback(.success(decodedData))
                     } catch {
                         callback(.failure(error))
@@ -52,24 +51,3 @@ class NetworkHelper {
             }
     }
 }
-
-
-//    func getTravelGallery<T:Codable>(from apiURL: String, method: HTTPMethod, header: HTTPHeaders, callback: @escaping (Result<T, Error>) -> Void) {
-//
-//        AF.request(apiURL, method: method, encoding: JSONEncoding.default, headers: header).responseJSON { response in
-//            switch response.result {
-//            case .success(let data):
-//                do {
-//                    let jsonData = try JSONSerialization.data(withJSONObject: data)
-//                    let decodedData = try JSONDecoder().decode(T.self, from: jsonData)
-//                    callback(.success(decodedData))
-//                } catch {
-//                    callback(.failure(error))
-//                }
-//            case .failure(let error):
-//                callback(.failure(error))
-//            }
-//        }
-//
-//    }
-//}
