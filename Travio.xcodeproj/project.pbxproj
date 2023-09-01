@@ -54,6 +54,10 @@
 		81E0C73C2AA0B13700299DF3 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C73B2AA0B13700299DF3 /* TokenModel.swift */; };
 		81E0C73E2AA0B3E700299DF3 /* AddVisitVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C73D2AA0B3E700299DF3 /* AddVisitVM.swift */; };
 		81E0C7402AA0B45A00299DF3 /* CustomDetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C73F2AA0B45A00299DF3 /* CustomDetailsVM.swift */; };
+		C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220A2AA119350084B54F /* SettingsVM.swift */; };
+		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
+		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
+		C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -100,6 +104,10 @@
 		81E0C73B2AA0B13700299DF3 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		81E0C73D2AA0B3E700299DF3 /* AddVisitVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVisitVM.swift; sourceTree = "<group>"; };
 		81E0C73F2AA0B45A00299DF3 /* CustomDetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailsVM.swift; sourceTree = "<group>"; };
+		C09C220A2AA119350084B54F /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
+		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
+		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
+		C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +296,7 @@
 			isa = PBXGroup;
 			children = (
 				81E0C72B2AA0B0CC00299DF3 /* MainTabBarC.swift */,
+				C0C927C42AA0D0AC0077B7BA /* Settings */,
 				81E0C6DB2AA0A69700299DF3 /* Map */,
 				81E0C6DA2AA0A69000299DF3 /* Visits */,
 				81E0C6D82AA0A67900299DF3 /* Home */,
@@ -306,6 +315,7 @@
 				81E0C7372AA0B13600299DF3 /* GalleryModel.swift */,
 				81E0C7352AA0B12E00299DF3 /* VisitModel.swift */,
 				81E0C7312AA0B12C00299DF3 /* UploadResponse.swift */,
+				C09C220C2AA119930084B54F /* SettingsModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -318,6 +328,16 @@
 				81E0C6DC2AA0A6AE00299DF3 /* Shared */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
+				C09C220A2AA119350084B54F /* SettingsVM.swift */,
+				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -420,6 +440,7 @@
 				81E0C71F2AA0AEA700299DF3 /* MapCVC.swift in Sources */,
 				81E0C7082AA0AC0E00299DF3 /* CustomTextFieldView.swift in Sources */,
 				81E0C7382AA0B13600299DF3 /* GalleryModel.swift in Sources */,
+				C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */,
 				81E0C7342AA0B12D00299DF3 /* PlaceModel.swift in Sources */,
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
 				81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */,
@@ -441,10 +462,13 @@
 				81E0C7362AA0B12E00299DF3 /* VisitModel.swift in Sources */,
 				81E0C70A2AA0AC7C00299DF3 /* Heplers.swift in Sources */,
 				81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */,
+				C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */,
 				81E0C7252AA0B00F00299DF3 /* CustomDetailsSliderCVC.swift in Sources */,
 				81E0C7122AA0AD5300299DF3 /* SignUpVM.swift in Sources */,
 				81E0C6ED2AA0A7FA00299DF3 /* Extensions.swift in Sources */,
 				81E0C73A2AA0B13700299DF3 /* UserModel.swift in Sources */,
+				C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */,
+				C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -590,6 +614,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -617,6 +642,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
