@@ -15,6 +15,7 @@ public enum Router: URLRequestConvertible {
     case signIn(parameters: Parameters)
     case placeById(placeId: String)
     case allPlaces
+    case deletePlace(placeId: String)
     case allGalleryByPlaceId(placeId: String)
     case createVisit(parameters:Parameters)
     case allVisit
@@ -39,7 +40,7 @@ public enum Router: URLRequestConvertible {
             return .post
         case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .getVisitByPlaceId:
             return .get
-        case .deleteVisitById:
+        case .deleteVisitById, .deletePlace:
             return .delete
         }
     }
@@ -54,6 +55,8 @@ public enum Router: URLRequestConvertible {
             return "/v1/galleries/\(placeId)"
         case .allPlaces:
             return "/v1/places"
+        case .deletePlace(let placeId):
+            return "/v1/places/\(placeId)"
         case .allGalleryByPlaceId(let placeId):
             return "/v1/galleries/\(placeId)"
         case .createVisit, .allVisit:
@@ -75,7 +78,7 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login(let parameters), .signIn(let parameters), .createVisit(let parameters), .createPlace(let parameters), .createGallery(let parameters):
             return parameters
-        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById:
+        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById:
             return [:]
         }
     }
@@ -84,7 +87,7 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .upload:
             return [:]
-        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById:
+        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById, .deletePlace:
             return ["Authorization": "Bearer \(accessToken)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]

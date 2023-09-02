@@ -50,6 +50,8 @@ class MapVC: UIViewController, MKMapViewDelegate{
         mapView.addGestureRecognizer(longPressRecognizer)
     }
     
+
+    
     private func setupViews(){
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemBackground
@@ -179,11 +181,13 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let placeId = viewModel.mapPlaces[indexPath.row].id
         let placeDetails = viewModel.mapPlaces[indexPath.row]
         let vc = CustomDetailsVC()
+        vc.placeId = placeId
         vc.placeDetails = placeDetails
-        vc.isVisitVC = false
-        viewModel.getVisitByPlaceId(placeId: placeDetails.id) { status in
+        vc.delegate = self
+        viewModel.getVisitByPlaceId(placeId: placeId) { status in
             if status {
                 vc.isVisited = true
             } else {
@@ -209,9 +213,15 @@ extension MapVC: UIScrollViewDelegate {
        }
 }
 
-extension MapVC: ReturnToMap {
+extension MapVC: ReturnToMap, ReturnToDismiss{
+    func returned(message: String) {
+        setupData()
+        showAlert(title: "Succesful!", message: message)
+    }
+    
     func returned() {
-        print("Map returned")
         setupData()
     }
+    
+    
 }

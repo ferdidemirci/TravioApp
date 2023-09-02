@@ -150,7 +150,6 @@ extension VisitsVC: UICollectionViewDataSource {
                                    updated_at: data.updated_at)
         vc.visitId = visitId
         vc.isVisited = true
-        vc.isVisitVC = true
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }

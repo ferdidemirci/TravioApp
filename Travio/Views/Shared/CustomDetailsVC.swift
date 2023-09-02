@@ -16,12 +16,12 @@ protocol ReturnToDismiss: AnyObject {
 class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     var visitId: String?
+    var placeId: String?
     var placeDetails: MapPlace?
-    var viewModel = CustomDetailsVM()
-    var isVisitVC = true
     var isVisited = true
     var delegate: ReturnToDismiss?
     
+    var viewModel = CustomDetailsVM()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -143,22 +143,33 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
                 self.delegate?.returned(message: message)
             }
         } else {
-            print("Tıklandı.")
+            if let placeId {
+                if isVisited {
+                    viewModel.deletePlace(placeId: placeId) { status in
+                        if status {
+                            self.navigationController?.popToRootViewController(animated: true)
+                            self.delegate?.returned(message: "Place delete successfully.")
+                        } else {
+                            self.showAlert(title: "Delete Error!", message: "Make sure the place you want to delete is created by you!")
+                        }
+                    }
+                } else {
+                    viewModel.createVisit(placeId: placeId) { Response in
+                        self.showAlert(title: "Successful!", message: "Place added successfully.")
+                        self.deleteButton()
+                    }
+                }
+               
+            }
         }
     }
     
     private func configure() {
         if let placeDetails {
             if isVisited {
-                visitedButton.backgroundColor = .red
-                visitedButton.setTitle("Delete", for: .normal)
-                visitedButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
-                visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
+                deleteButton()
             } else {
-                visitedButton.backgroundColor = AppColor.primaryColor.colorValue()
-                visitedButton.setTitle("Add", for: .normal)
-                visitedButton.setImage(UIImage(named: "flyButton"), for: .normal)
-                visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
+                addButton()
             }
             
             titleLabel.text = placeDetails.title
@@ -176,8 +187,21 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
             let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
             
             mapView.setRegion(region, animated: true)
-            
         }
+    }
+    
+    private func deleteButton() {
+        visitedButton.backgroundColor = .red
+        visitedButton.setTitle("Delete", for: .normal)
+        visitedButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
+        visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
+    }
+    
+    private func addButton() {
+        visitedButton.backgroundColor = AppColor.primaryColor.colorValue()
+        visitedButton.setTitle("Add", for: .normal)
+        visitedButton.setImage(UIImage(named: "flyButton"), for: .normal)
+        visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
     }
     
     @objc func pageControlValueChanged() {
