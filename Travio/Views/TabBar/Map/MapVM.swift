@@ -21,4 +21,16 @@ class MapVM {
             }
         }
     }
+    
+    func getVisitByPlaceId(placeId: String, complation: @escaping (Bool) -> Void) {
+        NetworkHelper.shared.routerRequest(request: Router.getVisitByPlaceId(placeId: placeId)) { (result: Result<Response, Error>) in
+            print(result)
+            switch result {
+            case .success:
+                complation(false)
+            case .failure:
+                complation(true)
+            }
+        }
+    }
 }

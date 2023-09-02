@@ -9,12 +9,19 @@ import UIKit
 import SnapKit
 import MapKit
 
-class CustomDetailsVC: UIViewController, MKMapViewDelegate {
+protocol ReturnToDismiss: AnyObject {
+    func returned(message: String)
+}
 
-    var placeId = ""
-    var viewModel = CustomDetailsVM()
+class CustomDetailsVC: UIViewController, MKMapViewDelegate {
+    
+    var visitId: String?
     var placeDetails: MapPlace?
-    var visitedButtonStatus = true
+    var viewModel = CustomDetailsVM()
+    var isVisitVC = true
+    var isVisited = true
+    var delegate: ReturnToDismiss?
+    
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -32,13 +39,6 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         collectionView.register(CustomDetailsSliderCVC.self, forCellWithReuseIdentifier: CustomDetailsSliderCVC().identifier)
         return collectionView
     }()
-    
-//    private lazy var backButton: UIButton = {
-//        let button = UIButton()
-//        button.setImage(UIImage(named: "backButton"), for: .normal)
-//        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
-//        return button
-//    }()
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
@@ -69,7 +69,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     private lazy var scrollContentView: UIView = {
         let view = UIView()
-        view.addSubviews(titleLabel, dateLabel, createdNameLabel, visitedButton, mapView, descriptionLabel)
+        view.addSubviews(titleLabel, dateLabel, createdNameLabel, mapView, descriptionLabel)
         return view
     }()
     
@@ -95,18 +95,15 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     private lazy var visitedButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = AppColor.primaryColor.colorValue()
-        button.setTitle("Add", for: .normal)
-        button.setImage(UIImage(named: "flyButton"), for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 12)
+        button.setTitleColor(UIColor.white, for: .normal)
+        button.tintColor = .white
         button.addTarget(self, action: #selector(didTapVisitedButton), for: .touchUpInside)
         return button
     }()
     
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
-//        mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         mapView.delegate = self
         return mapView
     }()
@@ -121,13 +118,8 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        viewModel.getGallery(placeId: placeId) {
-            self.collectionView.reloadData()
-            self.pageControl.numberOfPages = self.viewModel.galleries.count
-        }
         
-        mapView.delegate = self
+        setupApi()
         setupViews()
         configure()
     }
@@ -141,32 +133,33 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     }
     
     @objc func didTapBackButton() {
-        print("Tıklandı.")
         navigationController?.popViewController(animated: true)
     }
     
     @objc func didTapVisitedButton() {
-        print("Visited Tıklandı.")
-        let params = ["place_id": placeId,
-                      "visited_at": "2023-08-16T00:00:00Z"]
-        NetworkHelper.shared.routerRequest(request: Router.createVisit(parameters: params)) { (result: Result<Response, Error>) in
-            switch result {
-            case .success(let data):
-                print("Place Ekleme: \(data.status)")
-            case .failure(let error):
-                print("Error Place Ekleme: \(error.localizedDescription)")
+        if let visitId {
+            viewModel.deleteVisit(visitId: visitId) { message in
+                self.navigationController?.popToRootViewController(animated: true)
+                self.delegate?.returned(message: message)
             }
+        } else {
+            print("Tıklandı.")
         }
     }
     
     private func configure() {
         if let placeDetails {
-            
-            if !visitedButtonStatus {
-                visitedButton.isHidden = true
-                visitedButton.isEnabled = false
+            if isVisited {
+                visitedButton.backgroundColor = .red
+                visitedButton.setTitle("Delete", for: .normal)
+                visitedButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
+                visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
+            } else {
+                visitedButton.backgroundColor = AppColor.primaryColor.colorValue()
+                visitedButton.setTitle("Add", for: .normal)
+                visitedButton.setImage(UIImage(named: "flyButton"), for: .normal)
+                visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
             }
-            
             
             titleLabel.text = placeDetails.title
             dateLabel.text = formatISO8601Date(placeDetails.created_at)
@@ -221,11 +214,19 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         return annotationView
     }
     
+    private func setupApi() {
+        if let placeDetails {
+            viewModel.getGallery(placeId: placeDetails.id) {
+                self.collectionView.reloadData()
+                self.pageControl.numberOfPages = self.viewModel.galleries.count
+            }
+        }
+    }
+    
     private func setupViews(){
-        visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
+        mapView.delegate = self
         view.backgroundColor = AppColor.backgroundColor.colorValue()
-        
-        view.addSubviews(collectionView, pageControl, backButton, scrollView)
+        view.addSubviews(collectionView, pageControl, backButton, visitedButton, scrollView)
         setupLayout()
     }
     
@@ -242,6 +243,12 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
             make.top.equalTo(view.safeAreaLayoutGuide)
             make.leading.equalToSuperview().offset(24)
             make.width.height.equalTo(40)
+        }
+        
+        visitedButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.trailing.equalToSuperview().offset(-16)
+            make.width.height.equalTo(50)
         }
 
         pageControl.snp.makeConstraints { make in
@@ -277,13 +284,6 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         createdNameLabel.snp.makeConstraints { make in
             make.top.equalTo(dateLabel.snp.bottom).offset(-4)
             make.leading.equalToSuperview().offset(26)
-        }
-        
-        visitedButton.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(44)
-            make.trailing.equalToSuperview().offset(-16)
-            make.bottom.equalTo(mapView.snp.top).offset(-20)
-            make.width.height.equalTo(50)
         }
 
         mapView.snp.makeConstraints { make in
