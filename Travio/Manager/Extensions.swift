@@ -29,13 +29,23 @@ extension UIView {
     }
     
     func addShadow() {
-        layer.shadowColor = UIColor.gray.cgColor
+        layer.shadowColor = UIColor.red.cgColor
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowOpacity = 0.3
         layer.shadowRadius = 20
         clipsToBounds = false
         layer.cornerRadius = 16
         layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
+    }
+    
+}
+
+extension UIViewController {
+    func showAlert(title: String, message: String) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
+        alertController.addAction(okAction)
+        self.present(alertController, animated: true, completion: nil)
     }
 }
 

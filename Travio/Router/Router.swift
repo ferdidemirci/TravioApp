@@ -21,6 +21,8 @@ public enum Router: URLRequestConvertible {
     case createPlace(parameters: Parameters)
     case createGallery(parameters: Parameters)
     case upload(image: [Data])
+    case getVisitByPlaceId(placeId: String)
+    case deleteVisitById(visitId: String)
     
     var accessToken: String {
         guard let accessToken = KeychainSwift().get("accessTokenKey") else { return "" }
@@ -35,8 +37,10 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login, .signIn, .createVisit, .createPlace, .createGallery, .upload:
             return .post
-        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit:
+        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .getVisitByPlaceId:
             return .get
+        case .deleteVisitById:
+            return .delete
         }
     }
     
@@ -60,6 +64,10 @@ public enum Router: URLRequestConvertible {
             return "/v1/galleries"
         case .upload:
             return "/upload"
+        case .getVisitByPlaceId(let placeId):
+            return "/v1/visits/user/\(placeId)"
+        case .deleteVisitById(let visitId):
+            return "/v1/visits/\(visitId)"
         }
     }
     
@@ -67,7 +75,7 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login(let parameters), .signIn(let parameters), .createVisit(let parameters), .createPlace(let parameters), .createGallery(let parameters):
             return parameters
-        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .upload:
+        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById:
             return [:]
         }
     }
@@ -76,7 +84,7 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .upload:
             return [:]
-        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery:
+        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById:
             return ["Authorization": "Bearer \(accessToken)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]

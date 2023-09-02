@@ -26,22 +26,17 @@ class CustomDetailsVM {
         }
     }
     
-//    func getData(galleryId: String, complate: closure) {
-//        print("ID::::::::::::::::::::::::::::::::-\(galleryId)")
-//        let url = EndPoint.getGallery.apiURL + galleryId
-//
-//        guard let accessToken = keychain.get("accessTokenKey") else { return}
-//        let headers: HTTPHeaders = ["Authorization": "Bearer \(accessToken)"]
-//
-//        NetworkingHelper.shared.getVisits(from: url, method: .get, header: headers) { (result: Result<GalleryResponse, Error>) in
-//            switch result {
-//            case .success(let result):
-//                self.galleries = result.data.images
-//                complate!()
-//            case .failure(let error):
-//            }
-//        }
-//    }
+    func deleteVisit(visitId: String, complate: @escaping (String) -> Void) {
+        NetworkHelper.shared.routerRequest(request: Router.deleteVisitById(visitId: visitId)) { (result: Result<Response, Error>) in
+            switch result {
+            case .success(let data):
+                print("Buraya girdi---:\(data)")
+                complate(data.message)
+            case .failure(let error):
+                print("1 Hata")
+            }
+        }
+    }
     
     func getCellCount() -> Int {
         return galleries.count
