@@ -28,7 +28,7 @@
 		81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C7032AA0AA6E00299DF3 /* NetworkHelper.swift */; };
 		81E0C7062AA0AC0800299DF3 /* CustomTextViewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C7052AA0AC0800299DF3 /* CustomTextViewView.swift */; };
 		81E0C7082AA0AC0E00299DF3 /* CustomTextFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C7072AA0AC0E00299DF3 /* CustomTextFieldView.swift */; };
-		81E0C70A2AA0AC7C00299DF3 /* Heplers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C7092AA0AC7C00299DF3 /* Heplers.swift */; };
+		81E0C70A2AA0AC7C00299DF3 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C7092AA0AC7C00299DF3 /* Helpers.swift */; };
 		81E0C70D2AA0ACD400299DF3 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C70C2AA0ACD400299DF3 /* LoginVC.swift */; };
 		81E0C7102AA0AD0600299DF3 /* SignUpVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C70F2AA0AD0600299DF3 /* SignUpVC.swift */; };
 		81E0C7122AA0AD5300299DF3 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C7112AA0AD5300299DF3 /* SignUpVM.swift */; };
@@ -57,6 +57,11 @@
 		C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220A2AA119350084B54F /* SettingsVM.swift */; };
 		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
 		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
+		C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */; };
+		C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */; };
+		C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F972AA1C92F006B560B /* CustomEditView.swift */; };
+		C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37332AA27710007C3595 /* PrivacyTVC.swift */; };
+		C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37352AA277CB007C3595 /* PasswordTVC.swift */; };
 		C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */; };
 /* End PBXBuildFile section */
 
@@ -78,7 +83,7 @@
 		81E0C7032AA0AA6E00299DF3 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		81E0C7052AA0AC0800299DF3 /* CustomTextViewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextViewView.swift; sourceTree = "<group>"; };
 		81E0C7072AA0AC0E00299DF3 /* CustomTextFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextFieldView.swift; sourceTree = "<group>"; };
-		81E0C7092AA0AC7C00299DF3 /* Heplers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Heplers.swift; sourceTree = "<group>"; };
+		81E0C7092AA0AC7C00299DF3 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		81E0C70C2AA0ACD400299DF3 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		81E0C70F2AA0AD0600299DF3 /* SignUpVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVC.swift; sourceTree = "<group>"; };
 		81E0C7112AA0AD5300299DF3 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
@@ -107,6 +112,11 @@
 		C09C220A2AA119350084B54F /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
 		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
+		C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVC.swift; sourceTree = "<group>"; };
+		C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPrivacyView.swift; sourceTree = "<group>"; };
+		C0BE1F972AA1C92F006B560B /* CustomEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditView.swift; sourceTree = "<group>"; };
+		C0BF37332AA27710007C3595 /* PrivacyTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTVC.swift; sourceTree = "<group>"; };
+		C0BF37352AA277CB007C3595 /* PasswordTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTVC.swift; sourceTree = "<group>"; };
 		C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -232,7 +242,7 @@
 		81E0C6DE2AA0A70400299DF3 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
-				81E0C7092AA0AC7C00299DF3 /* Heplers.swift */,
+				81E0C7092AA0AC7C00299DF3 /* Helpers.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -242,6 +252,8 @@
 			children = (
 				81E0C7072AA0AC0E00299DF3 /* CustomTextFieldView.swift */,
 				81E0C7052AA0AC0800299DF3 /* CustomTextViewView.swift */,
+				C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */,
+				C0BE1F972AA1C92F006B560B /* CustomEditView.swift */,
 			);
 			path = CustomElements;
 			sourceTree = "<group>";
@@ -330,9 +342,20 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		C0BE1F922AA1C873006B560B /* Security Settings */ = {
+			isa = PBXGroup;
+			children = (
+				C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */,
+				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
+				C0BF37352AA277CB007C3595 /* PasswordTVC.swift */,
+			);
+			path = "Security Settings";
+			sourceTree = "<group>";
+		};
 		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0BE1F922AA1C873006B560B /* Security Settings */,
 				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
 				C09C220A2AA119350084B54F /* SettingsVM.swift */,
 				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
@@ -431,6 +454,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */,
 				81E0C7062AA0AC0800299DF3 /* CustomTextViewView.swift in Sources */,
 				81E0C7322AA0B12C00299DF3 /* UploadResponse.swift in Sources */,
 				81E0C7182AA0AE2B00299DF3 /* CustomDetailsVC.swift in Sources */,
@@ -442,12 +466,14 @@
 				81E0C7382AA0B13600299DF3 /* GalleryModel.swift in Sources */,
 				C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */,
 				81E0C7342AA0B12D00299DF3 /* PlaceModel.swift in Sources */,
+				C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */,
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
 				81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */,
 				81E0C72E2AA0B10E00299DF3 /* ResponseModel.swift in Sources */,
 				81E0C72C2AA0B0CC00299DF3 /* MainTabBarC.swift in Sources */,
 				81E0C7162AA0ADE600299DF3 /* VisitsVM.swift in Sources */,
 				81E0C7102AA0AD0600299DF3 /* SignUpVC.swift in Sources */,
+				C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */,
 				81E0C7302AA0B12B00299DF3 /* MeModel.swift in Sources */,
 				81E0C7212AA0AF2500299DF3 /* AddVisitVC.swift in Sources */,
 				81E0C7272AA0B03100299DF3 /* VisitCVC.swift in Sources */,
@@ -460,11 +486,13 @@
 				81E0C7402AA0B45A00299DF3 /* CustomDetailsVM.swift in Sources */,
 				81E0C6C62AA0A62D00299DF3 /* SceneDelegate.swift in Sources */,
 				81E0C7362AA0B12E00299DF3 /* VisitModel.swift in Sources */,
-				81E0C70A2AA0AC7C00299DF3 /* Heplers.swift in Sources */,
+				C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */,
+				81E0C70A2AA0AC7C00299DF3 /* Helpers.swift in Sources */,
 				81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */,
 				C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */,
 				81E0C7252AA0B00F00299DF3 /* CustomDetailsSliderCVC.swift in Sources */,
 				81E0C7122AA0AD5300299DF3 /* SignUpVM.swift in Sources */,
+				C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */,
 				81E0C6ED2AA0A7FA00299DF3 /* Extensions.swift in Sources */,
 				81E0C73A2AA0B13700299DF3 /* UserModel.swift in Sources */,
 				C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */,

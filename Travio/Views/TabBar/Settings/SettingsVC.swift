@@ -10,7 +10,7 @@ import SnapKit
 
 class SettingsVC: UIViewController {
     
-    let viewModel = SettingsViewModel()
+    let viewModel = SettingsVM()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -30,7 +30,7 @@ class SettingsVC: UIViewController {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.image = UIImage(named: "bruce")
-        iv.backgroundColor = .red
+        iv.backgroundColor = .clear
         iv.layer.masksToBounds = true
         iv.layer.cornerRadius = 60
         return iv
@@ -62,7 +62,8 @@ class SettingsVC: UIViewController {
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
         collectionView.isPagingEnabled = true
-        collectionView.register(SettingsCollectionViewCell.self, forCellWithReuseIdentifier: SettingsCollectionViewCell().identifier)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC().identifier)
         return collectionView
     }()
     
@@ -97,7 +98,7 @@ class SettingsVC: UIViewController {
     
     private func setupLayouts() {
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(24)
             make.leading.equalToSuperview().offset(20)
         }
         
@@ -143,6 +144,21 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         let size = CGSize(width: collectionView.frame.width, height: 54)
         return size
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedItem = indexPath.item
+        var destinationVC: UIViewController?
+        
+        switch selectedItem {
+        case 0:
+            destinationVC = SecuritySettingsVC()
+        default:
+            break
+        }
+        guard let destinationVC = destinationVC else { return }
+        navigationController?.pushViewController(destinationVC, animated: true)
+    }
+    
 }
 
 extension SettingsVC: UICollectionViewDataSource {
@@ -151,9 +167,8 @@ extension SettingsVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCollectionViewCell().identifier, for: indexPath) as? SettingsCollectionViewCell else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCVC().identifier, for: indexPath) as? SettingsCVC else { return UICollectionViewCell() }
         cell.configure(model: viewModel.settingsParameters[indexPath.item])
-//        cell.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         return cell
     }
     
