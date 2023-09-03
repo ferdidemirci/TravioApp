@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SettingsViewModel {
+class SettingsVM {
     var settingsParameters: [SettingsModel] = [SettingsModel(leftImage: "user", text: "Security Settings"),
                                                SettingsModel(leftImage: "scope", text: "App Defaults"),
                                                SettingsModel(leftImage: "mapIcon", text: "My Added Places"),

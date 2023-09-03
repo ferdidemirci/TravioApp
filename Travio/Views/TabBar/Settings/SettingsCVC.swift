@@ -8,9 +8,9 @@
 import UIKit
 import SnapKit
 
-class SettingsCollectionViewCell: UICollectionViewCell {
+class SettingsCVC: UICollectionViewCell {
 
-    var identifier = "SettingsCell"
+    var identifier = "SettingsCVC"
     
     
     // Shadow'u verdiğimiz view
