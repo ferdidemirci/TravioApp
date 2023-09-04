@@ -15,19 +15,22 @@ public enum Router: URLRequestConvertible {
     case signIn(parameters: Parameters)
     case placeById(placeId: String)
     case allPlaces
+    case deletePlace(placeId: String)
     case allGalleryByPlaceId(placeId: String)
     case createVisit(parameters:Parameters)
     case allVisit
     case createPlace(parameters: Parameters)
     case createGallery(parameters: Parameters)
     case upload(image: [Data])
+    case getVisitByPlaceId(placeId: String)
+    case deleteVisitById(visitId: String)
     
     var accessToken: String {
         guard let accessToken = KeychainSwift().get("accessTokenKey") else { return "" }
         return accessToken
     }
     
-    private var baseURL: URL {
+    var baseURL: URL {
         return URL(string: "https://api.iosclass.live")!
     }
     
@@ -35,12 +38,14 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login, .signIn, .createVisit, .createPlace, .createGallery, .upload:
             return .post
-        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit:
+        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .getVisitByPlaceId:
             return .get
+        case .deleteVisitById, .deletePlace:
+            return .delete
         }
     }
     
-    private var path: String {
+    var path: String {
         switch self {
         case .login:
             return "/v1/auth/login"
@@ -50,6 +55,8 @@ public enum Router: URLRequestConvertible {
             return "/v1/galleries/\(placeId)"
         case .allPlaces:
             return "/v1/places"
+        case .deletePlace(let placeId):
+            return "/v1/places/\(placeId)"
         case .allGalleryByPlaceId(let placeId):
             return "/v1/galleries/\(placeId)"
         case .createVisit, .allVisit:
@@ -60,6 +67,10 @@ public enum Router: URLRequestConvertible {
             return "/v1/galleries"
         case .upload:
             return "/upload"
+        case .getVisitByPlaceId(let placeId):
+            return "/v1/visits/user/\(placeId)"
+        case .deleteVisitById(let visitId):
+            return "/v1/visits/\(visitId)"
         }
     }
     
@@ -67,7 +78,7 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login(let parameters), .signIn(let parameters), .createVisit(let parameters), .createPlace(let parameters), .createGallery(let parameters):
             return parameters
-        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .upload:
+        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById:
             return [:]
         }
     }
@@ -76,7 +87,7 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .upload:
             return [:]
-        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery:
+        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById, .deletePlace:
             return ["Authorization": "Bearer \(accessToken)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]

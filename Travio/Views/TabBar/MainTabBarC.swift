@@ -26,8 +26,11 @@ class MainTabBarC: UITabBarController {
         
         let mapVC = MapVC()
         mapVC.tabBarItem = UITabBarItem(title: "Map", image: UIImage(systemName: "map.fill"), tag: 2)
+        
+        let settingsVC = SettingsVC()
+        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "tabBar3"), tag: 3)
 
-        let tabBarList = [homeVC, visitsVC, mapVC]
+        let tabBarList = [homeVC, visitsVC, mapVC, settingsVC]
         viewControllers = tabBarList.map({ UINavigationController(rootViewController: $0) })
 //        self.selectedIndex = 1
         self.tabBar.tintColor = AppColor.primaryColor.colorValue()

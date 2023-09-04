@@ -19,10 +19,8 @@ class VisitsVM {
             switch result {
             case .success(let data):
                 self.visits = data.data.visits
-                print(data)
                 complate!()
             case .failure(let error):
-                print("1----------\(error.localizedDescription)")
                 complate!()
             }
             

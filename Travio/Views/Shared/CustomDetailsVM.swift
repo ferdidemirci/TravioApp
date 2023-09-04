@@ -26,22 +26,44 @@ class CustomDetailsVM {
         }
     }
     
-//    func getData(galleryId: String, complate: closure) {
-//        print("ID::::::::::::::::::::::::::::::::-\(galleryId)")
-//        let url = EndPoint.getGallery.apiURL + galleryId
-//
-//        guard let accessToken = keychain.get("accessTokenKey") else { return}
-//        let headers: HTTPHeaders = ["Authorization": "Bearer \(accessToken)"]
-//
-//        NetworkingHelper.shared.getVisits(from: url, method: .get, header: headers) { (result: Result<GalleryResponse, Error>) in
-//            switch result {
-//            case .success(let result):
-//                self.galleries = result.data.images
-//                complate!()
-//            case .failure(let error):
-//            }
-//        }
-//    }
+    func createVisit(placeId: String, complate: @escaping (String) -> Void) {
+        let params = ["place_id": placeId,
+                      "visited_at": "2023-08-10T00:00:00Z"]
+        NetworkHelper.shared.routerRequest(request: Router.createVisit(parameters: params)) { (result: Result<Response, Error>) in
+            switch result {
+            case .success(let response):
+                complate(response.message)
+            case .failure(let error):
+                print("Create Place: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func deleteVisit(visitId: String, complate: @escaping (String) -> Void) {
+        NetworkHelper.shared.routerRequest(request: Router.deleteVisitById(visitId: visitId)) { (result: Result<Response, Error>) in
+            switch result {
+            case .success(let data):
+                complate(data.message)
+            case .failure(let error):
+                print("Delete Visit: \(error.localizedDescription)")
+            }
+        }
+    }
+    
+    func deletePlace(placeId: String, complate: @escaping (Bool) -> Void) {
+        NetworkHelper.shared.routerRequest(request: Router.deletePlace(placeId: placeId)) { (result: Result<Response, Error>) in
+            switch result {
+            case .success(let response):
+                if response.status == "success" {
+                    complate(true)
+                } else {
+                    complate(false)
+                }
+            case .failure(let error):
+                print("Delete Place: \(error.localizedDescription)")
+            }
+        }
+    }
     
     func getCellCount() -> Int {
         return galleries.count

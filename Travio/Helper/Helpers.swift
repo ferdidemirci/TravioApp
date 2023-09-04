@@ -36,13 +36,6 @@ enum AppFont: String  {
     case bold = "Poppins-Bold"
 }
 
-func showAlert(title: String, message: String, viewController: UIViewController) {
-    let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-    let okAction = UIAlertAction(title: "OK", style: .default, handler: nil)
-    alertController.addAction(okAction)
-    viewController.present(alertController, animated: true, completion: nil)
-}
-
 func formatISO8601Date(_ dateString: String) -> String? {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"

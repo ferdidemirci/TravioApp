@@ -83,7 +83,7 @@ class AddVisitVC: UIViewController {
     }
     
     @objc private func didTapAddPlace() {
-        viewModel.uploadPhotoToAPI() {
+        viewModel.uploadImage { 
             if let place = self.placeNameView.textField.text,
                let description = self.descriptionView.textView.text,
                let countryAndCity = self.countryAndCityView.textField.text,
@@ -204,7 +204,9 @@ extension AddVisitVC: UINavigationControllerDelegate, UIImagePickerControllerDel
                   let cell = collectionView.cellForItem(at: selectedIndexPath) as? AddVisitPhotoCVC {
                    cell.stackView.isHidden = true
                    cell.backgroundImageView.image = image
-                   viewModel.images.append(image)
+                   if let imageData = image.jpegData(compressionQuality: 0.5) {
+                       viewModel.imagesData.append(imageData)
+                   }
                }
            }
     }

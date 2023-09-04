@@ -14,7 +14,7 @@ class LoginVC: UIViewController {
     
     private lazy var loginScreenImageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "travio-logo")
+        image.image = UIImage(named: "travioTextLogo")
         image.contentMode = .scaleAspectFit
         return image
     }()

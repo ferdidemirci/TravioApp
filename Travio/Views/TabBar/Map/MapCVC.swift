@@ -34,6 +34,13 @@ class MapCVC: UICollectionViewCell {
         return stackView
     }()
     
+    private lazy var placeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
+        label.textColor = .white
+        return label
+    }()
+    
     private lazy var locationImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -57,6 +64,10 @@ class MapCVC: UICollectionViewCell {
         setupViews()
     }
     
+    override func layoutSubviews() {
+        self.addShadow()
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -75,7 +86,7 @@ class MapCVC: UICollectionViewCell {
     
     func setupViews() {
         
-        self.addSubviews(backgroundImage, gradientImage, stackView)
+        self.addSubviews(backgroundImage, gradientImage, placeLabel, stackView)
         setupLayouts()
     }
     
@@ -92,6 +103,11 @@ class MapCVC: UICollectionViewCell {
             make.height.equalTo(100)
         }
         
+        placeLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(stackView.snp.top)
+            make.leading.equalToSuperview().offset(16)
+        }
+        
         stackView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(22)
             make.bottom.equalToSuperview().offset(-14)
@@ -99,6 +115,7 @@ class MapCVC: UICollectionViewCell {
     }
     
     public func congigure(model: MapPlace) {
+        placeLabel.text = model.title
         locationLabel.text = model.place
         
         if let url = URL(string: model.cover_image_url) {

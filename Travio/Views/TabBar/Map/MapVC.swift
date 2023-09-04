@@ -45,14 +45,14 @@ class MapVC: UIViewController, MKMapViewDelegate{
         super.viewDidLoad()
 
         setupViews()
-        
+        setupData()
         let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
         mapView.addGestureRecognizer(longPressRecognizer)
     }
     
+
+    
     private func setupViews(){
-        setupData()
-        
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemBackground
         view.addSubviews(mapView, collectionView)
@@ -98,6 +98,27 @@ class MapVC: UIViewController, MKMapViewDelegate{
         }
     }
     
+    func getAddressFromCoordinate(coordinate: CLLocationCoordinate2D, complate: @escaping () -> Void){
+        let geocoder = CLGeocoder()
+           
+        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
+           
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            if let error = error {
+                print("Reverse geocoding error: \(error.localizedDescription)")
+                return
+            }
+            if let placemark = placemarks?.first {
+                if let street = placemark.thoroughfare,
+                   let city = placemark.locality,
+                    let country = placemark.country {
+                    self.place = "\(city), \(country)"
+                    complate()
+                }
+            }
+        }
+    }
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
             return nil
@@ -126,26 +147,20 @@ class MapVC: UIViewController, MKMapViewDelegate{
         return annotationView
     }
     
-    func getAddressFromCoordinate(coordinate: CLLocationCoordinate2D, complate: @escaping () -> Void){
-        let geocoder = CLGeocoder()
-           
-        let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
-           
-        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
-            if let error = error {
-                print("Reverse geocoding error: \(error.localizedDescription)")
-                return
-            }
-            if let placemark = placemarks?.first {
-                if let street = placemark.thoroughfare,
-                   let city = placemark.locality,
-                    let country = placemark.country {
-                    self.place = "\(city), \(country)"
-                    complate()
-                }
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        if let annotation = view.annotation as? MKPointAnnotation {
+            let coordinate = annotation.coordinate
+            let span = MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
+            
+            let region = MKCoordinateRegion(center: coordinate, span: span)
+            mapView.setRegion(region, animated: true)
+            if let index = viewModel.mapPlaces.firstIndex(where: { $0.latitude == annotation.coordinate.latitude && $0.longitude == annotation.coordinate.longitude }) {
+                let indexPath = IndexPath(item: index, section: 0)
+                collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
         }
     }
+    
 }
 
 extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
@@ -167,19 +182,46 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let placeId = viewModel.mapPlaces[indexPath.row].id
-        let placeDetail = viewModel.mapPlaces[indexPath.row]
+        let placeDetails = viewModel.mapPlaces[indexPath.row]
         let vc = CustomDetailsVC()
         vc.placeId = placeId
-        print("Place ID: \(placeId)")
-        vc.placeDetails = placeDetail
-        navigationController?.pushViewController(vc, animated: true)
+        vc.placeDetails = placeDetails
+        vc.delegate = self
+        viewModel.getVisitByPlaceId(placeId: placeId) { status in
+            if status {
+                vc.isVisited = true
+            } else {
+                vc.isVisited = false
+            }
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
+        
         
     }
 }
 
-extension MapVC: ReturnToMap {
+extension MapVC: UIScrollViewDelegate {
+    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+           let cellWidthIncludingSpacing = collectionView.frame.size.width - 42
+           
+           var offset = targetContentOffset.pointee
+           let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+           let roundedIndex = round(index)
+           
+           offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
+           targetContentOffset.pointee = offset
+       }
+}
+
+extension MapVC: ReturnToMap, ReturnToDismiss{
+    func returned(message: String) {
+        setupData()
+        showAlert(title: "Succesful!", message: message)
+    }
+    
     func returned() {
-        print("Map returned")
         setupData()
     }
+    
+    
 }

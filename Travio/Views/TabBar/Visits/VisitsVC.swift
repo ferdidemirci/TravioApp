@@ -55,17 +55,23 @@ class VisitsVC: UIViewController {
 
         
         setupViews()
-        
+        setupData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupData()
+    }
+
+    override func viewDidLayoutSubviews() {
+        mainView.roundCorners(corners: .topLeft, radius: 80)
+    }
+    
+    private func setupData() {
         viewModel.getVisits {
             DispatchQueue.main.async {
                 self.collectionView.reloadData()
             }
         }
-        
-    }
-
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: .topLeft, radius: 80)
     }
     
     private func setupViews(){
@@ -114,13 +120,6 @@ extension VisitsVC: UICollectionViewDelegateFlowLayout {
         return size
     }
     
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-//        let pageWidth = scrollView.frame.size.width
-//        let page = Int(floor((scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1)
-//        self.pageControl.page = page
-//        skipShow(page != 3)
-    }
-    
 }
 
 extension VisitsVC: UICollectionViewDataSource {
@@ -136,7 +135,7 @@ extension VisitsVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let id = viewModel.visits[indexPath.row].place.id
+        let visitId = viewModel.visits[indexPath.row].id
         let data = viewModel.visits[indexPath.row].place
         let vc = CustomDetailsVC()
         vc.placeDetails = MapPlace(id: data.id,
@@ -149,9 +148,18 @@ extension VisitsVC: UICollectionViewDataSource {
                                    longitude: data.longitude,
                                    created_at: data.created_at,
                                    updated_at: data.updated_at)
-        vc.placeId = id
-        vc.visitedButtonStatus = false
+        vc.visitId = visitId
+        vc.isVisited = true
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
 }
 
+extension VisitsVC: ReturnToDismiss {
+    func returned(message: String) {
+        self.showAlert(title: "Deletion process", message: message)
+        setupData()
+    }
+    
+    
+}
