@@ -1,17 +1,17 @@
 //
-//  MapCVC.swift
+//  HomeCVC.swift
 //  Travio
 //
-//  Created by Ferdi DEMİRCİ on 31.08.2023.
+//  Created by Ferdi DEMİRCİ on 3.09.2023.
 //
 
 import UIKit
 import Kingfisher
 import SnapKit
 
-class MapCVC: UICollectionViewCell {
+class HomeCVC: UICollectionViewCell {
     
-    var identifier = "MapCVC"
+    static let identifier = "HomeCVC"
     
     private lazy var backgroundImage: UIImageView = {
         let image = UIImageView()
@@ -25,6 +25,13 @@ class MapCVC: UICollectionViewCell {
         return image
     }()
     
+    private lazy var placeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
+        label.textColor = .white
+        return label
+    }()
+    
     private lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .horizontal
@@ -32,13 +39,6 @@ class MapCVC: UICollectionViewCell {
         stackView.addArrangedSubview(locationImageView)
         stackView.addArrangedSubview(locationLabel)
         return stackView
-    }()
-    
-    private lazy var placeLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
-        label.textColor = .white
-        return label
     }()
     
     private lazy var locationImageView: UIImageView = {
@@ -62,9 +62,11 @@ class MapCVC: UICollectionViewCell {
         super.init(frame: .zero)
         
         setupViews()
+        congigure()
     }
     
     override func layoutSubviews() {
+        self.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
         self.addShadow()
     }
     
@@ -109,19 +111,19 @@ class MapCVC: UICollectionViewCell {
         }
         
         stackView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(22)
+            make.leading.equalToSuperview().offset(20)
             make.bottom.equalToSuperview().offset(-14)
         }
     }
     
-    public func congigure(model: MapPlace) {
-        placeLabel.text = model.title
-        locationLabel.text = model.place
-        
-        if let url = URL(string: model.cover_image_url) {
-            backgroundImage.kf.setImage(with: url)
-        }
-        
+    public func congigure() {
+        placeLabel.text = "Londra Saat Kulesi"
+        locationLabel.text = "Londra"
+        backgroundImage.image = UIImage(named: "england")
+//        if let url = URL(string: model.cover_image_url) {
+//            backgroundImage.kf.setImage(with: url)
+//        }
+//
     }
 }
 

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		811FA10D2AA4CB1600FC378E /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA10C2AA4CB1600FC378E /* HomeVM.swift */; };
+		811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA10E2AA4CC1600FC378E /* HomeTVC.swift */; };
+		811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1102AA50A4600FC378E /* HomeCVC.swift */; };
+		811FA1152AA51BDC00FC378E /* HomeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */; };
+		811FA1172AA51D5200FC378E /* HomeDetailCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */; };
 		81E0C6C42AA0A62D00299DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */; };
 		81E0C6C62AA0A62D00299DF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */; };
 		81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C72AA0A62D00299DF3 /* HomeVC.swift */; };
@@ -66,6 +71,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		811FA10C2AA4CB1600FC378E /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
+		811FA10E2AA4CC1600FC378E /* HomeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVC.swift; sourceTree = "<group>"; };
+		811FA1102AA50A4600FC378E /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
+		811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailVC.swift; sourceTree = "<group>"; };
+		811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailCVC.swift; sourceTree = "<group>"; };
 		81E0C6C02AA0A62D00299DF3 /* Travio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -182,6 +192,11 @@
 			isa = PBXGroup;
 			children = (
 				81E0C6C72AA0A62D00299DF3 /* HomeVC.swift */,
+				811FA10C2AA4CB1600FC378E /* HomeVM.swift */,
+				811FA10E2AA4CC1600FC378E /* HomeTVC.swift */,
+				811FA1102AA50A4600FC378E /* HomeCVC.swift */,
+				811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */,
+				811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -309,8 +324,8 @@
 			children = (
 				81E0C72B2AA0B0CC00299DF3 /* MainTabBarC.swift */,
 				C0C927C42AA0D0AC0077B7BA /* Settings */,
-				81E0C6DB2AA0A69700299DF3 /* Map */,
 				81E0C6DA2AA0A69000299DF3 /* Visits */,
+				81E0C6DB2AA0A69700299DF3 /* Map */,
 				81E0C6D82AA0A67900299DF3 /* Home */,
 			);
 			path = TabBar;
@@ -458,17 +473,21 @@
 				81E0C7062AA0AC0800299DF3 /* CustomTextViewView.swift in Sources */,
 				81E0C7322AA0B12C00299DF3 /* UploadResponse.swift in Sources */,
 				81E0C7182AA0AE2B00299DF3 /* CustomDetailsVC.swift in Sources */,
+				811FA10D2AA4CB1600FC378E /* HomeVM.swift in Sources */,
 				81E0C7142AA0ADAC00299DF3 /* LoginVM.swift in Sources */,
 				81E0C73E2AA0B3E700299DF3 /* AddVisitVM.swift in Sources */,
 				81E0C7232AA0AF7C00299DF3 /* AddVisitPhotoCVC.swift in Sources */,
 				81E0C71F2AA0AEA700299DF3 /* MapCVC.swift in Sources */,
 				81E0C7082AA0AC0E00299DF3 /* CustomTextFieldView.swift in Sources */,
+				811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */,
 				81E0C7382AA0B13600299DF3 /* GalleryModel.swift in Sources */,
 				C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */,
+				811FA1152AA51BDC00FC378E /* HomeDetailVC.swift in Sources */,
 				81E0C7342AA0B12D00299DF3 /* PlaceModel.swift in Sources */,
 				C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */,
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
 				81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */,
+				811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */,
 				81E0C72E2AA0B10E00299DF3 /* ResponseModel.swift in Sources */,
 				81E0C72C2AA0B0CC00299DF3 /* MainTabBarC.swift in Sources */,
 				81E0C7162AA0ADE600299DF3 /* VisitsVM.swift in Sources */,
@@ -484,6 +503,7 @@
 				81E0C71D2AA0AE5C00299DF3 /* MapVC.swift in Sources */,
 				81E0C6EF2AA0A83400299DF3 /* Router.swift in Sources */,
 				81E0C7402AA0B45A00299DF3 /* CustomDetailsVM.swift in Sources */,
+				811FA1172AA51D5200FC378E /* HomeDetailCVC.swift in Sources */,
 				81E0C6C62AA0A62D00299DF3 /* SceneDelegate.swift in Sources */,
 				81E0C7362AA0B12E00299DF3 /* VisitModel.swift in Sources */,
 				C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */,
