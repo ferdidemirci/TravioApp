@@ -79,17 +79,6 @@ class VisitCVC: UICollectionViewCell {
         }
     }
     
-    private func setupGradient() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.colors = [UIColor.red.cgColor, UIColor.blue.cgColor]
-        gradientLayer.locations = [0.0, 1.0]
-        gradientLayer.startPoint = CGPoint(x: 0.0, y: 0.5)
-        gradientLayer.endPoint = CGPoint(x: 1.0, y: 0.5)
-        gradientLayer.frame = contentView.bounds
-
-        contentView.layer.insertSublayer(gradientLayer, at: 0)
-    }
-    
     public func congigure(model: Visit) {
         locationLabel.text = model.place.place
         if let imageUrl = URL(string: model.place.cover_image_url) {
