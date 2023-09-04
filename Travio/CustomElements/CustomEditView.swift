@@ -31,7 +31,7 @@ class CustomEditView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.medium.rawValue, size: 14)
+        label.font = UIFont(name: AppFont.medium.rawValue, size: 12)
         label.text = labelText
         return label
     }()

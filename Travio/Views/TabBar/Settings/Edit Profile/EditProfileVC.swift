@@ -10,6 +10,8 @@ import SnapKit
 
 class EditProfileVC: UIViewController {
     
+    let viewModel = EditProfileVM()
+    
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "back"), for: .normal)
@@ -63,7 +65,7 @@ class EditProfileVC: UIViewController {
         let view = CustomEditView()
         view.backgroundColor = .white
         view.iconImage = "sign"
-        view.labelText = "Birth Date"
+//        view.labelText = "Birth Date"
         return view
     }()
     
@@ -71,7 +73,7 @@ class EditProfileVC: UIViewController {
         let view = CustomEditView()
         view.backgroundColor = .white
         view.iconImage = "role"
-        view.labelText = "Role"
+//        view.labelText = "Role"
         return view
     }()
     
@@ -108,6 +110,7 @@ class EditProfileVC: UIViewController {
         
         
         setupViews()
+        configure()
     }
     
     override func viewDidLayoutSubviews() {
@@ -125,6 +128,15 @@ class EditProfileVC: UIViewController {
     
     @objc private func saveButtonTapped() {
         print("save button tapped")
+    }
+    
+    private func configure() {
+        viewModel.getUserInfos { user in
+            guard let createdDate = user.created_at,
+                  let role = user.role else { return }
+            self.birthView.labelText = formatISO8601Date(createdDate) ?? ""
+            self.roleView.labelText = role
+        }
     }
     
     private func setupViews() {
