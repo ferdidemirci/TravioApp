@@ -80,7 +80,10 @@ class SettingsVC: UIViewController {
     }
     
     @objc private func didTapEditProfileButton() {
-        print("edit profile button tapped")
+        let vc = EditProfileVC()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     private func setupViews() {
@@ -152,6 +155,7 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         switch selectedItem {
         case 0:
             destinationVC = SecuritySettingsVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
         default:
             break
         }

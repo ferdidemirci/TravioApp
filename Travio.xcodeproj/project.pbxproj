@@ -68,6 +68,7 @@
 		C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37332AA27710007C3595 /* PrivacyTVC.swift */; };
 		C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37352AA277CB007C3595 /* PasswordTVC.swift */; };
 		C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */; };
+		C0D1E1A92AA5D50100E632E0 /* EditProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1A82AA5D50100E632E0 /* EditProfileViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -128,6 +129,7 @@
 		C0BF37332AA27710007C3595 /* PrivacyTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTVC.swift; sourceTree = "<group>"; };
 		C0BF37352AA277CB007C3595 /* PasswordTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTVC.swift; sourceTree = "<group>"; };
 		C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		C0D1E1A82AA5D50100E632E0 /* EditProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -370,12 +372,21 @@
 		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0D1E1A72AA5D47800E632E0 /* Edit Profile */,
 				C0BE1F922AA1C873006B560B /* Security Settings */,
 				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
 				C09C220A2AA119350084B54F /* SettingsVM.swift */,
 				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		C0D1E1A72AA5D47800E632E0 /* Edit Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C0D1E1A82AA5D50100E632E0 /* EditProfileViewController.swift */,
+			);
+			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -510,6 +521,7 @@
 				81E0C70A2AA0AC7C00299DF3 /* Helpers.swift in Sources */,
 				81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */,
 				C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */,
+				C0D1E1A92AA5D50100E632E0 /* EditProfileViewController.swift in Sources */,
 				81E0C7252AA0B00F00299DF3 /* CustomDetailsSliderCVC.swift in Sources */,
 				81E0C7122AA0AD5300299DF3 /* SignUpVM.swift in Sources */,
 				C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */,
