@@ -8,5 +8,10 @@
 import Foundation
 
 struct Me: Codable {
-    var full_name, email, role: String
+    var id: String
+    var full_name: String
+    var email: String
+    var role: String
+    var created_at: String
+    var updated_at: String
 }

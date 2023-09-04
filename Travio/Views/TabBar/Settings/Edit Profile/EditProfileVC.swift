@@ -1,5 +1,5 @@
 //
-//  EditProfileViewController.swift
+//  EditProfileVC.swift
 //  Travio
 //
 //  Created by Mahmut Gazi Doğan on 4.09.2023.
@@ -208,7 +208,6 @@ class EditProfileVC: UIViewController {
             make.height.equalTo(74)
         }
         
-        // FIXME: burası tabbar konumuna göre değişebilir
         saveButton.snp.makeConstraints { make in
             make.top.equalTo(emailView.snp.bottom).offset(101)
             make.leading.equalTo(emailView.snp.leading)
@@ -221,3 +220,4 @@ class EditProfileVC: UIViewController {
 
     
 }
+
