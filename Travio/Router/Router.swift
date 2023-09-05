@@ -24,6 +24,8 @@ public enum Router: URLRequestConvertible {
     case upload(image: [Data])
     case getVisitByPlaceId(placeId: String)
     case deleteVisitById(visitId: String)
+    case popularPlaces(limit: Int?)
+    case lastPlaces(limit: Int?)
     
     var accessToken: String {
         guard let accessToken = KeychainSwift().get("accessTokenKey") else { return "" }
@@ -38,7 +40,7 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login, .signIn, .createVisit, .createPlace, .createGallery, .upload:
             return .post
-        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .getVisitByPlaceId:
+        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .getVisitByPlaceId, .popularPlaces, .lastPlaces:
             return .get
         case .deleteVisitById, .deletePlace:
             return .delete
@@ -71,6 +73,10 @@ public enum Router: URLRequestConvertible {
             return "/v1/visits/user/\(placeId)"
         case .deleteVisitById(let visitId):
             return "/v1/visits/\(visitId)"
+        case .popularPlaces:
+            return "/v1/places/popular"
+        case .lastPlaces:
+            return "/v1/places/last"
         }
     }
     
@@ -78,14 +84,20 @@ public enum Router: URLRequestConvertible {
         switch self {
         case .login(let parameters), .signIn(let parameters), .createVisit(let parameters), .createPlace(let parameters), .createGallery(let parameters):
             return parameters
-        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById:
+        case .popularPlaces(let limit), .lastPlaces(let limit):
+            var params: Parameters = [:]
+            if let limit = limit {
+                params["limit"] = limit
+            }
+            return params
+        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById, .popularPlaces, .lastPlaces:
             return [:]
         }
     }
     
     private var headers: HTTPHeaders {
         switch self {
-        case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .upload:
+        case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .upload, .popularPlaces, .lastPlaces:
             return [:]
         case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById, .deletePlace:
             return ["Authorization": "Bearer \(accessToken)"]

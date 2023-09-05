@@ -12,6 +12,8 @@
 		811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1102AA50A4600FC378E /* HomeCVC.swift */; };
 		811FA1152AA51BDC00FC378E /* HomeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */; };
 		811FA1172AA51D5200FC378E /* HomeDetailCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */; };
+		819B95C32AA5D3200068D733 /* HomeTVCVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819B95C22AA5D3200068D733 /* HomeTVCVM.swift */; };
+		819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819B95C42AA611E40068D733 /* HomeDetailVM.swift */; };
 		81E0C6C42AA0A62D00299DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */; };
 		81E0C6C62AA0A62D00299DF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */; };
 		81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C72AA0A62D00299DF3 /* HomeVC.swift */; };
@@ -76,6 +78,8 @@
 		811FA1102AA50A4600FC378E /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
 		811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailVC.swift; sourceTree = "<group>"; };
 		811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailCVC.swift; sourceTree = "<group>"; };
+		819B95C22AA5D3200068D733 /* HomeTVCVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVCVM.swift; sourceTree = "<group>"; };
+		819B95C42AA611E40068D733 /* HomeDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailVM.swift; sourceTree = "<group>"; };
 		81E0C6C02AA0A62D00299DF3 /* Travio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -194,8 +198,10 @@
 				81E0C6C72AA0A62D00299DF3 /* HomeVC.swift */,
 				811FA10C2AA4CB1600FC378E /* HomeVM.swift */,
 				811FA10E2AA4CC1600FC378E /* HomeTVC.swift */,
+				819B95C22AA5D3200068D733 /* HomeTVCVM.swift */,
 				811FA1102AA50A4600FC378E /* HomeCVC.swift */,
 				811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */,
+				819B95C42AA611E40068D733 /* HomeDetailVM.swift */,
 				811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */,
 			);
 			path = Home;
@@ -487,6 +493,7 @@
 				C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */,
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
 				81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */,
+				819B95C32AA5D3200068D733 /* HomeTVCVM.swift in Sources */,
 				811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */,
 				81E0C72E2AA0B10E00299DF3 /* ResponseModel.swift in Sources */,
 				81E0C72C2AA0B0CC00299DF3 /* MainTabBarC.swift in Sources */,
@@ -508,6 +515,7 @@
 				81E0C7362AA0B12E00299DF3 /* VisitModel.swift in Sources */,
 				C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */,
 				81E0C70A2AA0AC7C00299DF3 /* Helpers.swift in Sources */,
+				819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */,
 				81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */,
 				C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */,
 				81E0C7252AA0B00F00299DF3 /* CustomDetailsSliderCVC.swift in Sources */,

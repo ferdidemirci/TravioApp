@@ -34,7 +34,7 @@ class MainTabBarC: UITabBarController {
         viewControllers = tabBarList.map({ UINavigationController(rootViewController: $0) })
 //        self.selectedIndex = 1
         self.tabBar.tintColor = AppColor.primaryColor.colorValue()
-        self.tabBar.backgroundColor = AppColor.backgroundColor.colorValue()
+        self.tabBar.backgroundColor = AppColor.backgroundLight.colorValue()
         
         view.addSubviews()
         setupLayout()

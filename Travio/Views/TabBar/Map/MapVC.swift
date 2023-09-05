@@ -187,16 +187,7 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
         vc.placeId = placeId
         vc.placeDetails = placeDetails
         vc.delegate = self
-        viewModel.getVisitByPlaceId(placeId: placeId) { status in
-            if status {
-                vc.isVisited = true
-            } else {
-                vc.isVisited = false
-            }
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        
-        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

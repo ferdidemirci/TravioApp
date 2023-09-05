@@ -25,10 +25,17 @@ class VisitCVC: UICollectionViewCell {
         return image
     }()
     
+    private lazy var placeLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
+        label.textColor = .white
+        return label
+    }()
+    
     private lazy var locationImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "location")
+        image.image = UIImage(named: "locationLight")
         image.tintColor = .white
         return image
     }()
@@ -54,7 +61,7 @@ class VisitCVC: UICollectionViewCell {
     }
     
     func setupViews() {
-        self.contentView.addSubviews(backgroundImageView, gradientImage, locationImageView, locationLabel)
+        self.contentView.addSubviews(backgroundImageView, gradientImage, placeLabel, locationImageView, locationLabel)
         setupLayouts()
     }
     
@@ -68,6 +75,12 @@ class VisitCVC: UICollectionViewCell {
             make.trailing.equalTo(backgroundImageView)
             make.height.equalTo(120)
         }
+        
+        placeLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(locationImageView.snp.top)
+            make.leading.equalToSuperview().offset(8)
+        }
+        
         locationImageView.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(-10)
             make.leading.equalToSuperview().offset(8)
@@ -80,6 +93,7 @@ class VisitCVC: UICollectionViewCell {
     }
     
     public func congigure(model: Visit) {
+        placeLabel.text = model.place.title
         locationLabel.text = model.place.place
         if let imageUrl = URL(string: model.place.cover_image_url) {
             backgroundImageView.sd_setImage(with: imageUrl)

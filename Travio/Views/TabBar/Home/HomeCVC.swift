@@ -44,7 +44,7 @@ class HomeCVC: UICollectionViewCell {
     private lazy var locationImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "location")
+        image.image = UIImage(named: "locationLight")
         image.tintColor = .white
         return image
     }()
@@ -62,7 +62,6 @@ class HomeCVC: UICollectionViewCell {
         super.init(frame: .zero)
         
         setupViews()
-        congigure()
     }
     
     override func layoutSubviews() {
@@ -116,14 +115,12 @@ class HomeCVC: UICollectionViewCell {
         }
     }
     
-    public func congigure() {
-        placeLabel.text = "Londra Saat Kulesi"
-        locationLabel.text = "Londra"
-        backgroundImage.image = UIImage(named: "england")
-//        if let url = URL(string: model.cover_image_url) {
-//            backgroundImage.kf.setImage(with: url)
-//        }
-//
+    public func congigure(model: MapPlace) {
+        placeLabel.text = model.title
+        locationLabel.text = model.place
+        if let url = URL(string: model.cover_image_url) {
+            backgroundImage.kf.setImage(with: url)
+        }
     }
 }
 

@@ -22,7 +22,7 @@ class SignUpVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubview(usernameTextFieldView)
         view.addSubview(emailTextFieldView)
         view.addSubview(passwordTextFieldView)

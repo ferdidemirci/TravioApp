@@ -7,5 +7,5 @@
 
 import Foundation
 class HomeVM {
-    let sectionTitles = ["Popular Places", "New Places", "Visit Places"]
+    let sectionTitles = ["Popular Places", "Last Places", "Visit Places"]
 }

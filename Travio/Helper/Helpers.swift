@@ -11,7 +11,8 @@ import Alamofire
 enum AppColor {
     case primaryColor
     case secondaryColor
-    case backgroundColor
+    case backgroundLight
+    case backgroundDark
     case isEnabledColor
     
     func colorValue() -> UIColor {
@@ -19,9 +20,11 @@ enum AppColor {
         case .primaryColor:
             return UIColor(red: 56.0/255.0, green: 173.0/255.0, blue: 169.0/255.0, alpha: 1.0)
         case .secondaryColor:
-            return UIColor(red: 61.0/255.0, green: 61.0/255.0, blue: 61.0/255.0, alpha: 1.0)
-        case .backgroundColor:
+            return UIColor(red: 23.0/255.0, green: 192.0/255.0, blue: 235.0/255.0, alpha: 1.0)
+        case .backgroundLight:
             return UIColor(red: 248.0/255.0, green: 248.0/255.0, blue: 248.0/255.0, alpha: 1.0)
+        case .backgroundDark:
+            return UIColor(red: 61.0/255.0, green: 61.0/255.0, blue: 61.0/255.0, alpha: 1.0)
         case .isEnabledColor:
             return UIColor(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1.0)
         }

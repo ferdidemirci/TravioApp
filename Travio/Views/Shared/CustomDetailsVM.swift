@@ -65,6 +65,17 @@ class CustomDetailsVM {
         }
     }
     
+    func getVisitByPlaceId(placeId: String, complation: @escaping (Bool) -> Void) {
+        NetworkHelper.shared.routerRequest(request: Router.getVisitByPlaceId(placeId: placeId)) { (result: Result<Response, Error>) in
+            switch result {
+            case .success:
+                complation(false)
+            case .failure:
+                complation(true)
+            }
+        }
+    }
+    
     func getCellCount() -> Int {
         return galleries.count
     }
