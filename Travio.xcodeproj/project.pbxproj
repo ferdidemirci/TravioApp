@@ -62,6 +62,7 @@
 		C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220A2AA119350084B54F /* SettingsVM.swift */; };
 		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
 		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
+		C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */; };
 		C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */; };
 		C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */; };
 		C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F972AA1C92F006B560B /* CustomEditView.swift */; };
@@ -124,6 +125,7 @@
 		C09C220A2AA119350084B54F /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
 		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
+		C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVM.swift; sourceTree = "<group>"; };
 		C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVC.swift; sourceTree = "<group>"; };
 		C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPrivacyView.swift; sourceTree = "<group>"; };
 		C0BE1F972AA1C92F006B560B /* CustomEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditView.swift; sourceTree = "<group>"; };
@@ -364,6 +366,7 @@
 		C0BE1F922AA1C873006B560B /* Security Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */,
 				C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */,
 				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
 				C0BF37352AA277CB007C3595 /* PasswordTVC.swift */,
@@ -492,6 +495,7 @@
 				81E0C73E2AA0B3E700299DF3 /* AddVisitVM.swift in Sources */,
 				81E0C7232AA0AF7C00299DF3 /* AddVisitPhotoCVC.swift in Sources */,
 				81E0C71F2AA0AEA700299DF3 /* MapCVC.swift in Sources */,
+				C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */,
 				81E0C7082AA0AC0E00299DF3 /* CustomTextFieldView.swift in Sources */,
 				811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */,
 				81E0C7382AA0B13600299DF3 /* GalleryModel.swift in Sources */,

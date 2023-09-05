@@ -175,6 +175,4 @@ extension SettingsVC: UICollectionViewDataSource {
         cell.configure(model: viewModel.settingsParameters[indexPath.item])
         return cell
     }
-    
-    
 }

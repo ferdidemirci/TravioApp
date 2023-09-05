@@ -10,8 +10,7 @@ import SnapKit
 
 class SecuritySettingsVC: UIViewController {
     
-    let sectionTitles = ["Change Password", "Privacy"]
-    let cellTitles = [["New Password", "New Password Confirm"], ["Camera", "Photo Library", "Location"]]
+    let viewModel = SecuritySettingsVM()
     
     private lazy var btnBack: UIButton = {
         let button = UIButton()
@@ -136,7 +135,7 @@ extension SecuritySettingsVC: UITableViewDelegate {
         headerView.backgroundColor = .clear
         
         let label = UILabel()
-        label.text = sectionTitles[section]
+        label.text = viewModel.sectionTitles[section]
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         label.textColor = AppColor.primaryColor.colorValue()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -159,7 +158,7 @@ extension SecuritySettingsVC: UITableViewDelegate {
 extension SecuritySettingsVC: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return sectionTitles.count
+        return viewModel.sectionTitles.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -176,15 +175,15 @@ extension SecuritySettingsVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let section = indexPath.section
-        let item = indexPath.item
+        let row = indexPath.row
 
         if section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PasswordTVC.identifier, for: indexPath) as? PasswordTVC else { return UITableViewCell() }
-            cell.configure(title: cellTitles[section][item])
+            cell.configure(title: viewModel.cellTitles[section][row])
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyTVC.identifier, for: indexPath) as? PrivacyTVC else { return UITableViewCell() }
-            cell.configure(title: cellTitles[section][item])
+            cell.configure(title: viewModel.cellTitles[section][row])
             return cell
         }
         
