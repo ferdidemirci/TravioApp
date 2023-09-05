@@ -120,10 +120,6 @@ class HomeCVC: UICollectionViewCell {
         placeLabel.text = "Londra Saat Kulesi"
         locationLabel.text = "Londra"
         backgroundImage.image = UIImage(named: "england")
-//        if let url = URL(string: model.cover_image_url) {
-//            backgroundImage.kf.setImage(with: url)
-//        }
-//
     }
 }
 

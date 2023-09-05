@@ -34,11 +34,12 @@ class SecuritySettingsVC: UIViewController {
     }()
     
     private lazy var tableView: UITableView = {
-        let tv = UITableView()
+        let tv = UITableView(frame: .zero, style: .grouped)
         tv.delegate = self
         tv.dataSource = self
         tv.backgroundColor = AppColor.backgroundColor.colorValue()
         tv.separatorStyle = .none
+//        tv.style = .insetGrouped
         tv.register(PrivacyTVC.self, forCellReuseIdentifier: PrivacyTVC.identifier)
         tv.register(PasswordTVC.self, forCellReuseIdentifier: PasswordTVC.identifier)
         return tv

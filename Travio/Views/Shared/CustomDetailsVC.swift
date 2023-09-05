@@ -183,7 +183,6 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
             annotation.title = placeDetails.place
             mapView.addAnnotation(annotation)
 
-            // Haritayı belirli bir bölgeye yakınlaştırmak
             let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
             
             mapView.setRegion(region, animated: true)

@@ -25,7 +25,6 @@ class CustomPrivacyView: UIView {
     
     private lazy var switchOnOff: UISwitch = {
         let sw = UISwitch()
-//        s.thumbTintColor = .blue
         sw.isOn = false
         return sw
     }()

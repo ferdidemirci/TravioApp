@@ -25,21 +25,5 @@ class LoginVM {
             }
         }
     }
-//    Router kullanmadan
-    //    func getLogin(email: String, password: String, completion: @escaping () -> Void) {
-    //        let apiURL = EndPoint.login.apiURL
-    //        let query = ["email": email, "password": password]
-    //
-    //        NetworkingHelper.shared.objectRequest(from: apiURL, params: query, method: .post) { (callBack: Result<Token, Error>) in
-    //            switch callBack {
-    //            case .success(let data):
-    //                print("giriş yapıldı")
-    //                self.keychain.set(data.accessToken, forKey: "accessTokenKey")
-    //                completion()
-    //            case .failure(let error):
-    //                print("Hataaaaaa!")
-    //                print(error.localizedDescription)
-    //            }
-    //        }
-    //    }
+    
 }

@@ -29,7 +29,6 @@ class LoginVC: UIViewController {
     private lazy var emailTextFieldView: CustomTextFieldView = {
         let view = CustomTextFieldView()
         view.labelText = "Email"
-//        view.placeHolderText = "Enter your email"
         view.textField.text = "ferdidemirci@gmail.com"
         return view
     }()
@@ -37,7 +36,6 @@ class LoginVC: UIViewController {
     private lazy var passwordTextFieldView: CustomTextFieldView = {
         let view = CustomTextFieldView()
         view.labelText = "Password"
-//        view.placeHolderText = "Enter your password"
         view.textField.text = "Ferdi.123"
         view.secureTextEntry = true
         return view

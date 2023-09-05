@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 import SnapKit
 
 class EditProfileVC: UIViewController {
@@ -101,7 +102,7 @@ class EditProfileVC: UIViewController {
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -121,17 +122,30 @@ class EditProfileVC: UIViewController {
     }
     
     @objc private func changePhotoButtonTapped() {
-        print("change photo button tapped")
+        let imagePicker = UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = .photoLibrary
+        present(imagePicker, animated: true)
     }
     
     @objc private func saveButtonTapped() {
-        print("save button tapped")
+        viewModel.uploadImage {
+            guard let name = self.nameView.textField.text,
+                  let email = self.emailView.textField.text,
+                  let imageURL = self.viewModel.url?.first else { return }
+            let params: Parameters = ["full_name": name,
+                                      "email": email,
+                                      "pp_url": imageURL]
+            self.viewModel.editProfile(name: name, email: email, ppURL: imageURL)
+        }
     }
     
     private func configure() {
         viewModel.getUserInfos { user in
-            guard let createdDate = user.created_at,
+            guard let name = user.full_name,
+                  let createdDate = user.created_at,
                   let role = user.role else { return }
+            self.lblName.text = name
             self.birthView.labelText = formatISO8601Date(createdDate) ?? ""
             self.roleView.labelText = role
         }
@@ -227,7 +241,19 @@ class EditProfileVC: UIViewController {
         
     }
     
+}
 
+extension EditProfileVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            profileImage.image = image
+            if let imageData = image.jpegData(compressionQuality: 0.5) {
+                viewModel.imageData.append(imageData)
+            }
+        }
+        picker.dismiss(animated: true)
+    }
     
 }
 

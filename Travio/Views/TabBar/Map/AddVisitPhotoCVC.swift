@@ -52,8 +52,6 @@ class AddVisitPhotoCVC: UICollectionViewCell, UIPickerViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     func setupViews() {
         
         contentView.addSubviews(backgroundImageView, stackView)
@@ -75,7 +73,4 @@ class AddVisitPhotoCVC: UICollectionViewCell, UIPickerViewDelegate {
         }
     }
     
-    public func congigure(model: Image) {
-        
-    }
 }

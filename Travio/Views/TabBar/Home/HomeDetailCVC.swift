@@ -59,7 +59,6 @@ class HomeDetailCVC: UICollectionViewCell {
     
     override func layoutSubviews() {
         self.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
-//        self.addShadow()
     }
     
     func setupViews() {
@@ -85,7 +84,4 @@ class HomeDetailCVC: UICollectionViewCell {
         }
     }
     
-    public func congigure(model: Image) {
-        
-    }
 }

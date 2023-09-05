@@ -37,7 +37,6 @@ class CustomTextFieldView: UIView {
     
     lazy var textField: UITextField = {
         let textField = UITextField()
-//        textField.placeholder = "Enter your email"
         textField.font = UIFont(name: AppFont.light.rawValue, size: 14)
         
         textField.autocapitalizationType = .none
