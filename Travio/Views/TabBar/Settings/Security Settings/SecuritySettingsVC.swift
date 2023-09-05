@@ -177,34 +177,17 @@ extension SecuritySettingsVC: UITableViewDataSource {
         
         let section = indexPath.section
         let item = indexPath.item
-        
+
         if section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PasswordTVC.identifier, for: indexPath) as? PasswordTVC else { return UITableViewCell() }
-            switch item {
-            case 0:
-                cell.configure(title: cellTitles[section][item])
-            case 1:
-                cell.configure(title: cellTitles[section][item])
-            default:
-                break
-            }
+            cell.configure(title: cellTitles[section][item])
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyTVC.identifier, for: indexPath) as? PrivacyTVC else { return UITableViewCell() }
-            switch item {
-            case 0:
-                cell.configure(title: cellTitles[section][item])
-            case 1:
-                cell.configure(title: cellTitles[section][item])
-            case 2:
-                cell.configure(title: cellTitles[section][item])
-            default:
-                break
-            }
-            cell.backgroundColor = AppColor.backgroundColor.colorValue()
+            cell.configure(title: cellTitles[section][item])
             return cell
         }
+        
     }
-    
     
 }

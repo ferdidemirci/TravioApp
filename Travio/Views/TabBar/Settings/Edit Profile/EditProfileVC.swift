@@ -65,7 +65,6 @@ class EditProfileVC: UIViewController {
         let view = CustomEditView()
         view.backgroundColor = .white
         view.iconImage = "sign"
-//        view.labelText = "Birth Date"
         return view
     }()
     
@@ -73,7 +72,6 @@ class EditProfileVC: UIViewController {
         let view = CustomEditView()
         view.backgroundColor = .white
         view.iconImage = "role"
-//        view.labelText = "Role"
         return view
     }()
     
