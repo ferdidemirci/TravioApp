@@ -8,17 +8,13 @@
 import UIKit
 import SnapKit
 
-enum Sections: Int {
-    case popularPlaces = 0
-    case lastPlaces = 1
-    case userPlaces = 2
-}
+
 
 class HomeTVC: UITableViewCell {
     
     static let identifier = "HomeTVC"
-    var viewModel = HomeTVCVM()
     weak var delegate: HomeCellDelegate?
+    var placeArray = [MapPlace]()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -42,19 +38,6 @@ class HomeTVC: UITableViewCell {
         super.setSelected(selected, animated: animated)
 
         setupViews()
-        setupApi()
-    }
-    
-    private func setupApi() {
-        viewModel.popularPlaces {
-            self.collectionView.reloadData()
-        }
-        viewModel.lastPlaces {
-            self.collectionView.reloadData()
-        }
-        viewModel.userPlaces {
-            self.collectionView.reloadData()
-        }
     }
     
     func setupViews() {
@@ -67,26 +50,32 @@ class HomeTVC: UITableViewCell {
             make.edges.equalToSuperview()
         }
     }
+    
     private func didTapDidSelect(indexPath: IndexPath) {
         var selectedPlaces: MapPlace?
-        
+
         switch indexPath.section {
         case Sections.popularPlaces.rawValue:
-            selectedPlaces = viewModel.popularPlaces[indexPath.row]
+            selectedPlaces = placeArray[indexPath.row]
         case Sections.lastPlaces.rawValue:
-            selectedPlaces = viewModel.lastPlaces[indexPath.row]
+            selectedPlaces = placeArray[indexPath.row]
         case Sections.userPlaces.rawValue:
-            selectedPlaces = viewModel.userPlaces[indexPath.row]
+            selectedPlaces = placeArray[indexPath.row]
         default:
             break
         }
-        
+
         let vc = CustomDetailsVC()
         if let selectedPlaces {
             vc.placeId = selectedPlaces.id
             vc.placeDetails = selectedPlaces
             self.delegate?.cellDidTapButton(indexPath, vc)
         }
+    }
+    
+    func configure(places: [MapPlace]) {
+        self.placeArray = places
+        self.collectionView.reloadData()
     }
 }
 
@@ -109,26 +98,13 @@ extension HomeTVC: UICollectionViewDelegateFlowLayout {
 
 extension HomeTVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel.popularPlaces.count
+        return placeArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCVC.identifier, for: indexPath) as? HomeCVC else { return UICollectionViewCell() }
-        
-        switch indexPath.section {
-        case Sections.popularPlaces.rawValue:
-            let place = viewModel.popularPlaces[indexPath.row]
-            cell.congigure(model: place)
-        case Sections.lastPlaces.rawValue:
-            let place = viewModel.lastPlaces[indexPath.row]
-            cell.congigure(model: place)
-        case Sections.userPlaces.rawValue:
-            let place = viewModel.lastPlaces[indexPath.row]
-            cell.congigure(model: place)
-        default:
-            break
-        }
-        
+        let place = placeArray[indexPath.row]
+        cell.congigure(model: place)
         return cell
     }
 }

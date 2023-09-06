@@ -11,6 +11,7 @@ class HomeDetailVC: UIViewController {
     
     var viewModel = HomeDetailVM()
     var viewTag: Int?
+    var sectionTitle: String?
     var isToggle = false
     
     private lazy var backButton: UIButton = {
@@ -112,7 +113,7 @@ class HomeDetailVC: UIViewController {
     
     private func setupViews(){
         view.backgroundColor = AppColor.primaryColor.colorValue()
-        
+        titleLabel.text = sectionTitle
         view.addSubviews(backButton, titleLabel, mainView)
         setupLayout()
     }
