@@ -7,10 +7,15 @@
 
 import UIKit
 import SnapKit
+import CoreLocation
+import AVFoundation
+import Photos
 
 class SecuritySettingsVC: UIViewController {
     
     let viewModel = SecuritySettingsVM()
+    
+    var permissionEnabled = Bool()
     
     private lazy var btnBack: UIButton = {
         let button = UIButton()
@@ -39,7 +44,6 @@ class SecuritySettingsVC: UIViewController {
         tv.dataSource = self
         tv.backgroundColor = AppColor.backgroundColor.colorValue()
         tv.separatorStyle = .none
-//        tv.style = .insetGrouped
         tv.register(PrivacyTVC.self, forCellReuseIdentifier: PrivacyTVC.identifier)
         tv.register(PasswordTVC.self, forCellReuseIdentifier: PasswordTVC.identifier)
         return tv
@@ -73,6 +77,53 @@ class SecuritySettingsVC: UIViewController {
     
     @objc private func btnBackTapped() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func cameraSwitchValueChanged(_ sender: UISwitch) {
+        permissionEnabled = sender.isOn
+        AVCaptureDevice.requestAccess(for: .video) { [self] _ in
+            if permissionEnabled {
+                print("camera permission accepted")
+            } else {
+                self.permissionOnDeviceSettings()
+            }
+        }
+    }
+    
+    @objc func photoLibrarySwitchValueChanged(_ sender: UISwitch) {
+        permissionEnabled = sender.isOn
+        PHPhotoLibrary.requestAuthorization { [self] status in
+            if permissionEnabled {
+                switch status {
+                case .authorized:
+                    print("gallery permission accepted")
+                case .denied, .restricted:
+                    print("gallery permission partially accepted")
+                default:
+                    break
+                }
+            } else {
+                permissionOnDeviceSettings()
+            }
+        }
+    }
+    
+    @objc func locationSwitchValueChanged(_ sender: UISwitch) {
+        permissionEnabled = sender.isOn
+        let locationManager = CLLocationManager()
+        locationManager.requestWhenInUseAuthorization()
+        
+        if !permissionEnabled {
+            permissionOnDeviceSettings()
+        }
+    }
+    
+    private func permissionOnDeviceSettings() {
+        DispatchQueue.main.async {
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        }
     }
     
     private func setupViews() {
@@ -112,7 +163,7 @@ class SecuritySettingsVC: UIViewController {
             make.trailing.equalToSuperview().offset(-24)
             make.bottom.equalTo(btnSave.snp.top).offset(-5)
         }
-
+        
         btnSave.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-18)
             make.leading.equalToSuperview().offset(24)
@@ -177,7 +228,7 @@ extension SecuritySettingsVC: UITableViewDataSource {
         
         let section = indexPath.section
         let row = indexPath.row
-
+        
         if section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PasswordTVC.identifier, for: indexPath) as? PasswordTVC else { return UITableViewCell() }
             cell.configure(title: viewModel.cellTitles[section][row])
@@ -185,6 +236,21 @@ extension SecuritySettingsVC: UITableViewDataSource {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyTVC.identifier, for: indexPath) as? PrivacyTVC else { return UITableViewCell() }
             cell.configure(title: viewModel.cellTitles[section][row])
+            let toggle = cell.privacyView.switchOnOff
+            
+            switch row {
+            case 0:
+                toggle.isOn = permissionEnabled
+                toggle.addTarget(self, action: #selector(cameraSwitchValueChanged(_:)), for: .valueChanged)
+            case 1:
+                toggle.isOn = permissionEnabled
+                toggle.addTarget(self, action: #selector(photoLibrarySwitchValueChanged(_:)), for: .valueChanged)
+            case 2:
+                toggle.isOn = permissionEnabled
+                toggle.addTarget(self, action: #selector(locationSwitchValueChanged(_:)), for: .valueChanged)
+            default:
+                break
+            }
             return cell
         }
         

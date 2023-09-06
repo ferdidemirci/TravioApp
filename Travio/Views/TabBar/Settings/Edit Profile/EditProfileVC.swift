@@ -137,6 +137,7 @@ class EditProfileVC: UIViewController {
                                       "email": email,
                                       "pp_url": imageURL]
             self.viewModel.editProfile(name: name, email: email, ppURL: imageURL)
+            self.navigationController?.popViewController(animated: true)
         }
     }
     
