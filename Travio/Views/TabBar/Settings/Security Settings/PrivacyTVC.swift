@@ -40,7 +40,7 @@ class PrivacyTVC: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(privacyView)
-        self.backgroundColor = AppColor.backgroundColor.colorValue()
+        self.backgroundColor = AppColor.backgroundLight.colorValue()
         setupLayouts()
     }
     
