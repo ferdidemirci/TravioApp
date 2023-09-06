@@ -89,10 +89,6 @@ class LoginVC: UIViewController {
         setupViews()
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        view.backgroundColor = AppColor.primaryColor.colorValue()
-    }
-    
     override func viewDidLayoutSubviews() {
         mainView.roundCorners(corners: .topLeft, radius: 80)
         loginButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
@@ -100,12 +96,19 @@ class LoginVC: UIViewController {
     
     @objc private func didTapLoginButton() {
         if let email = emailTextFieldView.textField.text,
-            let password = passwordTextFieldView.textField.text {
-            loginViewModel.postLogin(email: email, password: password) {
-                let vc = MainTabBarC()
-                let targetVC = VisitsVC()
-                self.navigationController?.pushViewController(vc, animated: true)
+            !email.isEmpty,
+            let password = passwordTextFieldView.textField.text,
+            !password.isEmpty {
+            loginViewModel.postLogin(email: email, password: password) { status, message in
+                if status {
+                    let vc = MainTabBarC()
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else {
+                    self.showAlert(title: "Invalid Information!", message: "Invalid email or password!")
+                }
             }
+        } else {
+            self.showAlert(title: "Empty Spaces!", message: "Fill in the email and password fields!")
         }
     }
     
@@ -116,13 +119,12 @@ class LoginVC: UIViewController {
     
     private func setupViews() {
         navigationController?.isNavigationBarHidden = true
+        view.backgroundColor = AppColor.primaryColor.colorValue()
         view.addSubviews(loginScreenImageView, mainView)
         setupLayouts()
     }
     
     private func setupLayouts() {
-
-        
         loginScreenImageView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(44)
             make.centerX.equalToSuperview()
@@ -131,9 +133,7 @@ class LoginVC: UIViewController {
         
         mainView.snp.makeConstraints { make in
             make.top.equalTo(loginScreenImageView.snp.bottom).offset(24)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
         
         titleLabel.snp.makeConstraints { make in
