@@ -170,29 +170,19 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
+        let identifier = "customAnnotation"
+        var annotationView: MKAnnotationView
         
-        let identifier = "annotation"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKMarkerAnnotationView
-        
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
+            dequeuedView.annotation = annotation
+            annotationView = dequeuedView
         } else {
-            annotationView?.annotation = annotation
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView.canShowCallout = true
+            
+            annotationView.image = UIImage(named: "mapLocation")
         }
         
-        if let pinImage = UIImage(named: "mapLocation") {
-            let size = CGSize(width: 32, height: 42)
-            UIGraphicsBeginImageContext(size)
-            pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            annotationView?.image = resizedImage
-        }
         return annotationView
     }
     
