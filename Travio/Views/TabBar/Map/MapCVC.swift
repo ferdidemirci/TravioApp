@@ -44,7 +44,7 @@ class MapCVC: UICollectionViewCell {
     private lazy var locationImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "location")
+        image.image = UIImage(named: "locationLight")
         image.tintColor = .white
         return image
     }()

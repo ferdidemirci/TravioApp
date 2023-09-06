@@ -13,14 +13,14 @@ class HomeDetailCVC: UICollectionViewCell {
     
     private lazy var placeImageView: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "england")
+        image.contentMode = .scaleAspectFill
+        image.layer.masksToBounds = true
         return image
     }()
     
     private lazy var placeLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
-        label.text = "London"
         return label
     }()
     
@@ -34,16 +34,14 @@ class HomeDetailCVC: UICollectionViewCell {
     }()
     
     private lazy var locationImageView: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "location")
-        image.tintColor = .red
-        return image
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "locationDark")
+        return imageView
     }()
     
     private lazy var locationLabel: UILabel = {
         let label = UILabel()
-        label.text = "İstanbul"
         label.font = UIFont(name: AppFont.light.rawValue, size: 14)
         return label
     }()
@@ -76,12 +74,27 @@ class HomeDetailCVC: UICollectionViewCell {
         placeLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.leading.equalTo(placeImageView.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().offset(-8)
         }
         
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(placeLabel.snp.bottom)
+            make.top.equalTo(placeLabel.snp.bottom).offset(4)
             make.leading.equalTo(placeLabel).offset(4)
+        }
+        
+        locationImageView.snp.makeConstraints { make in
+            make.width.equalTo(9)
+            make.height.equalTo(12)
         }
     }
     
+    public func congigure(model: MapPlace) {
+        placeLabel.text = model.title
+        locationLabel.text = model.place
+        
+        if let url = URL(string: model.cover_image_url) {
+            placeImageView.kf.setImage(with: url)
+        }
+        
+    }
 }

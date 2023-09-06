@@ -6,10 +6,19 @@
 //
 
 import UIKit
+import SnapKit
+
+enum Sections: Int {
+    case popularPlaces = 0
+    case lastPlaces = 1
+    case userPlaces = 2
+}
 
 class HomeTVC: UITableViewCell {
     
     static let identifier = "HomeTVC"
+    var viewModel = HomeTVCVM()
+    weak var delegate: HomeCellDelegate?
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -21,6 +30,7 @@ class HomeTVC: UITableViewCell {
         collectionView.register(HomeCVC.self, forCellWithReuseIdentifier: HomeCVC.identifier)
         collectionView.contentInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 0)
         collectionView.showsHorizontalScrollIndicator = false
+        collectionView.backgroundColor = AppColor.backgroundLight.colorValue()
         return collectionView
     }()
     
@@ -30,9 +40,21 @@ class HomeTVC: UITableViewCell {
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-        
-        contentView.backgroundColor = .green
+
         setupViews()
+        setupApi()
+    }
+    
+    private func setupApi() {
+        viewModel.popularPlaces {
+            self.collectionView.reloadData()
+        }
+        viewModel.lastPlaces {
+            self.collectionView.reloadData()
+        }
+        viewModel.userPlaces {
+            self.collectionView.reloadData()
+        }
     }
     
     func setupViews() {
@@ -45,11 +67,30 @@ class HomeTVC: UITableViewCell {
             make.edges.equalToSuperview()
         }
     }
-       
-    public func congigure(model: Image) {
+    private func didTapDidSelect(indexPath: IndexPath) {
+        var selectedPlaces: MapPlace?
         
+        switch indexPath.section {
+        case Sections.popularPlaces.rawValue:
+            selectedPlaces = viewModel.popularPlaces[indexPath.row]
+        case Sections.lastPlaces.rawValue:
+            selectedPlaces = viewModel.lastPlaces[indexPath.row]
+        case Sections.userPlaces.rawValue:
+            selectedPlaces = viewModel.userPlaces[indexPath.row]
+        default:
+            break
+        }
+        
+        let vc = CustomDetailsVC()
+        if let selectedPlaces {
+            vc.placeId = selectedPlaces.id
+            vc.placeDetails = selectedPlaces
+            self.delegate?.cellDidTapButton(indexPath, vc)
+        }
     }
 }
+
+
 
 extension HomeTVC: UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -59,17 +100,35 @@ extension HomeTVC: UICollectionViewDelegateFlowLayout {
         let size = CGSize(width: collectionView.frame.width - 60, height: 180)
         return size
     }
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        didTapDidSelect(indexPath: indexPath)
+    }
 }
 
 extension HomeTVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return viewModel.popularPlaces.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCVC.identifier, for: indexPath) as? HomeCVC else { return UICollectionViewCell() }
-        cell.backgroundColor = .red
-        cell.congigure()
+        
+        switch indexPath.section {
+        case Sections.popularPlaces.rawValue:
+            let place = viewModel.popularPlaces[indexPath.row]
+            cell.congigure(model: place)
+        case Sections.lastPlaces.rawValue:
+            let place = viewModel.lastPlaces[indexPath.row]
+            cell.congigure(model: place)
+        case Sections.userPlaces.rawValue:
+            let place = viewModel.lastPlaces[indexPath.row]
+            cell.congigure(model: place)
+        default:
+            break
+        }
+        
         return cell
     }
 }

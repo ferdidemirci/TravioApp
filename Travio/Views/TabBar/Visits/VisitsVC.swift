@@ -23,7 +23,7 @@ class VisitsVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubviews(collectionView, activityIndicator)
         return view
     }()

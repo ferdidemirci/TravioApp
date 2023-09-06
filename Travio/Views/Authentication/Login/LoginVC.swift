@@ -21,7 +21,7 @@ class LoginVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubviews(titleLabel, emailTextFieldView, passwordTextFieldView, loginButton, bottomStackView)
         return view
     }()
