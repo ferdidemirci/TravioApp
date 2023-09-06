@@ -64,12 +64,15 @@
 		C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220A2AA119350084B54F /* SettingsVM.swift */; };
 		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
 		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
+		C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */; };
 		C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */; };
 		C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */; };
 		C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F972AA1C92F006B560B /* CustomEditView.swift */; };
 		C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37332AA27710007C3595 /* PrivacyTVC.swift */; };
 		C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37352AA277CB007C3595 /* PasswordTVC.swift */; };
 		C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */; };
+		C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */; };
+		C0D1E1AD2AA65E9500E632E0 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -126,12 +129,15 @@
 		C09C220A2AA119350084B54F /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
 		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
+		C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVM.swift; sourceTree = "<group>"; };
 		C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVC.swift; sourceTree = "<group>"; };
 		C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPrivacyView.swift; sourceTree = "<group>"; };
 		C0BE1F972AA1C92F006B560B /* CustomEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditView.swift; sourceTree = "<group>"; };
 		C0BF37332AA27710007C3595 /* PrivacyTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTVC.swift; sourceTree = "<group>"; };
 		C0BF37352AA277CB007C3595 /* PasswordTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTVC.swift; sourceTree = "<group>"; };
 		C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
+		C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVM.swift; sourceTree = "<group>"; };
+		C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -366,6 +372,7 @@
 		C0BE1F922AA1C873006B560B /* Security Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */,
 				C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */,
 				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
 				C0BF37352AA277CB007C3595 /* PasswordTVC.swift */,
@@ -376,12 +383,22 @@
 		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0D1E1A72AA5D47800E632E0 /* Edit Profile */,
 				C0BE1F922AA1C873006B560B /* Security Settings */,
 				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
 				C09C220A2AA119350084B54F /* SettingsVM.swift */,
 				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		C0D1E1A72AA5D47800E632E0 /* Edit Profile */ = {
+			isa = PBXGroup;
+			children = (
+				C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */,
+				C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */,
+			);
+			path = "Edit Profile";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -484,6 +501,7 @@
 				81E0C73E2AA0B3E700299DF3 /* AddVisitVM.swift in Sources */,
 				81E0C7232AA0AF7C00299DF3 /* AddVisitPhotoCVC.swift in Sources */,
 				81E0C71F2AA0AEA700299DF3 /* MapCVC.swift in Sources */,
+				C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */,
 				81E0C7082AA0AC0E00299DF3 /* CustomTextFieldView.swift in Sources */,
 				811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */,
 				81E0C7382AA0B13600299DF3 /* GalleryModel.swift in Sources */,
@@ -494,9 +512,11 @@
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
 				81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */,
 				819B95C32AA5D3200068D733 /* HomeTVCVM.swift in Sources */,
+        C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */,
 				811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */,
 				81E0C72E2AA0B10E00299DF3 /* ResponseModel.swift in Sources */,
 				81E0C72C2AA0B0CC00299DF3 /* MainTabBarC.swift in Sources */,
+				C0D1E1AD2AA65E9500E632E0 /* EditProfileVC.swift in Sources */,
 				81E0C7162AA0ADE600299DF3 /* VisitsVM.swift in Sources */,
 				81E0C7102AA0AD0600299DF3 /* SignUpVC.swift in Sources */,
 				C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */,

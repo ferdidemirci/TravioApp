@@ -58,7 +58,6 @@ class AddVisitVC: UIViewController {
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
-//        collectionView.isPagingEnabled = true
         collectionView.register(AddVisitPhotoCVC.self, forCellWithReuseIdentifier: AddVisitPhotoCVC().identifier)
         return collectionView
     }()

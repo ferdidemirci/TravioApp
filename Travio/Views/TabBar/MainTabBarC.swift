@@ -32,7 +32,6 @@ class MainTabBarC: UITabBarController {
 
         let tabBarList = [homeVC, visitsVC, mapVC, settingsVC]
         viewControllers = tabBarList.map({ UINavigationController(rootViewController: $0) })
-//        self.selectedIndex = 1
         self.tabBar.tintColor = AppColor.primaryColor.colorValue()
         self.tabBar.backgroundColor = AppColor.backgroundLight.colorValue()
         

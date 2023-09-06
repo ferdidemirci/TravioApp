@@ -10,7 +10,7 @@ import SnapKit
 
 class SettingsCVC: UICollectionViewCell {
 
-    var identifier = "SettingsCVC"
+    static let identifier = "SettingsCVC"
     
     
     // Shadow'u verdiğimiz view

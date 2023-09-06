@@ -114,7 +114,6 @@ class HomeCVC: UICollectionViewCell {
             make.bottom.equalToSuperview().offset(-14)
         }
     }
-    
     public func congigure(model: MapPlace) {
         placeLabel.text = model.title
         locationLabel.text = model.place

@@ -63,7 +63,7 @@ class SettingsVC: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.isPagingEnabled = true
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC().identifier)
+        collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC.identifier)
         return collectionView
     }()
     
@@ -74,13 +74,14 @@ class SettingsVC: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
-//        imageViewProfile.roundCorners(corners: [.topLeft], radius: 60)
-        
+        mainView.roundCorners(corners: [.topLeft], radius: 80)        
     }
     
     @objc private func didTapEditProfileButton() {
-        print("edit profile button tapped")
+        let vc = EditProfileVC()
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
+        
     }
     
     private func setupViews() {
@@ -152,6 +153,7 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         switch selectedItem {
         case 0:
             destinationVC = SecuritySettingsVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
         default:
             break
         }
@@ -167,10 +169,8 @@ extension SettingsVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCVC().identifier, for: indexPath) as? SettingsCVC else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCVC.identifier, for: indexPath) as? SettingsCVC else { return UICollectionViewCell() }
         cell.configure(model: viewModel.settingsParameters[indexPath.item])
         return cell
     }
-    
-    
 }

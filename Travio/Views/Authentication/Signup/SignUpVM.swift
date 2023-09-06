@@ -23,23 +23,5 @@ class SignUpVM {
             }
         }
     }
-    
-    
-//    func getData(_ model: User, completion: @escaping () -> Void) {
-//        let apiURL = EndPoint.register.apiURL
-//        let params = ["full_name": "\(model.full_name)",
-//                      "email": "\(model.email)",
-//                      "password": "\(model.password)"]
-//        NetworkingHelper.shared.objectRequest(from: apiURL, params: params, method: .post) { (result: Result<Response, Error>) in
-//            switch result {
-//            case .success(let response):
-//                print("Eklendi")
-//                print(response)
-//                completion()
-//            case .failure(let err):
-//                print("1")
-//                print(err.localizedDescription)
-//            }
-//        }
-//    }
+
 }
