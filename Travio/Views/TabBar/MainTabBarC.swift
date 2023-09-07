@@ -12,10 +12,10 @@ class MainTabBarC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        navigationController?.isNavigationBarHidden = true
     }
     
     private func setupViews(){
+        navigationController?.isNavigationBarHidden = false
         view.backgroundColor = .systemBackground
         
         let homeVC = HomeVC()

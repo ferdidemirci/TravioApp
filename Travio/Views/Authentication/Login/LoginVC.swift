@@ -7,6 +7,11 @@
 
 import UIKit
 import SnapKit
+import IQKeyboardManagerSwift
+
+protocol ReturnToLogin: AnyObject {
+    func returned(message: String)
+}
 
 class LoginVC: UIViewController {
 
@@ -47,15 +52,6 @@ class LoginVC: UIViewController {
         label.font = UIFont(name: AppFont.medium.rawValue, size: 24)
         return label
     }()
-    
-//    private lazy var loginButton: UIButton = {
-//        let button = UIButton()
-//        button.setTitle("Login", for: .normal)
-//        button.setTitleColor(UIColor.white, for: .normal)
-//        button.backgroundColor = AppColor.primaryColor.colorValue()
-//        button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
-//        return button
-//    }()
     
     private lazy var loginButton: CustomButton = {
         let button = CustomButton()
@@ -102,25 +98,26 @@ class LoginVC: UIViewController {
     }
     
     @objc private func didTapLoginButton() {
-        if let email = emailTextFieldView.textField.text,
-            !email.isEmpty,
-            let password = passwordTextFieldView.textField.text,
-            !password.isEmpty {
-            loginViewModel.postLogin(email: email, password: password) { status, message in
-                if status {
-                    let vc = MainTabBarC()
-                    self.navigationController?.pushViewController(vc, animated: true)
-                } else {
-                    self.showAlert(title: "Invalid Information!", message: "Invalid email or password!")
-                }
+       guard let email = emailTextFieldView.textField.text, !email.isEmpty,
+                  let password = passwordTextFieldView.textField.text, !password.isEmpty,
+             isValidEmail(email: email) else {
+           showAlert(title: "Invalid Information!", message: "Please enter a valid email and password.")
+           return
+       }
+
+        loginViewModel.postLogin(email: email, password: password) { status in
+            if status {
+                let vc = MainTabBarC()
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else {
+                self.showAlert(title: "Login Failed!", message: "Invalid email or password. Please try again.")
             }
-        } else {
-            self.showAlert(title: "Empty Spaces!", message: "Fill in the email and password fields!")
         }
     }
     
     @objc private func didTapSignButton() {
         let vc = SignUpVC()
+        vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -173,5 +170,11 @@ class LoginVC: UIViewController {
             make.centerX.equalToSuperview()
         }
         
+    }
+}
+
+extension LoginVC: ReturnToLogin {
+    func returned(message: String) {
+        self.showAlert(title: "Succesfuly!", message: message)
     }
 }
