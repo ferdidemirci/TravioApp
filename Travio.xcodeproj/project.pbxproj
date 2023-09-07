@@ -690,6 +690,9 @@
 				DEVELOPMENT_TEAM = TN7YZNW93M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Travio/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Uygulama içinde fotoğraf çekmek için kamerayı kullanmamız gerekiyor.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Uygulama, size yakın hizmetleri bulabilmeniz için konumunuzu kullanmak istiyor. ";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Uygulama içinde fotoğraf ve videoları seçebilmeniz için fotoğraf kütüphanesine erişim gerekiyor.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -718,6 +721,9 @@
 				DEVELOPMENT_TEAM = TN7YZNW93M;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Travio/Resources/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Uygulama içinde fotoğraf çekmek için kamerayı kullanmamız gerekiyor.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Uygulama, size yakın hizmetleri bulabilmeniz için konumunuzu kullanmak istiyor. ";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Uygulama içinde fotoğraf ve videoları seçebilmeniz için fotoğraf kütüphanesine erişim gerekiyor.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

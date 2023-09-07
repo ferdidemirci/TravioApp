@@ -10,6 +10,7 @@ import Foundation
 struct Me: Codable {
     var full_name: String?
     var email: String?
+    var pp_url: String?
     var role: String?
     var created_at: String?
     var updated_at: String?

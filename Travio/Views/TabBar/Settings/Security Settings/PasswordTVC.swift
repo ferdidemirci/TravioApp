@@ -12,7 +12,7 @@ class PasswordTVC: UITableViewCell {
     
     static let identifier = "PasswordTVC"
     
-    private lazy var textField: CustomTextFieldView = {
+    lazy var textFieldView: CustomTextFieldView = {
         let view = CustomTextFieldView()
         return view
     }()
@@ -35,17 +35,17 @@ class PasswordTVC: UITableViewCell {
     }
     
     func configure(title: String) {
-        textField.titleLabel.text = title
+        textFieldView.titleLabel.text = title
     }
     
     private func setupViews() {
-        contentView.addSubview(textField)
-        self.backgroundColor = AppColor.backgroundLight.colorValue()
+        contentView.addSubview(textFieldView)
+        self.backgroundColor = AppColor.backgroundColor.colorValue()
         setupLayouts()
     }
     
     private func setupLayouts() {
-        textField.snp.makeConstraints { make in
+        textFieldView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.bottom.equalToSuperview()
             make.leading.trailing.equalToSuperview()

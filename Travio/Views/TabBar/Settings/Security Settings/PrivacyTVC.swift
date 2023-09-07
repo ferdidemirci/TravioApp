@@ -12,7 +12,7 @@ class PrivacyTVC: UITableViewCell {
     
     static let identifier = "PrivacyTVC"
     
-    private lazy var privacyView: CustomPrivacyView = {
+    lazy var privacyView: CustomPrivacyView = {
         let view = CustomPrivacyView()
         return view
     }()

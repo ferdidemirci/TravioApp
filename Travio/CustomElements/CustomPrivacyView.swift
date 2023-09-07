@@ -16,16 +16,15 @@ class CustomPrivacyView: UIView {
         }
     }
     
-    private lazy var lblTitle: UILabel = {
+    lazy var lblTitle: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.medium.rawValue, size: 14)
         label.text = labelText
         return label
     }()
     
-    private lazy var switchOnOff: UISwitch = {
+    lazy var switchOnOff: UISwitch = {
         let sw = UISwitch()
-        sw.isOn = false
         return sw
     }()
     

@@ -7,10 +7,16 @@
 
 import UIKit
 import SnapKit
+import Alamofire
+import CoreLocation
+import AVFoundation
+import Photos
 
 class SecuritySettingsVC: UIViewController {
     
     let viewModel = SecuritySettingsVM()
+    
+    var permissionEnabled = Bool()
     
     private lazy var btnBack: UIButton = {
         let button = UIButton()
@@ -39,7 +45,6 @@ class SecuritySettingsVC: UIViewController {
         tv.dataSource = self
         tv.backgroundColor = AppColor.backgroundLight.colorValue()
         tv.separatorStyle = .none
-//        tv.style = .insetGrouped
         tv.register(PrivacyTVC.self, forCellReuseIdentifier: PrivacyTVC.identifier)
         tv.register(PasswordTVC.self, forCellReuseIdentifier: PasswordTVC.identifier)
         return tv
@@ -68,11 +73,73 @@ class SecuritySettingsVC: UIViewController {
     }
     
     @objc private func btnSaveTapped() {
-        print("save button tapped")
+        let passwordIndex = IndexPath(row: 0, section: 0)
+        let confirmPasswordIndex = IndexPath(row: 1, section: 0)
+        guard let passwordCell = tableView.cellForRow(at: passwordIndex) as? PasswordTVC,
+              let confirmPasswordCell = tableView.cellForRow(at: confirmPasswordIndex) as? PasswordTVC else { return }
+        let password = passwordCell.textFieldView.textField.text
+        let confirmPassword = confirmPasswordCell.textFieldView.textField.text
+        if password == confirmPassword {
+            guard let newPassword = password else { return }
+            let params: Parameters = ["new_password": newPassword]
+            viewModel.changePassword(newPassword: newPassword)
+        } else {
+            showAlert(title: "UYARI", message: "Şifre eşleştirilemedi! Lütfen şifrelerin aynı olduğundan emin olun!")
+        }
     }
     
     @objc private func btnBackTapped() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    @objc func cameraSwitchValueChanged(_ sender: UISwitch) {
+        permissionEnabled = sender.isOn
+        AVCaptureDevice.requestAccess(for: .video) { [self] _ in
+            if permissionEnabled {
+                DispatchQueue.main.async {
+                    self.showAlert(title: "OK", message: "İzin etkinleştirildi.")
+                }
+            } else {
+                self.permissionOnDeviceSettings()
+            }
+        }
+    }
+    
+    @objc func photoLibrarySwitchValueChanged(_ sender: UISwitch) {
+        permissionEnabled = sender.isOn
+        PHPhotoLibrary.requestAuthorization { [self] status in
+            if permissionEnabled {
+                switch status {
+                case .authorized, .restricted:
+                    print("gallery permission accepted")
+                case .denied, .notDetermined:
+                    print("gallery permission denied")
+                    permissionEnabled = false
+                default:
+                    break
+                }
+            } else {
+                permissionOnDeviceSettings()
+            }
+        }
+    }
+    
+    @objc func locationSwitchValueChanged(_ sender: UISwitch) {
+        permissionEnabled = sender.isOn
+        let locationManager = CLLocationManager()
+        locationManager.requestWhenInUseAuthorization()
+        
+        if !permissionEnabled {
+            permissionOnDeviceSettings()
+        }
+    }
+    
+    private func permissionOnDeviceSettings() {
+        DispatchQueue.main.async {
+            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+            }
+        }
     }
     
     private func setupViews() {
@@ -112,7 +179,7 @@ class SecuritySettingsVC: UIViewController {
             make.trailing.equalToSuperview().offset(-24)
             make.bottom.equalTo(btnSave.snp.top).offset(-5)
         }
-
+        
         btnSave.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-18)
             make.leading.equalToSuperview().offset(24)
@@ -177,7 +244,7 @@ extension SecuritySettingsVC: UITableViewDataSource {
         
         let section = indexPath.section
         let row = indexPath.row
-
+        
         if section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PasswordTVC.identifier, for: indexPath) as? PasswordTVC else { return UITableViewCell() }
             cell.configure(title: viewModel.cellTitles[section][row])
@@ -185,6 +252,21 @@ extension SecuritySettingsVC: UITableViewDataSource {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyTVC.identifier, for: indexPath) as? PrivacyTVC else { return UITableViewCell() }
             cell.configure(title: viewModel.cellTitles[section][row])
+            let toggle = cell.privacyView.switchOnOff
+            
+            switch row {
+            case 0:
+                toggle.isOn = permissionEnabled
+                toggle.addTarget(self, action: #selector(cameraSwitchValueChanged(_:)), for: .valueChanged)
+            case 1:
+                toggle.isOn = permissionEnabled
+                toggle.addTarget(self, action: #selector(photoLibrarySwitchValueChanged(_:)), for: .valueChanged)
+            case 2:
+                toggle.isOn = permissionEnabled
+                toggle.addTarget(self, action: #selector(locationSwitchValueChanged(_:)), for: .valueChanged)
+            default:
+                break
+            }
             return cell
         }
         
