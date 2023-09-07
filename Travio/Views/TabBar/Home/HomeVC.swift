@@ -12,6 +12,12 @@ protocol HomeCellDelegate: AnyObject {
     func cellDidTapButton(_ indexPath: IndexPath, _ vc: UIViewController)
 }
 
+enum Sections: Int {
+    case popularPlaces = 0
+    case lastPlaces = 1
+    case userPlaces = 2
+}
+
 class HomeVC: UIViewController {
     
     var viewModel = HomeVM()
@@ -63,12 +69,13 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
     
         setupViews()
+        setupApi()
     }
     
     override func viewDidLayoutSubviews() {
         mainView.roundCorners(corners: [.topLeft], radius: 80)
     }
-    
+        
     func createHeaderView(sectionTitle: String, sectionIndex: Int) -> UIView {
         let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 40))
         
@@ -95,14 +102,34 @@ class HomeVC: UIViewController {
         switch sender.tag {
         case 0:
             vc.viewTag = 0
+            vc.sectionTitle = viewModel.sectionTitles[0]
         case 1:
             vc.viewTag = 1
+            vc.sectionTitle = viewModel.sectionTitles[1]
         case 2:
             vc.viewTag = 2
+            vc.sectionTitle = viewModel.sectionTitles[2]
         default:
             print("Tag yok")
         }
         navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func setupApi() {
+        let dispatchGroup = DispatchGroup()
+        
+        let sections = [Sections.popularPlaces, Sections.lastPlaces, Sections.userPlaces]
+        
+        sections.forEach { section in
+            dispatchGroup.enter()
+            viewModel.fetchPlaces(for: section) {
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.tableView.reloadData()
+        }
     }
     
     private func setupViews(){
@@ -147,6 +174,8 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTVC.identifier, for: indexPath) as? HomeTVC else { return UITableViewCell() }
+        viewModel.sectionSelection(section: indexPath.section)
+        cell.configure(places: viewModel.placeArray)
         cell.delegate = self
         return cell
     }
@@ -169,9 +198,6 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
 
 extension HomeVC: HomeCellDelegate {
     func cellDidTapButton(_ indexPath: IndexPath, _ vc: UIViewController) {
-            navigationController?.pushViewController(vc, animated: true)
-       
+        navigationController?.pushViewController(vc, animated: true)
     }
-    
-    
 }

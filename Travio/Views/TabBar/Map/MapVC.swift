@@ -166,7 +166,7 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapCVC().identifier, for: indexPath) as? MapCVC else { return UICollectionViewCell() }
         cell.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-        cell.congigure(model: viewModel.mapPlaces[indexPath.row])
+        cell.configure(model: viewModel.mapPlaces[indexPath.row])
         return cell
     }
     

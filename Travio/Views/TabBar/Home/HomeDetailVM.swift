@@ -9,7 +9,7 @@ import Foundation
 
 class HomeDetailVM {
     
-    var placeArray: [MapPlace] = []
+    var placeArray: [Place] = []
         
     func fetchPlaces(request: Router, completion: @escaping () -> Void) {
          NetworkHelper.shared.routerRequest(request: request) { (result: Result<MapPlaceResponse, Error>) in

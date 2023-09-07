@@ -11,6 +11,7 @@ class HomeDetailVC: UIViewController {
     
     var viewModel = HomeDetailVM()
     var viewTag: Int?
+    var sectionTitle: String?
     var isToggle = false
     
     private lazy var backButton: UIButton = {
@@ -112,7 +113,7 @@ class HomeDetailVC: UIViewController {
     
     private func setupViews(){
         view.backgroundColor = AppColor.primaryColor.colorValue()
-        
+        titleLabel.text = sectionTitle
         view.addSubviews(backButton, titleLabel, mainView)
         setupLayout()
     }
@@ -176,8 +177,8 @@ extension HomeDetailVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeDetailCVC.identifier, for: indexPath) as? HomeDetailCVC else { return UICollectionViewCell() }
         cell.backgroundColor = .white
-        let data = viewModel.placeArray[indexPath.row]
-        cell.congigure(model: data)
+        let place = viewModel.placeArray[indexPath.row]
+        cell.configure(model: place)
         return cell
     }
 }
