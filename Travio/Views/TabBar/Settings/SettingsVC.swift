@@ -21,6 +21,14 @@ class SettingsVC: UIViewController {
         return label
     }()
     
+    private lazy var logoutButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "logout"), for: .normal)
+        button.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .clear
+        return button
+    }()
+    
     private lazy var mainView: UIView = {
         let view = UIView()
         view.backgroundColor = AppColor.backgroundColor.colorValue()
@@ -30,7 +38,6 @@ class SettingsVC: UIViewController {
     private lazy var imageViewProfile: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-//        iv.image = UIImage(named: "bruce")
         iv.backgroundColor = .clear
         iv.layer.masksToBounds = true
         iv.layer.cornerRadius = 60
@@ -39,7 +46,6 @@ class SettingsVC: UIViewController {
     
     private lazy var lblName: UILabel = {
         let label = UILabel()
-//        label.text = "Bruce Wills"
         label.textColor = AppColor.secondaryColor.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         return label
@@ -79,6 +85,12 @@ class SettingsVC: UIViewController {
         mainView.roundCorners(corners: [.topLeft], radius: 80)        
     }
     
+    @objc private func logoutButtonTapped() {
+        viewModel.deleteAccessToken {
+            
+        }
+    }
+    
     @objc private func didTapEditProfileButton() {
         let vc = EditProfileVC()
         vc.hidesBottomBarWhenPushed = true
@@ -88,7 +100,7 @@ class SettingsVC: UIViewController {
     private func configure() {
         viewModel.getUserInfos { user in
             guard let imageURL = user.pp_url,
-                  let name = user.full_name else { return }
+                  let name = user.full_name else { return }
             self.imageViewProfile.kf.setImage(with: URL(string: imageURL))
             self.lblName.text = name
         }
@@ -98,6 +110,7 @@ class SettingsVC: UIViewController {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = AppColor.primaryColor.colorValue()
         self.view.addSubviews(titleLabel,
+                              logoutButton,
                               mainView)
         self.mainView.addSubviews(imageViewProfile,
                                   lblName,
@@ -111,6 +124,12 @@ class SettingsVC: UIViewController {
         titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(24)
             make.leading.equalToSuperview().offset(20)
+        }
+        
+        logoutButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-24)
+            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.height.width.equalTo(30)
         }
         
         mainView.snp.makeConstraints { make in

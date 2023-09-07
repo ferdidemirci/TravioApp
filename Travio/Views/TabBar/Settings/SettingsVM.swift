@@ -6,9 +6,11 @@
 //
 
 import Foundation
+import KeychainSwift
 
 class SettingsVM {
     var userInfos: Me?
+    let keychain = KeychainSwift()
     var settingsParameters: [SettingsModel] = [SettingsModel(leftImage: "user", text: "Security Settings"),
                                                SettingsModel(leftImage: "scope", text: "App Defaults"),
                                                SettingsModel(leftImage: "mapIcon", text: "My Added Places"),
@@ -26,6 +28,12 @@ class SettingsVM {
                 print(error.localizedDescription)
             }
         }
+    }
+    
+    func deleteAccessToken(completion: () -> Void) {
+        let key = "accessTokenKey"
+        self.keychain.delete(key)
+        completion()
     }
     
 }
