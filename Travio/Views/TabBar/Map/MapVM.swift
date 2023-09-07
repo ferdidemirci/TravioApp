@@ -8,7 +8,7 @@
 import Foundation
 class MapVM {
     
-    var mapPlaces : [MapPlace] = []
+    var mapPlaces : [Place] = []
     
     func getData(complation: @escaping () -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.allPlaces) { (result: Result<MapPlaceResponse, Error>) in

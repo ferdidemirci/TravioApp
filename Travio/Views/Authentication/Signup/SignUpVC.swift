@@ -189,22 +189,16 @@ extension SignUpVC: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if !usernameTextFieldView.textField.text!.isEmpty &&
             !emailTextFieldView.textField.text!.isEmpty
-            && passwordTextFieldView.textField.text!.count >= 8 &&
-            passwordTextFieldView.textField.text == confirmPasswordTextFieldView.textField.text {
+            && passwordTextFieldView.textField.text!.count >= 8
+            && passwordTextFieldView.textField.text!.count <= 15
+            && passwordTextFieldView.textField.text == confirmPasswordTextFieldView.textField.text {
+            
             signUpButton.backgroundColor = AppColor.primaryColor.colorValue()
             signUpButton.isEnabled = true
+            
         } else {
             signUpButton.backgroundColor = AppColor.isEnabledColor.colorValue()
             signUpButton.isEnabled = false
         }
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == emailTextFieldView.textField {
-            let newEmail = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-            let isValid = isValidEmail(email: newEmail)
-                return isValid
-            }
-            return true
-        }
 }

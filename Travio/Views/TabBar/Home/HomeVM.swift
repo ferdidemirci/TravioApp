@@ -9,10 +9,10 @@ import Foundation
 
 class HomeVM {
     let sectionTitles = ["Popular Places", "Last Places", "Visit Places"]
-    var popularPlaces: [MapPlace] = []
-    var lastPlaces: [MapPlace] = []
-    var userPlaces: [MapPlace] = []
-    var placeArray: [MapPlace] = []
+    var popularPlaces: [Place] = []
+    var lastPlaces: [Place] = []
+    var userPlaces: [Place] = []
+    var placeArray: [Place] = []
 
     
     func fetchPlaces(for section: Sections, completion: @escaping () -> Void) {

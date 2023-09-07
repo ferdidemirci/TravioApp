@@ -14,7 +14,7 @@ class HomeTVC: UITableViewCell {
     
     static let identifier = "HomeTVC"
     weak var delegate: HomeCellDelegate?
-    var placeArray = [MapPlace]()
+    var placeArray = [Place]()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -52,7 +52,7 @@ class HomeTVC: UITableViewCell {
     }
     
     private func didTapDidSelect(indexPath: IndexPath) {
-        var selectedPlaces: MapPlace?
+        var selectedPlaces: Place?
 
         switch indexPath.section {
         case Sections.popularPlaces.rawValue:
@@ -73,7 +73,7 @@ class HomeTVC: UITableViewCell {
         }
     }
     
-    func configure(places: [MapPlace]) {
+    func configure(places: [Place]) {
         self.placeArray = places
         self.collectionView.reloadData()
     }
@@ -104,7 +104,7 @@ extension HomeTVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeCVC.identifier, for: indexPath) as? HomeCVC else { return UICollectionViewCell() }
         let place = placeArray[indexPath.row]
-        cell.congigure(model: place)
+        cell.configure(model: place)
         return cell
     }
 }

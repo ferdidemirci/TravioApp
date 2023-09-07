@@ -177,8 +177,8 @@ extension HomeDetailVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeDetailCVC.identifier, for: indexPath) as? HomeDetailCVC else { return UICollectionViewCell() }
         cell.backgroundColor = .white
-        let data = viewModel.placeArray[indexPath.row]
-        cell.congigure(model: data)
+        let place = viewModel.placeArray[indexPath.row]
+        cell.configure(model: place)
         return cell
     }
 }

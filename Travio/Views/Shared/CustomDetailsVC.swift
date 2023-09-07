@@ -17,7 +17,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     var visitId: String?
     var placeId: String?
-    var placeDetails: MapPlace?
+    var placeDetails: Place?
     var isVisited = true
     var delegate: ReturnToDismiss?
     
@@ -336,8 +336,7 @@ extension CustomDetailsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomDetailsSliderCVC().identifier, for: indexPath) as? CustomDetailsSliderCVC else { return UICollectionViewCell() }
-        
-        cell.congigure(model: viewModel.getImage(index: indexPath.row))
+        cell.configure(model: viewModel.getImage(index: indexPath.row))
         return cell
     }
 }

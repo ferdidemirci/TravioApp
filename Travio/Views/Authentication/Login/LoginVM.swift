@@ -17,7 +17,6 @@ class LoginVM {
             switch result {
             case .success(let data):
                 self.keychain.set(data.accessToken, forKey: "accessTokenKey")
-                print("Access Token: \(data.accessToken)")
                 completion(true)
             case .failure:
                 completion(false)
