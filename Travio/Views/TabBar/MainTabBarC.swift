@@ -12,10 +12,10 @@ class MainTabBarC: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        navigationController?.isNavigationBarHidden = true
     }
     
     private func setupViews(){
+        navigationController?.isNavigationBarHidden = false
         view.backgroundColor = .systemBackground
         
         let homeVC = HomeVC()
@@ -33,15 +33,8 @@ class MainTabBarC: UITabBarController {
         let tabBarList = [homeVC, visitsVC, mapVC, settingsVC]
         viewControllers = tabBarList.map({ UINavigationController(rootViewController: $0) })
         self.tabBar.tintColor = AppColor.primaryColor.colorValue()
-        self.tabBar.backgroundColor = AppColor.backgroundColor.colorValue()
+        self.tabBar.backgroundColor = AppColor.backgroundLight.colorValue()
         
         view.addSubviews()
-        setupLayout()
     }
-    
-    private func setupLayout(){
-        
-    }
-    
-
 }

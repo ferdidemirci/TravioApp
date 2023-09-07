@@ -107,7 +107,7 @@ class AddVisitVC: UIViewController {
     }
     
     private func setupViews(){
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         
         view.addSubviews(regtengleTop, placeNameView, descriptionView, countryAndCityView, collectionView, addPlaceButton)
         setupLayout()

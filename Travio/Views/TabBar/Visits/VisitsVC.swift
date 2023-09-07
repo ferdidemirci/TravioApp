@@ -23,7 +23,7 @@ class VisitsVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubviews(collectionView, activityIndicator)
         return view
     }()
@@ -129,8 +129,8 @@ extension VisitsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VisitCVC().identifier, for: indexPath) as? VisitCVC else { return UICollectionViewCell() }
-        let data = viewModel.visits[indexPath.row]
-        cell.congigure(model: data)
+        let visit = viewModel.visits[indexPath.row]
+        cell.configure(model: visit)
         return cell
     }
     
@@ -138,7 +138,7 @@ extension VisitsVC: UICollectionViewDataSource {
         let visitId = viewModel.visits[indexPath.row].id
         let data = viewModel.visits[indexPath.row].place
         let vc = CustomDetailsVC()
-        vc.placeDetails = MapPlace(id: data.id,
+        vc.placeDetails = Place(id: data.id,
                                    creator: data.creator,
                                    place: data.place,
                                    title: data.title,

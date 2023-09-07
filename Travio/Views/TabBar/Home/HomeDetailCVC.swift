@@ -12,15 +12,15 @@ class HomeDetailCVC: UICollectionViewCell {
     static let identifier = "HomeDetailCVC"
     
     private lazy var placeImageView: UIImageView = {
-        let image = UIImageView()
-        image.image = UIImage(named: "england")
-        return image
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        return imageView
     }()
     
-    private lazy var placeLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
-        label.text = "London"
         return label
     }()
     
@@ -34,18 +34,23 @@ class HomeDetailCVC: UICollectionViewCell {
     }()
     
     private lazy var locationImageView: UIImageView = {
-        let image = UIImageView()
-        image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "location")
-        image.tintColor = .red
-        return image
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.image = UIImage(named: "locationDark")
+        return imageView
     }()
     
     private lazy var locationLabel: UILabel = {
         let label = UILabel()
-        label.text = "İstanbul"
         label.font = UIFont(name: AppFont.light.rawValue, size: 14)
         return label
+    }()
+    
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.tintColor = .red
+        return indicator
     }()
     
     override init(frame: CGRect) {
@@ -62,7 +67,7 @@ class HomeDetailCVC: UICollectionViewCell {
     }
     
     func setupViews() {
-        contentView.addSubviews(placeImageView, placeLabel, stackView)
+        contentView.addSubviews(placeImageView, titleLabel, stackView, activityIndicator)
         setupLayouts()
     }
     
@@ -73,15 +78,51 @@ class HomeDetailCVC: UICollectionViewCell {
             make.width.equalTo(90)
         }
         
-        placeLabel.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.leading.equalTo(placeImageView.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().offset(-8)
         }
         
         stackView.snp.makeConstraints { make in
-            make.top.equalTo(placeLabel.snp.bottom)
-            make.leading.equalTo(placeLabel).offset(4)
+            make.top.equalTo(titleLabel.snp.bottom).offset(4)
+            make.leading.equalTo(titleLabel).offset(4)
+        }
+        
+        locationImageView.snp.makeConstraints { make in
+            make.width.equalTo(9)
+            make.height.equalTo(12)
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.top.leading.bottom.equalToSuperview()
+            make.width.equalTo(90)
         }
     }
     
+    public func configure(model place: Place) {
+        locationLabel.text = place.place
+        titleLabel.text = place.title
+        
+        guard let urlStr = URL(string: place.cover_image_url) else {
+            placeImageView.image = UIImage(systemName: "photo")
+            return
+        }
+        
+        activityIndicator.startAnimating()
+        
+        placeImageView.kf.setImage(
+            with: urlStr,
+            completionHandler: { [weak activityIndicator] result in
+                activityIndicator?.stopAnimating()
+                activityIndicator?.removeFromSuperview()
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    self.placeImageView.image = UIImage(systemName: "photo")
+                }
+            }
+        )
+    }
 }

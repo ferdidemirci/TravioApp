@@ -109,8 +109,7 @@ class MapVC: UIViewController, MKMapViewDelegate{
                 return
             }
             if let placemark = placemarks?.first {
-                if let street = placemark.thoroughfare,
-                   let city = placemark.locality,
+                if let city = placemark.locality,
                     let country = placemark.country {
                     self.place = "\(city), \(country)"
                     complate()
@@ -120,33 +119,24 @@ class MapVC: UIViewController, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
+        let identifier = "customAnnotation"
+        var annotationView: MKAnnotationView
         
-        let identifier = "annotation"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
-        
-        if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
+            dequeuedView.annotation = annotation
+            annotationView = dequeuedView
         } else {
-            annotationView?.annotation = annotation
+            // Use MKAnnotationView instead of MKPinAnnotationView
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView.canShowCallout = true
+            
+            // Set the custom annotation image
+            annotationView.image = UIImage(named: "mapLocation")
         }
         
-        if let pinImage = UIImage(named: "mapLocation") {
-            let size = CGSize(width: 32, height: 42)
-            
-            UIGraphicsBeginImageContext(size)
-            pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            annotationView?.image = resizedImage
-        }
         return annotationView
     }
-    
+        
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
             let coordinate = annotation.coordinate
@@ -176,7 +166,7 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapCVC().identifier, for: indexPath) as? MapCVC else { return UICollectionViewCell() }
         cell.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-        cell.congigure(model: viewModel.mapPlaces[indexPath.row])
+        cell.configure(model: viewModel.mapPlaces[indexPath.row])
         return cell
     }
     
@@ -187,16 +177,7 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
         vc.placeId = placeId
         vc.placeDetails = placeDetails
         vc.delegate = self
-        viewModel.getVisitByPlaceId(placeId: placeId) { status in
-            if status {
-                vc.isVisited = true
-            } else {
-                vc.isVisited = false
-            }
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        
-        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

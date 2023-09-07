@@ -35,7 +35,7 @@ class SecuritySettingsVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         return view
     }()
     
@@ -43,7 +43,7 @@ class SecuritySettingsVC: UIViewController {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.delegate = self
         tv.dataSource = self
-        tv.backgroundColor = AppColor.backgroundColor.colorValue()
+        tv.backgroundColor = AppColor.backgroundLight.colorValue()
         tv.separatorStyle = .none
         tv.register(PrivacyTVC.self, forCellReuseIdentifier: PrivacyTVC.identifier)
         tv.register(PasswordTVC.self, forCellReuseIdentifier: PasswordTVC.identifier)

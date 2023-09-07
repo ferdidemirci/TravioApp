@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import SDWebImage
 import SnapKit
+import Kingfisher
 
 class VisitCVC: UICollectionViewCell {
     
@@ -25,10 +25,17 @@ class VisitCVC: UICollectionViewCell {
         return image
     }()
     
+    private lazy var titleLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
+        label.textColor = .white
+        return label
+    }()
+    
     private lazy var locationImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "location")
+        image.image = UIImage(named: "locationLight")
         image.tintColor = .white
         return image
     }()
@@ -40,9 +47,11 @@ class VisitCVC: UICollectionViewCell {
         return label
     }()
     
-    override func layoutSubviews() {
-        self.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
-    }
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
@@ -53,8 +62,12 @@ class VisitCVC: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        self.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
+    }
+    
     func setupViews() {
-        self.contentView.addSubviews(backgroundImageView, gradientImage, locationImageView, locationLabel)
+        self.contentView.addSubviews(backgroundImageView, activityIndicator, gradientImage, titleLabel, locationImageView, locationLabel)
         setupLayouts()
     }
     
@@ -68,6 +81,12 @@ class VisitCVC: UICollectionViewCell {
             make.trailing.equalTo(backgroundImageView)
             make.height.equalTo(120)
         }
+        
+        titleLabel.snp.makeConstraints { make in
+            make.bottom.equalTo(locationImageView.snp.top)
+            make.leading.equalToSuperview().offset(8)
+        }
+        
         locationImageView.snp.makeConstraints { make in
             make.bottom.equalToSuperview().offset(-10)
             make.leading.equalToSuperview().offset(8)
@@ -77,15 +96,34 @@ class VisitCVC: UICollectionViewCell {
             make.bottom.equalToSuperview().offset(-8)
             make.leading.equalTo(locationImageView.snp.trailing).offset(6)
         }
-    }
-    
-    public func congigure(model: Visit) {
-        locationLabel.text = model.place.place
-        if let imageUrl = URL(string: model.place.cover_image_url) {
-            backgroundImageView.sd_setImage(with: imageUrl)
-        } else {
-            backgroundImageView.image = UIImage(systemName: "photo")
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
     
+    public func configure(model visit: Visit) {
+        locationLabel.text = visit.place.place
+        titleLabel.text = visit.place.title
+        
+        guard let urlStr = URL(string: visit.place.cover_image_url) else {
+            backgroundImageView.image = UIImage(systemName: "photo")
+            return
+        }
+        
+        activityIndicator.startAnimating()
+        backgroundImageView.kf.setImage(
+            with: urlStr,
+            completionHandler: { [weak activityIndicator] result in
+                activityIndicator?.stopAnimating()
+                activityIndicator?.removeFromSuperview()
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    self.backgroundImageView.image = UIImage(systemName: "photo")
+                }
+            }
+        )
+    }
 }
