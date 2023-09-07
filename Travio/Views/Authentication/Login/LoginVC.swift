@@ -48,11 +48,18 @@ class LoginVC: UIViewController {
         return label
     }()
     
-    private lazy var loginButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Login", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = AppColor.primaryColor.colorValue()
+//    private lazy var loginButton: UIButton = {
+//        let button = UIButton()
+//        button.setTitle("Login", for: .normal)
+//        button.setTitleColor(UIColor.white, for: .normal)
+//        button.backgroundColor = AppColor.primaryColor.colorValue()
+//        button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
+//        return button
+//    }()
+    
+    private lazy var loginButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Login"
         button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         return button
     }()
@@ -91,7 +98,7 @@ class LoginVC: UIViewController {
     
     override func viewDidLayoutSubviews() {
         mainView.roundCorners(corners: .topLeft, radius: 80)
-        loginButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
+        self.loginButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
     }
     
     @objc private func didTapLoginButton() {
@@ -159,7 +166,6 @@ class LoginVC: UIViewController {
             make.top.equalTo(passwordTextFieldView.snp.bottom).offset(24)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(54)
         }
         
         bottomStackView.snp.makeConstraints { make in

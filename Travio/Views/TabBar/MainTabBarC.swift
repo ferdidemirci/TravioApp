@@ -36,12 +36,5 @@ class MainTabBarC: UITabBarController {
         self.tabBar.backgroundColor = AppColor.backgroundLight.colorValue()
         
         view.addSubviews()
-        setupLayout()
     }
-    
-    private func setupLayout(){
-        
-    }
-    
-
 }

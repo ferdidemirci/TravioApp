@@ -12,6 +12,7 @@
 		811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1102AA50A4600FC378E /* HomeCVC.swift */; };
 		811FA1152AA51BDC00FC378E /* HomeDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */; };
 		811FA1172AA51D5200FC378E /* HomeDetailCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */; };
+		8157774F2AA8B5DE0056EDAA /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157774E2AA8B5DE0056EDAA /* CustomButton.swift */; };
 		819B95C32AA5D3200068D733 /* HomeTVCVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819B95C22AA5D3200068D733 /* HomeTVCVM.swift */; };
 		819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819B95C42AA611E40068D733 /* HomeDetailVM.swift */; };
 		81E0C6C42AA0A62D00299DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */; };
@@ -81,6 +82,7 @@
 		811FA1102AA50A4600FC378E /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
 		811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailVC.swift; sourceTree = "<group>"; };
 		811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailCVC.swift; sourceTree = "<group>"; };
+		8157774E2AA8B5DE0056EDAA /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		819B95C22AA5D3200068D733 /* HomeTVCVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVCVM.swift; sourceTree = "<group>"; };
 		819B95C42AA611E40068D733 /* HomeDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailVM.swift; sourceTree = "<group>"; };
 		81E0C6C02AA0A62D00299DF3 /* Travio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travio.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -281,6 +283,7 @@
 				81E0C7052AA0AC0800299DF3 /* CustomTextViewView.swift */,
 				C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */,
 				C0BE1F972AA1C92F006B560B /* CustomEditView.swift */,
+				8157774E2AA8B5DE0056EDAA /* CustomButton.swift */,
 			);
 			path = CustomElements;
 			sourceTree = "<group>";
@@ -494,6 +497,7 @@
 			files = (
 				C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */,
 				81E0C7062AA0AC0800299DF3 /* CustomTextViewView.swift in Sources */,
+				8157774F2AA8B5DE0056EDAA /* CustomButton.swift in Sources */,
 				81E0C7322AA0B12C00299DF3 /* UploadResponse.swift in Sources */,
 				81E0C7182AA0AE2B00299DF3 /* CustomDetailsVC.swift in Sources */,
 				811FA10D2AA4CB1600FC378E /* HomeVM.swift in Sources */,
@@ -512,7 +516,7 @@
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
 				81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */,
 				819B95C32AA5D3200068D733 /* HomeTVCVM.swift in Sources */,
-        C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */,
+				C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */,
 				811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */,
 				81E0C72E2AA0B10E00299DF3 /* ResponseModel.swift in Sources */,
 				81E0C72C2AA0B0CC00299DF3 /* MainTabBarC.swift in Sources */,

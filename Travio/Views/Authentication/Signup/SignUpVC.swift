@@ -61,12 +61,11 @@ class SignUpVC: UIViewController {
         return view
     }()
     
-    private lazy var signUpButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Sign Up", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+    private lazy var signUpButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Sign Up"
         button.backgroundColor = AppColor.isEnabledColor.colorValue()
-        button.isEnabled = true
+        button.isEnabled = false
         button.addTarget(self, action: #selector(didTapSignButton), for: .touchUpInside)
         return button
     }()
@@ -95,9 +94,8 @@ class SignUpVC: UIViewController {
            let confirmPassword = confirmPasswordTextFieldView.textField.text {
             
             if password == confirmPassword && password.count < 15 && password.count > 6 {
-                
+                self.signUpButton.isEnabled = true
                 let newUser = User(full_name: username, email: email, password: password)
-                
                 signUpViewModel.postData(newUser, completion: {
                     self.navigationController?.popToRootViewController(animated: true)
                 })
@@ -170,7 +168,6 @@ class SignUpVC: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-24)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(54)
         }
     }
 }
