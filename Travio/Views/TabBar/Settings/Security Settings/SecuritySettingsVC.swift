@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Alamofire
 import CoreLocation
 import AVFoundation
 import Photos
@@ -72,7 +73,19 @@ class SecuritySettingsVC: UIViewController {
     }
     
     @objc private func btnSaveTapped() {
-        print("save button tapped")
+        let passwordIndex = IndexPath(row: 0, section: 0)
+        let confirmPasswordIndex = IndexPath(row: 1, section: 0)
+        guard let passwordCell = tableView.cellForRow(at: passwordIndex) as? PasswordTVC,
+              let confirmPasswordCell = tableView.cellForRow(at: confirmPasswordIndex) as? PasswordTVC else { return }
+        let password = passwordCell.textFieldView.textField.text
+        let confirmPassword = confirmPasswordCell.textFieldView.textField.text
+        if password == confirmPassword {
+            guard let newPassword = password else { return }
+            let params: Parameters = ["new_password": newPassword]
+            viewModel.changePassword(newPassword: newPassword)
+        } else {
+            showAlert(title: "UYARI", message: "Şifre eşleştirilemedi! Lütfen şifrelerin aynı olduğundan emin olun!")
+        }
     }
     
     @objc private func btnBackTapped() {

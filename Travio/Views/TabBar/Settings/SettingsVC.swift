@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class SettingsVC: UIViewController {
     
@@ -29,7 +30,7 @@ class SettingsVC: UIViewController {
     private lazy var imageViewProfile: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(named: "bruce")
+//        iv.image = UIImage(named: "bruce")
         iv.backgroundColor = .clear
         iv.layer.masksToBounds = true
         iv.layer.cornerRadius = 60
@@ -38,7 +39,7 @@ class SettingsVC: UIViewController {
     
     private lazy var lblName: UILabel = {
         let label = UILabel()
-        label.text = "Bruce Wills"
+//        label.text = "Bruce Wills"
         label.textColor = AppColor.secondaryColor.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         return label
@@ -71,6 +72,7 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        configure()
     }
     
     override func viewDidLayoutSubviews() {
@@ -81,7 +83,15 @@ class SettingsVC: UIViewController {
         let vc = EditProfileVC()
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
-        
+    }
+    
+    private func configure() {
+        viewModel.getUserInfos { user in
+            guard let imageURL = user.pp_url,
+                  let name = user.full_name else { return }
+            self.imageViewProfile.kf.setImage(with: URL(string: imageURL))
+            self.lblName.text = name
+        }
     }
     
     private func setupViews() {

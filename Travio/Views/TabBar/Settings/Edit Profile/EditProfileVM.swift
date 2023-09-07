@@ -16,7 +16,6 @@ class EditProfileVM {
     func getUserInfos(completion: @escaping (Me) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
             switch results {
-                
             case .success(let data):
                 self.userInfos = data
                 completion(data)

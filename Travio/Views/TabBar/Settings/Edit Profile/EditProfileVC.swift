@@ -8,6 +8,7 @@
 import UIKit
 import Alamofire
 import SnapKit
+import Kingfisher
 
 class EditProfileVC: UIViewController {
     
@@ -143,9 +144,11 @@ class EditProfileVC: UIViewController {
     
     private func configure() {
         viewModel.getUserInfos { user in
-            guard let name = user.full_name,
+            guard let imageURL = user.pp_url,
+                  let name = user.full_name,
                   let createdDate = user.created_at,
                   let role = user.role else { return }
+            self.profileImage.kf.setImage(with: URL(string: imageURL))
             self.lblName.text = name
             self.birthView.labelText = formatISO8601Date(createdDate) ?? ""
             self.roleView.labelText = role

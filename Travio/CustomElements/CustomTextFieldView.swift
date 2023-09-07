@@ -38,10 +38,8 @@ class CustomTextFieldView: UIView {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.font = UIFont(name: AppFont.light.rawValue, size: 14)
-        
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
-        
         return textField
     }()
     
