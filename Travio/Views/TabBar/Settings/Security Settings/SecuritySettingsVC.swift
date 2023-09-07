@@ -83,7 +83,9 @@ class SecuritySettingsVC: UIViewController {
         permissionEnabled = sender.isOn
         AVCaptureDevice.requestAccess(for: .video) { [self] _ in
             if permissionEnabled {
-                print("camera permission accepted")
+                DispatchQueue.main.async {
+                    self.showAlert(title: "OK", message: "İzin etkinleştirildi.")
+                }
             } else {
                 self.permissionOnDeviceSettings()
             }
@@ -95,10 +97,11 @@ class SecuritySettingsVC: UIViewController {
         PHPhotoLibrary.requestAuthorization { [self] status in
             if permissionEnabled {
                 switch status {
-                case .authorized:
+                case .authorized, .restricted:
                     print("gallery permission accepted")
-                case .denied, .restricted:
-                    print("gallery permission partially accepted")
+                case .denied, .notDetermined:
+                    print("gallery permission denied")
+                    permissionEnabled = false
                 default:
                     break
                 }
