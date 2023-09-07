@@ -66,6 +66,8 @@
 		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
 		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
 		C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */; };
+		C0B540212AAA503F008EE38A /* HelpSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B540202AAA503F008EE38A /* HelpSupportVC.swift */; };
+		C0B540232AAA5AB9008EE38A /* HelpSupportTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */; };
 		C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */; };
 		C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */; };
 		C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F972AA1C92F006B560B /* CustomEditView.swift */; };
@@ -131,6 +133,8 @@
 		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
 		C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVM.swift; sourceTree = "<group>"; };
+		C0B540202AAA503F008EE38A /* HelpSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportVC.swift; sourceTree = "<group>"; };
+		C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportTVC.swift; sourceTree = "<group>"; };
 		C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVC.swift; sourceTree = "<group>"; };
 		C0BE1F952AA1C8FF006B560B /* CustomPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPrivacyView.swift; sourceTree = "<group>"; };
 		C0BE1F972AA1C92F006B560B /* CustomEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditView.swift; sourceTree = "<group>"; };
@@ -371,6 +375,15 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		C0B5401F2AAA501E008EE38A /* Help&Support */ = {
+			isa = PBXGroup;
+			children = (
+				C0B540202AAA503F008EE38A /* HelpSupportVC.swift */,
+				C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */,
+			);
+			path = "Help&Support";
+			sourceTree = "<group>";
+		};
 		C0BE1F922AA1C873006B560B /* Security Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -385,6 +398,7 @@
 		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0B5401F2AAA501E008EE38A /* Help&Support */,
 				C0D1E1A72AA5D47800E632E0 /* Edit Profile */,
 				C0BE1F922AA1C873006B560B /* Security Settings */,
 				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
@@ -505,6 +519,7 @@
 				81E0C7142AA0ADAC00299DF3 /* LoginVM.swift in Sources */,
 				81E0C73E2AA0B3E700299DF3 /* AddVisitVM.swift in Sources */,
 				81E0C7232AA0AF7C00299DF3 /* AddVisitPhotoCVC.swift in Sources */,
+				C0B540232AAA5AB9008EE38A /* HelpSupportTVC.swift in Sources */,
 				81E0C71F2AA0AEA700299DF3 /* MapCVC.swift in Sources */,
 				C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */,
 				81E0C7082AA0AC0E00299DF3 /* CustomTextFieldView.swift in Sources */,
@@ -515,6 +530,7 @@
 				81E0C7342AA0B12D00299DF3 /* PlaceModel.swift in Sources */,
 				C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */,
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
+				C0B540212AAA503F008EE38A /* HelpSupportVC.swift in Sources */,
 				81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */,
 				C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */,
 				811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */,

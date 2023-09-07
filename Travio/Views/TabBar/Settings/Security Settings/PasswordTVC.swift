@@ -40,7 +40,7 @@ class PasswordTVC: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(textFieldView)
-        self.backgroundColor = AppColor.backgroundColor.colorValue()
+        self.backgroundColor = AppColor.backgroundLight.colorValue()
         setupLayouts()
     }
     
