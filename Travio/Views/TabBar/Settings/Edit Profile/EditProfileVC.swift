@@ -14,19 +14,19 @@ class EditProfileVC: UIViewController {
     
     let viewModel = EditProfileVM()
     
-    private lazy var backButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "back"), for: .normal)
-        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        return button
-    }()
-    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Edit Profile"
         label.textColor = .white
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 32)
         return label
+    }()
+    
+    private lazy var closeButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "close"), for: .normal)
+        button.addTarget(self, action: #selector(closeButtonTapped), for: .touchUpInside)
+        return button
     }()
     
     private lazy var mainView: UIView = {
@@ -107,8 +107,6 @@ class EditProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         setupViews()
         configure()
     }
@@ -118,8 +116,8 @@ class EditProfileVC: UIViewController {
         saveButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
-    @objc private func backButtonTapped() {
-        navigationController?.popViewController(animated: true)
+    @objc private func closeButtonTapped() {
+        self.dismiss(animated: true)
     }
     
     @objc private func changePhotoButtonTapped() {
@@ -138,7 +136,7 @@ class EditProfileVC: UIViewController {
                                       "email": email,
                                       "pp_url": imageURL]
             self.viewModel.editProfile(name: name, email: email, ppURL: imageURL)
-            self.navigationController?.popViewController(animated: true)
+            self.dismiss(animated: true)
         }
     }
     
@@ -158,8 +156,8 @@ class EditProfileVC: UIViewController {
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = AppColor.primaryColor.colorValue()
-        self.view.addSubviews(backButton,
-                              titleLabel,
+        self.view.addSubviews(titleLabel,
+                              closeButton,
                               mainView)
         mainView.addSubviews(profileImage,
                              changePhotoButton,
@@ -172,16 +170,15 @@ class EditProfileVC: UIViewController {
     
     private func setupLayouts() {
         
-        backButton.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(36)
-            make.leading.equalToSuperview().offset(20)
-            make.height.equalTo(22)
-            make.width.equalTo(24)
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(10)
+            make.leading.equalToSuperview().offset(24)
         }
         
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(23)
-            make.leading.equalTo(backButton.snp.trailing).offset(24)
+        closeButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-24)
+            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.height.width.equalTo(24)
         }
         
         mainView.snp.makeConstraints { make in

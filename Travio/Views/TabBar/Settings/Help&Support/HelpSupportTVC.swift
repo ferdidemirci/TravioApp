@@ -15,7 +15,9 @@ class HelpSupportTVC: UITableViewCell {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "How can I save a visit?"
+//        label.text = "How can I save a visit?"
+        label.font = UIFont(name: AppFont.medium.rawValue, size: 14)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -29,7 +31,9 @@ class HelpSupportTVC: UITableViewCell {
     
     private lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+//        label.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+        label.font = UIFont(name: AppFont.light.rawValue, size: 10)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -61,9 +65,9 @@ class HelpSupportTVC: UITableViewCell {
                 }
     }
     
-    public func configure() {
-        titleLabel.text = "How can I save a visit?"
-        descriptionLabel.text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book."
+    public func configure(with model: FAQItem) {
+        titleLabel.text = model.question
+        descriptionLabel.text = model.answer
     }
     
     private func setupViews() {
@@ -77,6 +81,7 @@ class HelpSupportTVC: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.leading.equalToSuperview().offset(12)
+            make.trailing.equalTo(expandButton.snp.leading).offset(12)
         }
         
         expandButton.snp.makeConstraints { make in
@@ -84,6 +89,13 @@ class HelpSupportTVC: UITableViewCell {
             make.centerY.equalTo(titleLabel.snp.centerY)
             make.width.equalTo(20)
             make.height.equalTo(25)
+        }
+        
+        descriptionLabel.snp.makeConstraints { make in
+            make.top.equalTo(titleLabel.snp.bottom).offset(12)
+            make.leading.equalTo(titleLabel.snp.leading)
+            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.bottom.equalToSuperview().offset(-16)
         }
     }
 

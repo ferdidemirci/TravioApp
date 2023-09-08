@@ -87,14 +87,16 @@ class SettingsVC: UIViewController {
     
     @objc private func logoutButtonTapped() {
         viewModel.deleteAccessToken {
-            
+            let vc = LoginVC()
+            self.navigationController?.pushViewController(vc, animated: true)
         }
     }
     
     @objc private func didTapEditProfileButton() {
         let vc = EditProfileVC()
         vc.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(vc, animated: true)
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
     }
     
     private func configure() {
