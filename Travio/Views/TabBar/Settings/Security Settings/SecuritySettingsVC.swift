@@ -16,7 +16,9 @@ class SecuritySettingsVC: UIViewController {
     
     let viewModel = SecuritySettingsVM()
     
-    var permissionEnabled = Bool()
+    var cameraPermissionEnabled = false
+    var photoLibraryPermissionEnabled = false
+    var locationPermissionEnabled = false
     
     private lazy var btnBack: UIButton = {
         let button = UIButton()
@@ -63,7 +65,7 @@ class SecuritySettingsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         setupViews()
     }
     
@@ -92,53 +94,64 @@ class SecuritySettingsVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func cameraSwitchValueChanged(_ sender: UISwitch) {
-        permissionEnabled = sender.isOn
-        AVCaptureDevice.requestAccess(for: .video) { [self] _ in
-            if permissionEnabled {
-                DispatchQueue.main.async {
-                    self.showAlert(title: "OK", message: "İzin etkinleştirildi.")
-                }
-            } else {
-                self.permissionOnDeviceSettings()
-            }
-        }
+    @objc private func appDidBecomeActive() {
+        checkLocationPermission()
+        checkPhotoLibraryPermission()
+        checkCameraPermission()
     }
     
-    @objc func photoLibrarySwitchValueChanged(_ sender: UISwitch) {
-        permissionEnabled = sender.isOn
-        PHPhotoLibrary.requestAuthorization { [self] status in
-            if permissionEnabled {
-                switch status {
-                case .authorized, .restricted:
-                    print("gallery permission accepted")
-                case .denied, .notDetermined:
-                    print("gallery permission denied")
-                    permissionEnabled = false
-                default:
-                    break
-                }
-            } else {
-                permissionOnDeviceSettings()
-            }
-        }
+    deinit {
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
-    @objc func locationSwitchValueChanged(_ sender: UISwitch) {
-        permissionEnabled = sender.isOn
-        let locationManager = CLLocationManager()
-        locationManager.requestWhenInUseAuthorization()
-        
-        if !permissionEnabled {
+    @objc private func checkCameraPermission() {
+        switch AVCaptureDevice.authorizationStatus(for: .video) {
+        case .authorized, .restricted:
             permissionOnDeviceSettings()
+            cameraPermissionEnabled = true
+        case .denied, .notDetermined:
+            permissionOnDeviceSettings()
+            cameraPermissionEnabled = false
+        @unknown default:
+            print("Kamera izni: Bilinmeyen durum")
+        }
+    }
+    
+    @objc private func checkPhotoLibraryPermission() {
+        let status = PHPhotoLibrary.authorizationStatus()
+        switch status {
+        case .authorized, .restricted:
+            permissionOnDeviceSettings()
+            photoLibraryPermissionEnabled = true
+        case .denied, .notDetermined:
+            permissionOnDeviceSettings()
+            photoLibraryPermissionEnabled = false
+        @unknown default:
+            photoLibraryPermissionEnabled = false
+        }
+    }
+    
+    @objc private func checkLocationPermission() {
+        let locationManager = CLLocationManager()
+        let status = locationManager.authorizationStatus
+        switch status {
+        case .authorizedAlways, .authorizedWhenInUse:
+            permissionOnDeviceSettings()
+            locationPermissionEnabled = true
+        case .denied, .restricted:
+            permissionOnDeviceSettings()
+            locationPermissionEnabled = false
+        case .notDetermined:
+            locationPermissionEnabled = false
+        @unknown default:
+            print("Konum izni: Bilinmeyen durum")
         }
     }
     
     private func permissionOnDeviceSettings() {
         DispatchQueue.main.async {
-            if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
-                UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-            }
+            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
         }
     }
     
@@ -153,6 +166,7 @@ class SecuritySettingsVC: UIViewController {
         
         setupLayouts()
     }
+    
     
     private func setupLayouts() {
         btnBack.snp.makeConstraints { make in
@@ -256,14 +270,14 @@ extension SecuritySettingsVC: UITableViewDataSource {
             
             switch row {
             case 0:
-                toggle.isOn = permissionEnabled
-                toggle.addTarget(self, action: #selector(cameraSwitchValueChanged(_:)), for: .valueChanged)
+                toggle.isOn = cameraPermissionEnabled
+                toggle.addTarget(self, action: #selector(checkCameraPermission), for: .valueChanged)
             case 1:
-                toggle.isOn = permissionEnabled
-                toggle.addTarget(self, action: #selector(photoLibrarySwitchValueChanged(_:)), for: .valueChanged)
+                toggle.isOn = photoLibraryPermissionEnabled
+                toggle.addTarget(self, action: #selector(checkPhotoLibraryPermission), for: .valueChanged)
             case 2:
-                toggle.isOn = permissionEnabled
-                toggle.addTarget(self, action: #selector(locationSwitchValueChanged(_:)), for: .valueChanged)
+                toggle.isOn = locationPermissionEnabled
+                toggle.addTarget(self, action: #selector(checkLocationPermission), for: .valueChanged)
             default:
                 break
             }

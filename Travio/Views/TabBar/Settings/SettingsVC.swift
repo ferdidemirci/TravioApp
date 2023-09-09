@@ -46,7 +46,7 @@ class SettingsVC: UIViewController {
     
     private lazy var lblName: UILabel = {
         let label = UILabel()
-        label.textColor = AppColor.secondaryColor.colorValue()
+        label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         return label
     }()

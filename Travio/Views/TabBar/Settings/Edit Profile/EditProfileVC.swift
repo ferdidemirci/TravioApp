@@ -58,7 +58,7 @@ class EditProfileVC: UIViewController {
     private lazy var lblName: UILabel = {
         let label = UILabel()
         label.text = "Bruce Wills"
-        label.textColor = AppColor.secondaryColor.colorValue()
+        label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
         return label
     }()

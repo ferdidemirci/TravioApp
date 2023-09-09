@@ -34,7 +34,7 @@ class SettingsCVC: UICollectionViewCell {
     
     private lazy var lblTitle: UILabel = {
         let label = UILabel()
-        label.textColor = AppColor.secondaryColor.colorValue()
+        label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.light.rawValue, size: 14)
         return label
     }()
