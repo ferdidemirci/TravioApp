@@ -67,11 +67,15 @@ class CustomDetailsVM {
     
     func getVisitByPlaceId(placeId: String, complation: @escaping (Bool) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.getVisitByPlaceId(placeId: placeId)) { (result: Result<Response, Error>) in
-            switch result {
-            case .success:
-                complation(false)
-            case .failure:
-                complation(true)
+            switch result{
+            case .success(let response):
+                if response.status == "success" {
+                    complation(true)
+                } else {
+                    complation(false)
+                }
+            case .failure(let error):
+                print("Visit by Place_ID: \(error.localizedDescription)")
             }
         }
     }

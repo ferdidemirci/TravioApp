@@ -37,6 +37,7 @@ class SecuritySettingsVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.backgroundColor = AppColor.backgroundLight.colorValue()
         return view
     }()
@@ -45,21 +46,18 @@ class SecuritySettingsVC: UIViewController {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.delegate = self
         tv.dataSource = self
-        tv.backgroundColor = AppColor.backgroundLight.colorValue()
         tv.separatorStyle = .none
+        tv.backgroundColor = .clear
+        tv.contentInset = UIEdgeInsets(top: 44, left: 0, bottom: 0, right: 0)
         tv.register(PrivacyTVC.self, forCellReuseIdentifier: PrivacyTVC.identifier)
         tv.register(PasswordTVC.self, forCellReuseIdentifier: PasswordTVC.identifier)
         return tv
     }()
     
-    private lazy var btnSave: UIButton = {
-        let button = UIButton()
-        button.setTitle("Save", for: .normal)
-        button.titleLabel?.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = AppColor.primaryColor.colorValue()
-        button.isEnabled = true
-        button.addTarget(self, action: #selector(btnSaveTapped), for: .touchUpInside)
+    private lazy var saveButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Save"
+        button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -162,11 +160,9 @@ class SecuritySettingsVC: UIViewController {
                               lblTitle,
                               mainView)
         self.mainView.addSubviews(tableView,
-                                  btnSave)
-        
+                                  saveButton)
         setupLayouts()
     }
-    
     
     private func setupLayouts() {
         btnBack.snp.makeConstraints { make in
@@ -183,36 +179,29 @@ class SecuritySettingsVC: UIViewController {
         
         mainView.snp.makeConstraints { make in
             make.top.equalTo(lblTitle.snp.bottom).offset(58)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
         
         tableView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(44)
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.bottom.equalTo(btnSave.snp.top).offset(-5)
+            make.edges.equalToSuperview()
         }
-        
-        btnSave.snp.makeConstraints { make in
+
+        saveButton.snp.makeConstraints { make in
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-18)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(54)
         }
-        
     }
-    
 }
 
 extension SecuritySettingsVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 74
+        return 76
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        
         let headerView = UIView()
         headerView.backgroundColor = .clear
         
@@ -224,17 +213,21 @@ extension SecuritySettingsVC: UITableViewDelegate {
         headerView.addSubview(label)
         
         label.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
+            make.leading.equalToSuperview().offset(24)
             make.centerY.equalToSuperview()
         }
-        
         return headerView
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 24
+        return 32
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.backgroundColor = UIColor.clear
+        }
+    }
 }
 
 extension SecuritySettingsVC: UITableViewDataSource {
@@ -262,6 +255,7 @@ extension SecuritySettingsVC: UITableViewDataSource {
         if section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PasswordTVC.identifier, for: indexPath) as? PasswordTVC else { return UITableViewCell() }
             cell.configure(title: viewModel.cellTitles[section][row])
+            cell.selectionStyle = .none
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyTVC.identifier, for: indexPath) as? PrivacyTVC else { return UITableViewCell() }

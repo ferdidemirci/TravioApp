@@ -32,6 +32,7 @@ class HomeDetailVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubviews(collectionView, sortButton)
         return view
@@ -64,10 +65,6 @@ class HomeDetailVC: UIViewController {
         
         setupViews()
         setupApi()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: .topLeft, radius: 80)
     }
     
     @objc private func didTapBackButton() {

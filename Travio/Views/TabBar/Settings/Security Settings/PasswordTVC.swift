@@ -31,7 +31,7 @@ class PasswordTVC: UITableViewCell {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0))
+        self.backgroundColor = .clear
     }
     
     func configure(title: String) {
@@ -39,16 +39,16 @@ class PasswordTVC: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(textFieldView)
-        self.backgroundColor = AppColor.backgroundLight.colorValue()
+        contentView.addSubview(textField)
         setupLayouts()
     }
     
     private func setupLayouts() {
         textFieldView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-8)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
     }
 }

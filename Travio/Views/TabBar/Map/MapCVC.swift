@@ -11,7 +11,7 @@ import SnapKit
 
 class MapCVC: UICollectionViewCell {
     
-    var identifier = "MapCVC"
+    static let identifier = "MapCVC"
     
     private lazy var backgroundImageView: UIImageView = {
         let image = UIImageView()
@@ -70,7 +70,7 @@ class MapCVC: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        self.addShadow()
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
     }
     
     required init?(coder: NSCoder) {
@@ -89,17 +89,14 @@ class MapCVC: UICollectionViewCell {
     }
     
     func setupViews() {
-        
-        self.addSubviews(backgroundImageView, activityIndicator, gradientImage, titleLabel, stackView)
+        self.addSubviews(backgroundImageView, gradientImage, titleLabel, stackView, activityIndicator)
         setupLayouts()
     }
     
     func setupLayouts() {
+        
         backgroundImageView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.edges.equalToSuperview()
         }
         
         gradientImage.snp.makeConstraints { make in

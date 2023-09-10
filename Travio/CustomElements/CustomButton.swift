@@ -30,6 +30,7 @@ class CustomButton: UIButton {
         self.setTitleColor(UIColor.white, for: .normal)
         self.backgroundColor = AppColor.primaryColor.colorValue()
         self.titleLabel?.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
     }
     
     private func setupLayouts() {
