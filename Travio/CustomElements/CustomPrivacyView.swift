@@ -41,6 +41,7 @@ class CustomPrivacyView: UIView {
     
     override func layoutSubviews() {
         self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        addShadow()
     }
     
     private func setupViews() {

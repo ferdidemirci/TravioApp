@@ -62,13 +62,9 @@ class AddVisitVC: UIViewController {
         return collectionView
     }()
     
-    private lazy var addPlaceButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Add Place", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
-        button.backgroundColor = AppColor.primaryColor.colorValue()
-        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
+    private lazy var addPlaceButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "AddPlace"
         button.addTarget(self, action: #selector(didTapAddPlace), for: .touchUpInside)
         return button
     }()

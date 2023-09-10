@@ -54,7 +54,6 @@ class CustomTextFieldView: UIView {
         backgroundColor = .white
         self.addShadow()
         addSubviews(titleLabel, textField)
-        
         setupLayouts()
     }
 

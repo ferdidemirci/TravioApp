@@ -372,8 +372,8 @@
 		C0BE1F922AA1C873006B560B /* Security Settings */ = {
 			isa = PBXGroup;
 			children = (
-				C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */,
 				C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */,
+				C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */,
 				C0BF37352AA277CB007C3595 /* PasswordTVC.swift */,
 				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
 			);

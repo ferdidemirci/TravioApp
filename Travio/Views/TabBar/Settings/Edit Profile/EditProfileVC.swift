@@ -93,14 +93,9 @@ class EditProfileVC: UIViewController {
         return view
     }()
     
-    private lazy var saveButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Save", for: .normal)
-        button.titleLabel?.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.backgroundColor = AppColor.primaryColor.colorValue()
-        button.isEnabled = true
-        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+    private lazy var saveButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Save"
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -108,13 +103,8 @@ class EditProfileVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        
         setupViews()
         configure()
-    }
-    
-    override func viewDidLayoutSubviews() {
     }
     
     @objc private func backButtonTapped() {
@@ -136,7 +126,7 @@ class EditProfileVC: UIViewController {
             let params: Parameters = ["full_name": name,
                                       "email": email,
                                       "pp_url": imageURL]
-            self.viewModel.editProfile(name: name, email: email, ppURL: imageURL)
+            self.viewModel.editProfile(params: params)
         }
     }
     
@@ -146,7 +136,7 @@ class EditProfileVC: UIViewController {
                   let createdDate = user.created_at,
                   let role = user.role else { return }
             self.lblName.text = name
-            self.birthView.labelText = formatISO8601Date(createdDate) ?? ""
+            self.birthView.labelText = formatISO8601Date(createdDate) ?? "Unknown"
             self.roleView.labelText = role
         }
     }
@@ -162,7 +152,6 @@ class EditProfileVC: UIViewController {
                              lblName,
                              birthView,
                              roleView, nameView, emailView, saveButton)
-        
         setupLayouts()
     }
     
@@ -182,8 +171,7 @@ class EditProfileVC: UIViewController {
         
         mainView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(54)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
         
         profileImage.snp.makeConstraints { make in

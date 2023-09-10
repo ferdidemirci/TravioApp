@@ -73,7 +73,6 @@ class SignUpVC: UIViewController {
         button.title = "Sign Up"
         button.backgroundColor = AppColor.isEnabledColor.colorValue()
         button.isEnabled = false
-        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapSignButton), for: .touchUpInside)
         return button
     }()

@@ -40,7 +40,7 @@ class SettingsVC: UIViewController {
     private lazy var lblName: UILabel = {
         let label = UILabel()
         label.text = "Bruce Wills"
-        label.textColor = AppColor.secondaryColor.colorValue()
+        label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         return label
     }()
@@ -49,7 +49,7 @@ class SettingsVC: UIViewController {
         let button = UIButton()
         button.setTitle("Edit Profile", for: .normal)
         button.titleLabel?.font = UIFont(name: AppFont.regular.rawValue, size: 12)
-        button.setTitleColor(AppColor.primaryColor.colorValue(), for: .normal)
+        button.setTitleColor(AppColor.secondaryColor.colorValue(), for: .normal)
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
         return button
@@ -78,7 +78,6 @@ class SettingsVC: UIViewController {
         let vc = EditProfileVC()
         vc.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(vc, animated: true)
-        
     }
     
     private func setupViews() {
@@ -90,7 +89,6 @@ class SettingsVC: UIViewController {
                                   lblName,
                                   btnEditProfile,
                                   collectionView)
-        
         setupLayouts()
     }
     
@@ -102,8 +100,7 @@ class SettingsVC: UIViewController {
         
         mainView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(54)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
         
         imageViewProfile.snp.makeConstraints { make in
@@ -131,9 +128,7 @@ class SettingsVC: UIViewController {
             make.trailing.equalToSuperview().offset(-16)
             make.bottom.equalToSuperview()
         }
-        
     }
-
 }
 
 
@@ -144,20 +139,15 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let selectedItem = indexPath.item
-        var destinationVC: UIViewController?
-        
-        switch selectedItem {
+        switch indexPath.item {
         case 0:
-            destinationVC = SecuritySettingsVC()
-            destinationVC?.hidesBottomBarWhenPushed = true
+            let securitySettingsVC = SecuritySettingsVC()
+            securitySettingsVC.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(securitySettingsVC, animated: true)
         default:
             break
         }
-        guard let destinationVC = destinationVC else { return }
-        navigationController?.pushViewController(destinationVC, animated: true)
     }
-    
 }
 
 extension SettingsVC: UICollectionViewDataSource {

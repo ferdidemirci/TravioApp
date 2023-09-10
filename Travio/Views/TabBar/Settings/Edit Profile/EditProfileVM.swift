@@ -16,7 +16,6 @@ class EditProfileVM {
     func getUserInfos(completion: @escaping (Me) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
             switch results {
-                
             case .success(let data):
                 self.userInfos = data
                 completion(data)
@@ -40,8 +39,8 @@ class EditProfileVM {
         }
     }
     
-    func editProfile(name: String, email: String, ppURL: String) {
-        NetworkHelper.shared.routerRequest(request: Router.editProfile(parameters: ["full_name": name, "email": email, "pp_url": ppURL])) { (result: Result<Response, Error>) in
+    func editProfile(params: Parameters) {
+        NetworkHelper.shared.routerRequest(request: Router.editProfile(parameters: params)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let data):
                 print("Edit Profile: \(data)")

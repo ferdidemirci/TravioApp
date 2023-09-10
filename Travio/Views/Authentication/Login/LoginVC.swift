@@ -57,7 +57,6 @@ class LoginVC: UIViewController {
     private lazy var loginButton: CustomButton = {
         let button = CustomButton()
         button.title = "Login"
-        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         return button
     }()
