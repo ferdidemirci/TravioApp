@@ -47,6 +47,7 @@ class HomeVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubview(tableView)
         return view
@@ -70,10 +71,6 @@ class HomeVC: UIViewController {
     
         setupViews()
         setupApi()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
     }
         
     func createHeaderView(sectionTitle: String, sectionIndex: Int) -> UIView {

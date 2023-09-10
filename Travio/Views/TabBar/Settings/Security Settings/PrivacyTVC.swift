@@ -27,6 +27,7 @@ class PrivacyTVC: UITableViewCell {
         super.init(coder: aDecoder)
         
         setupViews()
+        
     }
     
     override func layoutSubviews() {

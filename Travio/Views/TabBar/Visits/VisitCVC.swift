@@ -11,7 +11,14 @@ import Kingfisher
 
 class VisitCVC: UICollectionViewCell {
     
-    var identifier = "VisitCVC"
+    static let identifier = "VisitCVC"
+    
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        view.addSubviews(backgroundImageView, gradientImage, titleLabel, locationImageView, locationLabel, activityIndicator)
+        return view
+    }()
     
     private lazy var backgroundImageView: UIImageView = {
         let image = UIImageView()
@@ -63,18 +70,23 @@ class VisitCVC: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        self.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
+        self.addShadow()
     }
     
     func setupViews() {
-        self.contentView.addSubviews(backgroundImageView, activityIndicator, gradientImage, titleLabel, locationImageView, locationLabel)
+        self.contentView.addSubviews(containerView)
         setupLayouts()
     }
     
     func setupLayouts() {
+        containerView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+        
         gradientImage.snp.makeConstraints { make in
             make.bottom.equalTo(backgroundImageView.snp.bottom)
             make.leading.equalTo(backgroundImageView)

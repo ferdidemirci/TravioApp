@@ -13,6 +13,13 @@ class HomeCVC: UICollectionViewCell {
     
     static let identifier = "HomeCVC"
     
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        view.addSubviews(backgroundImageView, gradientImage, titleLabel, locationImageView, locationLabel, activityIndicator)
+        return view
+    }()
+    
     private lazy var backgroundImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
@@ -70,7 +77,7 @@ class HomeCVC: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        self.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
+        self.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         self.addShadow()
     }
     

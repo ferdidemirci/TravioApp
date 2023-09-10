@@ -29,6 +29,7 @@ class SecuritySettingsVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.backgroundColor = AppColor.backgroundLight.colorValue()
         return view
     }()
@@ -37,9 +38,8 @@ class SecuritySettingsVC: UIViewController {
         let tv = UITableView(frame: .zero, style: .grouped)
         tv.delegate = self
         tv.dataSource = self
-        tv.backgroundColor = AppColor.backgroundLight.colorValue()
+        tv.backgroundColor = .clear
         tv.separatorStyle = .none
-//        tv.style = .insetGrouped
         tv.register(PrivacyTVC.self, forCellReuseIdentifier: PrivacyTVC.identifier)
         tv.register(PasswordTVC.self, forCellReuseIdentifier: PasswordTVC.identifier)
         return tv
@@ -52,19 +52,14 @@ class SecuritySettingsVC: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = AppColor.primaryColor.colorValue()
         button.isEnabled = true
+        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(btnSaveTapped), for: .touchUpInside)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupViews()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
-        btnSave.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
     }
     
     @objc private func btnSaveTapped() {
@@ -153,7 +148,6 @@ extension SecuritySettingsVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 24
     }
-    
 }
 
 extension SecuritySettingsVC: UITableViewDataSource {

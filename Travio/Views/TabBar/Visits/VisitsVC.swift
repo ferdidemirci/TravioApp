@@ -23,6 +23,7 @@ class VisitsVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubviews(collectionView, activityIndicator)
         return view
@@ -38,13 +39,13 @@ class VisitsVC: UIViewController {
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .vertical
-        layout.sectionInset = UIEdgeInsets(top: 29, left: 0, bottom: 0, right: 0)
+        layout.sectionInset = UIEdgeInsets(top: 29, left: 24, bottom: 0, right: 24)
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.backgroundColor = .clear
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(VisitCVC.self, forCellWithReuseIdentifier: VisitCVC().identifier)
+        collectionView.register(VisitCVC.self, forCellWithReuseIdentifier: VisitCVC.identifier)
         return collectionView
     }()
     
@@ -57,10 +58,6 @@ class VisitsVC: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         setupData()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: .topLeft, radius: 80)
     }
     
     private func setupData() {
@@ -93,14 +90,10 @@ class VisitsVC: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
-            make.bottom.equalToSuperview().offset(0)
+            make.edges.equalToSuperview()
         }
     }
 }
-
 
 extension VisitsVC: UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -108,7 +101,7 @@ extension VisitsVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width, height: 220)
+        let size = CGSize(width: collectionView.frame.width - 48, height: 220)
         return size
     }
     
@@ -125,7 +118,7 @@ extension VisitsVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VisitCVC().identifier, for: indexPath) as? VisitCVC else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VisitCVC.identifier, for: indexPath) as? VisitCVC else { return UICollectionViewCell() }
         let visit = viewModel.visits[indexPath.row].place
         cell.configure(model: visit)
         return cell

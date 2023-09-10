@@ -100,6 +100,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         button.tintColor = .white
         button.setImage(UIImage(named: "bookmark.fill"), for: .normal)
         button.backgroundColor = AppColor.primaryColor.colorValue()
+        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapVisitedButton), for: .touchUpInside)
         return button
     }()
@@ -128,10 +129,6 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     override func viewDidAppear(_ animated: Bool) {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: scrollContentView.frame.height)
-    }
-    
-    override func viewDidLayoutSubviews() {
-        visitedButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
     @objc func didTapBackButton() {

@@ -30,7 +30,6 @@
 		81E0C6F22AA0A88700299DF3 /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = 81E0C6F12AA0A88700299DF3 /* Alamofire */; };
 		81E0C6F52AA0A89B00299DF3 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 81E0C6F42AA0A89B00299DF3 /* SnapKit */; };
 		81E0C6F82AA0A8A700299DF3 /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 81E0C6F72AA0A8A700299DF3 /* KeychainSwift */; };
-		81E0C6FB2AA0A8C300299DF3 /* SDWebImage in Frameworks */ = {isa = PBXBuildFile; productRef = 81E0C6FA2AA0A8C300299DF3 /* SDWebImage */; };
 		81E0C6FE2AA0AA0500299DF3 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 81E0C6FD2AA0AA0500299DF3 /* Kingfisher */; };
 		81E0C7012AA0AA1900299DF3 /* SwiftyJSON in Frameworks */ = {isa = PBXBuildFile; productRef = 81E0C7002AA0AA1900299DF3 /* SwiftyJSON */; };
 		81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C7032AA0AA6E00299DF3 /* NetworkHelper.swift */; };
@@ -150,7 +149,6 @@
 				81E0C7012AA0AA1900299DF3 /* SwiftyJSON in Frameworks */,
 				81E0C6F82AA0A8A700299DF3 /* KeychainSwift in Frameworks */,
 				81E0C6F22AA0A88700299DF3 /* Alamofire in Frameworks */,
-				81E0C6FB2AA0A8C300299DF3 /* SDWebImage in Frameworks */,
 				81E0C6F52AA0A89B00299DF3 /* SnapKit in Frameworks */,
 				81E0C6FE2AA0AA0500299DF3 /* Kingfisher in Frameworks */,
 			);
@@ -376,8 +374,8 @@
 			children = (
 				C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */,
 				C0BE1F932AA1C8BA006B560B /* SecuritySettingsVC.swift */,
-				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
 				C0BF37352AA277CB007C3595 /* PasswordTVC.swift */,
+				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
 			);
 			path = "Security Settings";
 			sourceTree = "<group>";
@@ -423,7 +421,6 @@
 				81E0C6F12AA0A88700299DF3 /* Alamofire */,
 				81E0C6F42AA0A89B00299DF3 /* SnapKit */,
 				81E0C6F72AA0A8A700299DF3 /* KeychainSwift */,
-				81E0C6FA2AA0A8C300299DF3 /* SDWebImage */,
 				81E0C6FD2AA0AA0500299DF3 /* Kingfisher */,
 				81E0C7002AA0AA1900299DF3 /* SwiftyJSON */,
 				8135D7A42AA9BC6D002600A3 /* IQKeyboardManagerSwift */,
@@ -460,7 +457,6 @@
 				81E0C6F02AA0A88700299DF3 /* XCRemoteSwiftPackageReference "Alamofire" */,
 				81E0C6F32AA0A89B00299DF3 /* XCRemoteSwiftPackageReference "SnapKit" */,
 				81E0C6F62AA0A8A700299DF3 /* XCRemoteSwiftPackageReference "keychain-swift" */,
-				81E0C6F92AA0A8C300299DF3 /* XCRemoteSwiftPackageReference "SDWebImage" */,
 				81E0C6FC2AA0AA0500299DF3 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				81E0C6FF2AA0AA1900299DF3 /* XCRemoteSwiftPackageReference "SwiftyJSON" */,
 				8135D7A32AA9BC6D002600A3 /* XCRemoteSwiftPackageReference "IQKeyboardManager" */,
@@ -792,14 +788,6 @@
 				minimumVersion = 20.0.0;
 			};
 		};
-		81E0C6F92AA0A8C300299DF3 /* XCRemoteSwiftPackageReference "SDWebImage" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SDWebImage/SDWebImage.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.0.0;
-			};
-		};
 		81E0C6FC2AA0AA0500299DF3 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
@@ -838,11 +826,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 81E0C6F62AA0A8A700299DF3 /* XCRemoteSwiftPackageReference "keychain-swift" */;
 			productName = KeychainSwift;
-		};
-		81E0C6FA2AA0A8C300299DF3 /* SDWebImage */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 81E0C6F92AA0A8C300299DF3 /* XCRemoteSwiftPackageReference "SDWebImage" */;
-			productName = SDWebImage;
 		};
 		81E0C6FD2AA0AA0500299DF3 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -33,11 +33,8 @@ class SignUpVC: UIViewController {
     private lazy var mainView: UIView = {
         let view = UIView()
         view.backgroundColor = AppColor.backgroundLight.colorValue()
-        view.addSubview(usernameTextFieldView)
-        view.addSubview(emailTextFieldView)
-        view.addSubview(passwordTextFieldView)
-        view.addSubview(confirmPasswordTextFieldView)
-        view.addSubview(signUpButton)
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
+        view.addSubviews(usernameTextFieldView, emailTextFieldView, passwordTextFieldView, confirmPasswordTextFieldView, signUpButton)
         return view
     }()
     
@@ -76,6 +73,7 @@ class SignUpVC: UIViewController {
         button.title = "Sign Up"
         button.backgroundColor = AppColor.isEnabledColor.colorValue()
         button.isEnabled = false
+        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapSignButton), for: .touchUpInside)
         return button
     }()
@@ -89,12 +87,6 @@ class SignUpVC: UIViewController {
         confirmPasswordTextFieldView.textField.delegate = self
         
         setupViews()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: .topLeft, radius: 80)
-        signUpButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
-
     }
     
     @objc private func didTapSignButton() {

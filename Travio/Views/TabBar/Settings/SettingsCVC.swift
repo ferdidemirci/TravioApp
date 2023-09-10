@@ -46,7 +46,6 @@ class SettingsCVC: UICollectionViewCell {
         return iv
     }()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         
@@ -54,7 +53,7 @@ class SettingsCVC: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        contentView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         contentView.addShadow()
         
     }

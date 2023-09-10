@@ -32,7 +32,6 @@ class CustomPrivacyView: UIView {
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-      
         setupViews()
     }
     
@@ -41,11 +40,12 @@ class CustomPrivacyView: UIView {
     }
     
     override func layoutSubviews() {
-        self.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
     }
     
     private func setupViews() {
         self.backgroundColor = .white
+        
         self.addSubviews(lblTitle,
                          switchOnOff)
         self.addShadow()

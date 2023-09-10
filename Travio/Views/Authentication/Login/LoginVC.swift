@@ -27,6 +27,7 @@ class LoginVC: UIViewController {
     private lazy var mainView: UIView = {
         let view = UIView()
         view.backgroundColor = AppColor.backgroundLight.colorValue()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.addSubviews(titleLabel, emailTextFieldView, passwordTextFieldView, loginButton, bottomStackView)
         return view
     }()
@@ -56,6 +57,7 @@ class LoginVC: UIViewController {
     private lazy var loginButton: CustomButton = {
         let button = CustomButton()
         button.title = "Login"
+        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapLoginButton), for: .touchUpInside)
         return button
     }()
@@ -90,11 +92,6 @@ class LoginVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: .topLeft, radius: 80)
-        self.loginButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
     }
     
     @objc private func didTapLoginButton() {

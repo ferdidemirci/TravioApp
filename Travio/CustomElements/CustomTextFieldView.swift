@@ -38,7 +38,6 @@ class CustomTextFieldView: UIView {
     lazy var textField: UITextField = {
         let textField = UITextField()
         textField.font = UIFont(name: AppFont.light.rawValue, size: 14)
-        
         textField.autocapitalizationType = .none
         textField.autocorrectionType = .no
         
@@ -47,13 +46,10 @@ class CustomTextFieldView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
       
         setupViews()
     }
-    
-   
-    
+
     private func setupViews() {
         backgroundColor = .white
         self.addShadow()
@@ -75,9 +71,7 @@ class CustomTextFieldView: UIView {
             make.trailing.equalToSuperview().offset(-12)
         }
     }
-    
-    
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

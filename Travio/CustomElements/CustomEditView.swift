@@ -48,7 +48,7 @@ class CustomEditView: UIView {
     }
     
     override func layoutSubviews() {
-        self.roundCorners(corners: [.allCorners], radius: 16)
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
     }
     
     private func setupViews() {

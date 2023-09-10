@@ -22,6 +22,7 @@ class SettingsVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.backgroundColor = AppColor.backgroundLight.colorValue()
         return view
     }()
@@ -71,10 +72,6 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)        
     }
     
     @objc private func didTapEditProfileButton() {

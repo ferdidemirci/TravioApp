@@ -30,6 +30,7 @@ class EditProfileVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
         view.backgroundColor = AppColor.backgroundLight.colorValue()
         return view
     }()
@@ -99,6 +100,7 @@ class EditProfileVC: UIViewController {
         button.setTitleColor(UIColor.white, for: .normal)
         button.backgroundColor = AppColor.primaryColor.colorValue()
         button.isEnabled = true
+        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         button.addTarget(self, action: #selector(saveButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -113,8 +115,6 @@ class EditProfileVC: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
-        saveButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
     @objc private func backButtonTapped() {
