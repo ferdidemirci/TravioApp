@@ -102,11 +102,11 @@ class VisitCVC: UICollectionViewCell {
         }
     }
     
-    public func configure(model visit: Visit) {
-        locationLabel.text = visit.place.place
-        titleLabel.text = visit.place.title
+    public func configure(model visit: VisitPlace) {
+        locationLabel.text = visit.place
+        titleLabel.text = visit.title
         
-        guard let urlStr = URL(string: visit.place.cover_image_url) else {
+        guard let urlStr = URL(string: visit.cover_image_url) else {
             backgroundImageView.image = UIImage(systemName: "photo")
             return
         }

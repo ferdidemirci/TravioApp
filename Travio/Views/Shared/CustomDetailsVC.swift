@@ -140,17 +140,25 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     @objc func didTapVisitedButton() {
         if let visitId {
-            viewModel.deleteVisit(visitId: visitId) { message in
-                self.navigationController?.popToRootViewController(animated: true)
-                self.delegate?.returned(message: message)
+            self.showDeleteAlert { bool in
+                if bool {
+                    self.viewModel.deleteVisit(visitId: visitId) { message in
+                        self.navigationController?.popToRootViewController(animated: true)
+                        self.delegate?.returned(message: message)
+                    }
+                }
             }
         } else {
             if let placeId {
                 if isVisited {
-                    viewModel.deleteVisit(visitId: placeId) { message in
-                        self.showAlert(title: "Delete!", message: message)
-                        self.visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
-                        self.isVisited = false
+                    self.showDeleteAlert { bool in
+                        if bool {
+                            self.viewModel.deleteVisit(visitId: placeId) { message in
+                                self.showAlert(title: "Delete!", message: message)
+                                self.visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
+                                self.isVisited = false
+                            }
+                        }
                     }
                 } else {
                     viewModel.createVisit(placeId: placeId) { Response in
@@ -179,16 +187,32 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         } else {
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView.canShowCallout = true
-            
             annotationView.image = UIImage(named: "mapLocation")
         }
-        
         return annotationView
     }
     
-    private func configure() {
+    func setupVisitDeteail(with visit: Visit, isVisited: Bool, delegate: ReturnToDismiss) {
+        self.visitId = visit.id
+        self.placeDetails = Place(
+            id: visit.place.id,
+            creator: visit.place.creator,
+            place: visit.place.place,
+            title: visit.place.title,
+            description: visit.place.description,
+            cover_image_url: visit.place.cover_image_url,
+            latitude: visit.place.latitude,
+            longitude: visit.place.longitude,
+            created_at: visit.created_at,
+            updated_at: visit.updated_at
+        )
+        self.isVisited = isVisited
+        self.delegate = delegate
+    }
+    
+    private func configure() {  
         if let placeDetails {
-            configureVisited()
+            configureVisitedButton()
             titleLabel.text = placeDetails.title
             dateLabel.text = formatISO8601Date(placeDetails.created_at)
             createdNameLabel.text = "added by @\(placeDetails.creator)"
@@ -206,18 +230,17 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         }
     }
     
-    private func configureVisited() {
+    private func configureVisitedButton() {
         if isVisited {
             visitedButton.setImage(UIImage(named: "bookmark.fill"), for: .normal)
         } else {
-            
             visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
         }
     }
     
     private func setupApi() {
-        if let placeDetails {
-            viewModel.getVisitByPlaceId(placeId: placeDetails.id) { status in
+        if let placeId {
+            viewModel.getVisitByPlaceId(placeId: placeId) { status in
                 if status {
                     self.isVisited = true
                 } else {
@@ -225,7 +248,8 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
                 }
                 self.configure()
             }
-            
+        }
+        if let placeDetails {
             viewModel.getGallery(placeId: placeDetails.id) {
                 self.collectionView.reloadData()
                 self.pageControl.numberOfPages = self.viewModel.galleries.count
@@ -324,9 +348,7 @@ extension CustomDetailsVC: UICollectionViewDelegateFlowLayout, UIScrollViewDeleg
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
         pageControl.currentPage = Int(pageIndex)
-        
     }
-    
 }
 
 extension CustomDetailsVC: UICollectionViewDataSource {

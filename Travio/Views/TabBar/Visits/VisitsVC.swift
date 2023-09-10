@@ -10,7 +10,7 @@ import SnapKit
 
 class VisitsVC: UIViewController {
     let viewModel = VisitsVM()
-
+    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "My Visits"
@@ -48,11 +48,8 @@ class VisitsVC: UIViewController {
         return collectionView
     }()
     
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         setupViews()
         setupData()
@@ -61,7 +58,7 @@ class VisitsVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         setupData()
     }
-
+    
     override func viewDidLayoutSubviews() {
         mainView.roundCorners(corners: .topLeft, radius: 80)
     }
@@ -102,8 +99,8 @@ class VisitsVC: UIViewController {
             make.bottom.equalToSuperview().offset(0)
         }
     }
-
 }
+
 
 extension VisitsVC: UICollectionViewDelegateFlowLayout {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
@@ -111,7 +108,7 @@ extension VisitsVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width, height: 250)
+        let size = CGSize(width: collectionView.frame.width, height: 220)
         return size
     }
     
@@ -129,28 +126,15 @@ extension VisitsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: VisitCVC().identifier, for: indexPath) as? VisitCVC else { return UICollectionViewCell() }
-        let visit = viewModel.visits[indexPath.row]
+        let visit = viewModel.visits[indexPath.row].place
         cell.configure(model: visit)
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let visitId = viewModel.visits[indexPath.row].id
-        let data = viewModel.visits[indexPath.row].place
+        let visit = viewModel.visits[indexPath.row]
         let vc = CustomDetailsVC()
-        vc.placeDetails = Place(id: data.id,
-                                   creator: data.creator,
-                                   place: data.place,
-                                   title: data.title,
-                                   description: data.description,
-                                   cover_image_url: data.cover_image_url,
-                                   latitude: data.latitude,
-                                   longitude: data.longitude,
-                                   created_at: data.created_at,
-                                   updated_at: data.updated_at)
-        vc.visitId = visitId
-        vc.isVisited = true
-        vc.delegate = self
+        vc.setupVisitDeteail(with: visit, isVisited: true, delegate: self)
         navigationController?.pushViewController(vc, animated: true)
     }
 }

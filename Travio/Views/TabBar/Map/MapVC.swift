@@ -46,13 +46,12 @@ class MapVC: UIViewController, MKMapViewDelegate{
 
         setupViews()
         setupData()
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        mapView.addGestureRecognizer(longPressRecognizer)
     }
     
-
-    
     private func setupViews(){
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        mapView.addGestureRecognizer(longPressRecognizer)
+        
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemBackground
         view.addSubviews(mapView, collectionView)
@@ -100,7 +99,6 @@ class MapVC: UIViewController, MKMapViewDelegate{
     
     func getAddressFromCoordinate(coordinate: CLLocationCoordinate2D, complate: @escaping () -> Void){
         let geocoder = CLGeocoder()
-           
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
            
         geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
@@ -126,14 +124,10 @@ class MapVC: UIViewController, MKMapViewDelegate{
             dequeuedView.annotation = annotation
             annotationView = dequeuedView
         } else {
-            // Use MKAnnotationView instead of MKPinAnnotationView
             annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
             annotationView.canShowCallout = true
-            
-            // Set the custom annotation image
             annotationView.image = UIImage(named: "mapLocation")
         }
-        
         return annotationView
     }
         
@@ -171,10 +165,9 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let placeId = viewModel.mapPlaces[indexPath.row].id
         let placeDetails = viewModel.mapPlaces[indexPath.row]
         let vc = CustomDetailsVC()
-        vc.placeId = placeId
+        vc.placeId = placeDetails.id
         vc.placeDetails = placeDetails
         vc.delegate = self
         self.navigationController?.pushViewController(vc, animated: true)
