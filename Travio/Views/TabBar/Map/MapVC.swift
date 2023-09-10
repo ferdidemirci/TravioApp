@@ -18,7 +18,6 @@ class MapVC: UIViewController, MKMapViewDelegate{
     var viewModel = MapVM()
     var place = ""
     
-    
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

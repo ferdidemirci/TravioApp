@@ -31,7 +31,6 @@ class EditProfileVM {
             switch result {
             case .success(let success):
                 self.url = success.urls
-                print(self.url)
                 completion()
             case .failure(let error):
                 print(error.localizedDescription)

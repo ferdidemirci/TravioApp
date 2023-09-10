@@ -70,16 +70,11 @@ class SettingsCVC: UICollectionViewCell {
         customView.addSubviews(iconImageView,
                                 titleLabel,
                                 forwardImageView)
-
-        
-        
         setupLayouts()
     }
     
     private func setupLayouts() {
         
-        
-        // Shadow normal yöntemle denenecek
         customView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview().offset(3)
             make.trailing.bottom.equalToSuperview().offset(-3)
@@ -101,7 +96,5 @@ class SettingsCVC: UICollectionViewCell {
             make.centerY.equalToSuperview()
             make.height.equalTo(16)
         }
-        
     }
-    
 }

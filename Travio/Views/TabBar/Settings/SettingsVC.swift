@@ -82,10 +82,6 @@ class SettingsVC: UIViewController {
         configure()
     }
     
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)        
-    }
-    
     @objc private func logoutButtonTapped() {
         viewModel.deleteAccessToken {
             let vc = LoginVC()

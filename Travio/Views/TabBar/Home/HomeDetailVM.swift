@@ -23,11 +23,11 @@ class HomeDetailVM {
          }
      }
     
-    func sortingFromAtoZ() {
+    func sortingFromAtoZ() {
         placeArray = placeArray.sorted { $0.title.lowercased() < $1.title.lowercased() }
     }
     
-    func sortingFromZtoA() {
+    func sortingFromZtoA() {
         placeArray = placeArray.sorted { $0.title > $1.title }
     }
 }

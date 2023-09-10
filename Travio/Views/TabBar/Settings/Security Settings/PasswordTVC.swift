@@ -39,7 +39,7 @@ class PasswordTVC: UITableViewCell {
     }
     
     private func setupViews() {
-        contentView.addSubview(textField)
+        contentView.addSubview(textFieldView)
         setupLayouts()
     }
     

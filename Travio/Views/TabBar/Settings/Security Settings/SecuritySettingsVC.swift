@@ -67,12 +67,7 @@ class SecuritySettingsVC: UIViewController {
         setupViews()
     }
     
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
-        btnSave.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
-    }
-    
-    @objc private func btnSaveTapped() {
+    @objc private func saveButtonTapped() {
         let passwordIndex = IndexPath(row: 0, section: 0)
         let confirmPasswordIndex = IndexPath(row: 1, section: 0)
         guard let passwordCell = tableView.cellForRow(at: passwordIndex) as? PasswordTVC,
@@ -82,7 +77,7 @@ class SecuritySettingsVC: UIViewController {
         if password == confirmPassword {
             guard let newPassword = password else { return }
             let params: Parameters = ["new_password": newPassword]
-            viewModel.changePassword(newPassword: newPassword)
+            viewModel.changePassword(newPassword: params)
         } else {
             showAlert(title: "UYARI", message: "Şifre eşleştirilemedi! Lütfen şifrelerin aynı olduğundan emin olun!")
         }
