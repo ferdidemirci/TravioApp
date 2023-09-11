@@ -16,18 +16,32 @@ class SecuritySettingsVC: UIViewController {
     
     let viewModel = SecuritySettingsVM()
     
-    var cameraPermissionEnabled = false
-    var photoLibraryPermissionEnabled = false
-    var locationPermissionEnabled = false
+    var cameraPermissionEnabled = false {
+        didSet {
+            tableView.reloadData()
+        }
+    }
     
-    private lazy var btnBack: UIButton = {
+    var photoLibraryPermissionEnabled = false {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    var locationPermissionEnabled = false {
+        didSet {
+            tableView.reloadData()
+        }
+    }
+    
+    private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "back"), for: .normal)
-        button.addTarget(self, action: #selector(btnBackTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var lblTitle: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Security Settings"
         label.textColor = .white
@@ -63,8 +77,10 @@ class SecuritySettingsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: Notification.Name("appDidBecomeActive"), object: nil)
         setupViews()
+        appDidBecomeActive()
+        permissionRequests()
     }
     
     @objc private func saveButtonTapped() {
@@ -83,27 +99,52 @@ class SecuritySettingsVC: UIViewController {
         }
     }
     
-    @objc private func btnBackTapped() {
+    @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
     
     @objc private func appDidBecomeActive() {
-        checkLocationPermission()
-        checkPhotoLibraryPermission()
         checkCameraPermission()
+        checkPhotoLibraryPermission()
+        checkLocationPermission()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
+    private func permissionRequests() {
+        PermissionHelper.requestCameraPermission { granted in
+            if granted {
+                print("access allowed")
+            } else {
+                print("access denied")
+            }
+        }
+        
+        PermissionHelper.requestPhotoLibraryPermission { granted in
+            if granted {
+                print("access allowed")
+            } else {
+                print("access denied")
+            }
+        }
+        
+        PermissionHelper.requestLocationPermission { granted in
+            if granted {
+                print("access allowed")
+            } else {
+                print("access denied")
+            }
+        }
+    }
+    
     @objc private func checkCameraPermission() {
+        
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized, .restricted:
-            permissionOnDeviceSettings()
             cameraPermissionEnabled = true
         case .denied, .notDetermined:
-            permissionOnDeviceSettings()
             cameraPermissionEnabled = false
         @unknown default:
             print("Kamera izni: Bilinmeyen durum")
@@ -111,13 +152,13 @@ class SecuritySettingsVC: UIViewController {
     }
     
     @objc private func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus()
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
         switch status {
         case .authorized, .restricted:
-            permissionOnDeviceSettings()
             photoLibraryPermissionEnabled = true
         case .denied, .notDetermined:
-            permissionOnDeviceSettings()
+            photoLibraryPermissionEnabled = false
+        case .limited:
             photoLibraryPermissionEnabled = false
         @unknown default:
             photoLibraryPermissionEnabled = false
@@ -129,10 +170,8 @@ class SecuritySettingsVC: UIViewController {
         let status = locationManager.authorizationStatus
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            permissionOnDeviceSettings()
             locationPermissionEnabled = true
         case .denied, .restricted:
-            permissionOnDeviceSettings()
             locationPermissionEnabled = false
         case .notDetermined:
             locationPermissionEnabled = false
@@ -141,18 +180,11 @@ class SecuritySettingsVC: UIViewController {
         }
     }
     
-    private func permissionOnDeviceSettings() {
-        DispatchQueue.main.async {
-            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
-            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-        }
-    }
-    
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = AppColor.primaryColor.colorValue()
-        self.view.addSubviews(btnBack,
-                              lblTitle,
+        self.view.addSubviews(backButton,
+                              titleLabel,
                               mainView)
         self.mainView.addSubviews(tableView,
                                   saveButton)
@@ -160,20 +192,20 @@ class SecuritySettingsVC: UIViewController {
     }
     
     private func setupLayouts() {
-        btnBack.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(32)
             make.leading.equalToSuperview().offset(24)
             make.height.equalTo(22)
             make.width.equalTo(24)
         }
         
-        lblTitle.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(19)
-            make.leading.equalTo(btnBack.snp.trailing).offset(24)
+            make.leading.equalTo(backButton.snp.trailing).offset(24)
         }
         
         mainView.snp.makeConstraints { make in
-            make.top.equalTo(lblTitle.snp.bottom).offset(58)
+            make.top.equalTo(titleLabel.snp.bottom).offset(58)
             make.leading.trailing.bottom.equalToSuperview()
         }
         

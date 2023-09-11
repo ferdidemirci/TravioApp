@@ -64,6 +64,7 @@
 		C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220A2AA119350084B54F /* SettingsVM.swift */; };
 		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
 		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
+		C0A2E73E2AAF7C4100D3F879 /* PermissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A2E73D2AAF7C4100D3F879 /* PermissionHelper.swift */; };
 		C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */; };
 		C0B540212AAA503F008EE38A /* HelpSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B540202AAA503F008EE38A /* HelpSupportVC.swift */; };
 		C0B540232AAA5AB9008EE38A /* HelpSupportTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */; };
@@ -131,6 +132,7 @@
 		C09C220A2AA119350084B54F /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
 		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
+		C0A2E73D2AAF7C4100D3F879 /* PermissionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionHelper.swift; sourceTree = "<group>"; };
 		C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVM.swift; sourceTree = "<group>"; };
 		C0B540202AAA503F008EE38A /* HelpSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportVC.swift; sourceTree = "<group>"; };
 		C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportTVC.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */,
 				C0BF37352AA277CB007C3595 /* PasswordTVC.swift */,
 				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
+				C0A2E73D2AAF7C4100D3F879 /* PermissionHelper.swift */,
 			);
 			path = "Security Settings";
 			sourceTree = "<group>";
@@ -524,6 +527,7 @@
 				C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */,
 				811FA1152AA51BDC00FC378E /* HomeDetailVC.swift in Sources */,
 				81E0C7342AA0B12D00299DF3 /* PlaceModel.swift in Sources */,
+				C0A2E73E2AAF7C4100D3F879 /* PermissionHelper.swift in Sources */,
 				C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */,
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,
 				C0B540212AAA503F008EE38A /* HelpSupportVC.swift in Sources */,
