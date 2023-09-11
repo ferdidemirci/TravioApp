@@ -58,8 +58,7 @@ extension UIView {
     
     func addShadow() {
         layer.shadowColor = UIColor.gray.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 0)
-        layer.shadowOpacity = 0.5
+        layer.shadowOpacity = 0.15
         layer.shadowRadius = 8
         clipsToBounds = false
         layer.cornerRadius = 16
