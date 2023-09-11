@@ -12,15 +12,10 @@ class SettingsCVC: UICollectionViewCell {
 
     static let identifier = "SettingsCVC"
     
-    private lazy var customView: UIView = {
+    private lazy var containerView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
-        view.layer.cornerRadius = 16
-        view.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 0)
-        view.layer.shadowOpacity = 0.15
-        view.layer.shadowRadius = 4
+        view.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         return view
     }()
     
@@ -51,8 +46,7 @@ class SettingsCVC: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
-        contentView.addShadow()
+        self.addShadow()
     }
     
     required init?(coder: NSCoder) {
@@ -65,35 +59,36 @@ class SettingsCVC: UICollectionViewCell {
     }
     
     private func setupViews() {
-        contentView.backgroundColor = .white
-        contentView.addSubviews(customView)
-        customView.addSubviews(iconImageView,
+        contentView.addSubviews(containerView)
+        containerView.addSubviews(iconImageView,
                                 titleLabel,
                                 forwardImageView)
         setupLayouts()
     }
     
     private func setupLayouts() {
-        
-        customView.snp.makeConstraints { make in
-            make.leading.top.equalToSuperview().offset(3)
-            make.trailing.bottom.equalToSuperview().offset(-3)
+        containerView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
+            make.bottom.equalToSuperview()
         }
 
         iconImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
-            make.height.equalTo(20)
+            make.height.width.equalTo(20)
         }
         
         titleLabel.snp.makeConstraints { make in
-            make.leading.equalTo(iconImageView.snp.trailing).offset(8)
+            make.leading.equalTo(iconImageView.snp.trailing).offset(10)
             make.centerY.equalToSuperview()
         }
         
         forwardImageView.snp.makeConstraints { make in
-            make.trailing.equalToSuperview().offset(-19)
+            make.trailing.equalToSuperview().offset(-20)
             make.centerY.equalToSuperview()
+            make.width.equalTo(10)
             make.height.equalTo(16)
         }
     }

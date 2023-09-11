@@ -14,6 +14,7 @@ enum AppColor {
     case backgroundLight
     case backgroundDark
     case isEnabledColor
+    case tabBarColor
     
     func colorValue() -> UIColor {
         switch self {
@@ -27,6 +28,9 @@ enum AppColor {
             return UIColor(red: 61.0/255.0, green: 61.0/255.0, blue: 61.0/255.0, alpha: 1.0)
         case .isEnabledColor:
             return UIColor(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1.0)
+        case .tabBarColor:
+            return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.75)
+            
         }
     }
 }

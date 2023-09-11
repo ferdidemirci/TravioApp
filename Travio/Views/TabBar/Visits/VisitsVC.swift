@@ -29,7 +29,7 @@ class VisitsVC: UIViewController {
         return view
     }()
     
-    let activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = AppColor.primaryColor.colorValue()
         indicator.translatesAutoresizingMaskIntoConstraints = false

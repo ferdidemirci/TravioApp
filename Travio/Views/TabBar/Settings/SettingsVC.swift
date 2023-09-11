@@ -36,23 +36,23 @@ class SettingsVC: UIViewController {
         return view
     }()
     
-    private lazy var imageViewProfile: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = .clear
+        iv.backgroundColor = .red
         iv.layer.masksToBounds = true
         iv.layer.cornerRadius = 60
         return iv
     }()
     
-    private lazy var lblName: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         return label
     }()
 
-    private lazy var btnEditProfile: UIButton = {
+    private lazy var editProfileButton: UIButton = {
         let button = UIButton()
         button.setTitle("Edit Profile", for: .normal)
         button.titleLabel?.font = UIFont(name: AppFont.regular.rawValue, size: 12)
@@ -62,8 +62,16 @@ class SettingsVC: UIViewController {
         return button
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .large)
+        indicator.color = AppColor.primaryColor.colorValue()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 8
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -71,6 +79,7 @@ class SettingsVC: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.isPagingEnabled = true
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
         collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC.identifier)
         return collectionView
     }()
@@ -79,6 +88,9 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         configure()
     }
     
@@ -99,9 +111,13 @@ class SettingsVC: UIViewController {
     private func configure() {
         viewModel.getUserInfos { user in
             guard let imageURL = user.pp_url,
-                  let name = user.full_name else { return }
-            self.imageViewProfile.kf.setImage(with: URL(string: imageURL))
-            self.lblName.text = name
+                  let url = URL(string: imageURL),
+                  let name = user.full_name else {
+                self.profileImageView.image = UIImage(systemName: "photo")
+                return
+            }
+            self.nameLabel.text = name
+
         }
     }
     
@@ -111,9 +127,10 @@ class SettingsVC: UIViewController {
         self.view.addSubviews(titleLabel,
                               logoutButton,
                               mainView)
-        self.mainView.addSubviews(imageViewProfile,
-                                  lblName,
-                                  btnEditProfile,
+        self.mainView.addSubviews(profileImageView,
+                                  activityIndicator,
+                                  nameLabel,
+                                  editProfileButton,
                                   collectionView)
         setupLayouts()
     }
@@ -135,29 +152,35 @@ class SettingsVC: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        imageViewProfile.snp.makeConstraints { make in
+        profileImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(120)
         }
         
-        lblName.snp.makeConstraints { make in
-            make.top.equalTo(imageViewProfile.snp.bottom).offset(8)
+        activityIndicator.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(24)
+            make.centerX.equalToSuperview()
+            make.height.width.equalTo(120)
+        }
+        
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
             make.height.equalTo(24)
         }
         
-        btnEditProfile.snp.makeConstraints { make in
-            make.top.equalTo(lblName.snp.bottom)
+        editProfileButton.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom)
             make.centerX.equalToSuperview()
             make.width.equalTo(62)
             make.height.equalTo(18)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(btnEditProfile.snp.bottom).offset(24)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(editProfileButton.snp.bottom).offset(8)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
     }
