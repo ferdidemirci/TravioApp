@@ -10,10 +10,8 @@ import SnapKit
 
 class SettingsCVC: UICollectionViewCell {
 
-    var identifier = "SettingsCVC"
+    static let identifier = "SettingsCVC"
     
-    
-    // Shadow'u verdiğimiz view
     private lazy var customView: UIView = {
         let view = UIView()
         view.backgroundColor = .white
@@ -26,26 +24,25 @@ class SettingsCVC: UICollectionViewCell {
         return view
     }()
     
-    private lazy var imageViewIcon: UIImageView = {
+    private lazy var iconImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         return iv
     }()
     
-    private lazy var lblTitle: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.textColor = AppColor.secondaryColor.colorValue()
+        label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.light.rawValue, size: 14)
         return label
     }()
     
-    private lazy var imageViewForward: UIImageView = {
+    private lazy var forwardImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
         iv.image = UIImage(named: "forward")
         return iv
     }()
-    
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -54,9 +51,8 @@ class SettingsCVC: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        contentView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         contentView.addShadow()
-        
     }
     
     required init?(coder: NSCoder) {
@@ -64,48 +60,41 @@ class SettingsCVC: UICollectionViewCell {
     }
     
     public func configure(model: SettingsModel) {
-        self.imageViewIcon.image = UIImage(named: model.leftImage)
-        self.lblTitle.text = model.text
+        self.iconImageView.image = UIImage(named: model.leftImage)
+        self.titleLabel.text = model.text
     }
     
     private func setupViews() {
         contentView.backgroundColor = .white
         contentView.addSubviews(customView)
-        customView.addSubviews(imageViewIcon,
-                                lblTitle,
-                                imageViewForward)
-
-        
-        
+        customView.addSubviews(iconImageView,
+                                titleLabel,
+                                forwardImageView)
         setupLayouts()
     }
     
     private func setupLayouts() {
         
-        
-        // Shadow normal yöntemle denenecek
         customView.snp.makeConstraints { make in
             make.leading.top.equalToSuperview().offset(3)
             make.trailing.bottom.equalToSuperview().offset(-3)
         }
 
-        imageViewIcon.snp.makeConstraints { make in
+        iconImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
             make.height.equalTo(20)
         }
         
-        lblTitle.snp.makeConstraints { make in
-            make.leading.equalTo(imageViewIcon.snp.trailing).offset(8)
+        titleLabel.snp.makeConstraints { make in
+            make.leading.equalTo(iconImageView.snp.trailing).offset(8)
             make.centerY.equalToSuperview()
         }
         
-        imageViewForward.snp.makeConstraints { make in
+        forwardImageView.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-19)
             make.centerY.equalToSuperview()
             make.height.equalTo(16)
         }
-        
     }
-    
 }

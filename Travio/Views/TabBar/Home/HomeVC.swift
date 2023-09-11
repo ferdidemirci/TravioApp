@@ -8,6 +8,16 @@
 import UIKit
 import SnapKit
 
+protocol HomeCellDelegate: AnyObject {
+    func cellDidTapButton(_ indexPath: IndexPath, _ vc: UIViewController)
+}
+
+enum Sections: Int {
+    case popularPlaces = 0
+    case lastPlaces = 1
+    case userPlaces = 2
+}
+
 class HomeVC: UIViewController {
     
     var viewModel = HomeVM()
@@ -37,18 +47,22 @@ class HomeVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubview(tableView)
         return view
     }()
     
     private lazy var tableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(HomeTVC.self, forCellReuseIdentifier: HomeTVC.identifier)
         tableView.separatorStyle = .none
-        tableView.showsHorizontalScrollIndicator = false
+        tableView.backgroundColor = .clear
+        tableView.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        tableView.showsVerticalScrollIndicator = false
+        tableView.backgroundColor = .clear
         return tableView
     }()
     
@@ -56,23 +70,20 @@ class HomeVC: UIViewController {
         super.viewDidLoad()
     
         setupViews()
+        setupApi()
     }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
-    }
-    
+        
     func createHeaderView(sectionTitle: String, sectionIndex: Int) -> UIView {
-        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 50))
+        let headerView = UIView(frame: CGRect(x: 0, y: 0, width: self.view.frame.width, height: 40))
         
-        let titleLabel = UILabel(frame: CGRect(x: 24, y: 10, width: 200, height: 30))
+        let titleLabel = UILabel(frame: CGRect(x: 24, y: 5, width: 200, height: 30))
         titleLabel.text = sectionTitle
-        titleLabel.font = UIFont.boldSystemFont(ofSize: 18)
+        titleLabel.font = UIFont(name: AppFont.medium.rawValue, size: 20)
         
-        let seeAllButton = UIButton(frame: CGRect(x: self.view.frame.width - 80, y: 10, width: 64, height: 30))
+        let seeAllButton = UIButton(frame: CGRect(x: self.view.frame.width - 80, y: 5, width: 64, height: 30))
         seeAllButton.setTitle("See All", for: .normal)
         seeAllButton.titleLabel?.font = UIFont(name: AppFont.medium.rawValue, size: 14)
-        seeAllButton.setTitleColor(AppColor.primaryColor.colorValue(), for: .normal)
+        seeAllButton.setTitleColor(AppColor.secondaryColor.colorValue(), for: .normal)
         seeAllButton.contentHorizontalAlignment = .trailing
         seeAllButton.tag = sectionIndex
         seeAllButton.addTarget(self, action: #selector(seeAllButtonTapped), for: .touchUpInside)
@@ -87,14 +98,34 @@ class HomeVC: UIViewController {
         let vc = HomeDetailVC()
         switch sender.tag {
         case 0:
-            print("1")
-            navigationController?.pushViewController(vc, animated: true)
+            vc.viewTag = 0
+            vc.sectionTitle = viewModel.sectionTitles[0]
         case 1:
-            print("2")
+            vc.viewTag = 1
+            vc.sectionTitle = viewModel.sectionTitles[1]
         case 2:
-            print("3")
+            vc.viewTag = 2
+            vc.sectionTitle = viewModel.sectionTitles[2]
         default:
             print("Tag yok")
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    private func setupApi() {
+        let dispatchGroup = DispatchGroup()
+        
+        let sections = [Sections.popularPlaces, Sections.lastPlaces, Sections.userPlaces]
+        
+        sections.forEach { section in
+            dispatchGroup.enter()
+            viewModel.fetchPlaces(for: section) {
+                dispatchGroup.leave()
+            }
+        }
+        
+        dispatchGroup.notify(queue: .main) {
+            self.tableView.reloadData()
         }
     }
     
@@ -140,7 +171,9 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HomeTVC.identifier, for: indexPath) as? HomeTVC else { return UITableViewCell() }
-        cell.backgroundColor = .green
+        viewModel.sectionSelection(section: indexPath.section)
+        cell.configure(places: viewModel.placeArray)
+        cell.delegate = self
         return cell
     }
     
@@ -149,7 +182,7 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 40
     }
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return viewModel.sectionTitles[section]
@@ -157,5 +190,11 @@ extension HomeVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return createHeaderView(sectionTitle: viewModel.sectionTitles[section], sectionIndex: section)
+    }
+}
+
+extension HomeVC: HomeCellDelegate {
+    func cellDidTapButton(_ indexPath: IndexPath, _ vc: UIViewController) {
+        navigationController?.pushViewController(vc, animated: true)
     }
 }

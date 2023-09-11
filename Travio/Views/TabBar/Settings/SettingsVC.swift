@@ -7,6 +7,7 @@
 
 import UIKit
 import SnapKit
+import Kingfisher
 
 class SettingsVC: UIViewController {
     
@@ -20,16 +21,24 @@ class SettingsVC: UIViewController {
         return label
     }()
     
+    private lazy var logoutButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "logout"), for: .normal)
+        button.addTarget(self, action: #selector(logoutButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .clear
+        return button
+    }()
+    
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         return view
     }()
     
     private lazy var imageViewProfile: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(named: "bruce")
         iv.backgroundColor = .clear
         iv.layer.masksToBounds = true
         iv.layer.cornerRadius = 60
@@ -38,8 +47,7 @@ class SettingsVC: UIViewController {
     
     private lazy var lblName: UILabel = {
         let label = UILabel()
-        label.text = "Bruce Wills"
-        label.textColor = AppColor.secondaryColor.colorValue()
+        label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         return label
     }()
@@ -48,7 +56,7 @@ class SettingsVC: UIViewController {
         let button = UIButton()
         button.setTitle("Edit Profile", for: .normal)
         button.titleLabel?.font = UIFont(name: AppFont.regular.rawValue, size: 12)
-        button.setTitleColor(AppColor.primaryColor.colorValue(), for: .normal)
+        button.setTitleColor(AppColor.secondaryColor.colorValue(), for: .normal)
         button.backgroundColor = .clear
         button.addTarget(self, action: #selector(didTapEditProfileButton), for: .touchUpInside)
         return button
@@ -63,7 +71,7 @@ class SettingsVC: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.isPagingEnabled = true
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC().identifier)
+        collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC.identifier)
         return collectionView
     }()
     
@@ -71,28 +79,42 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        configure()
     }
     
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
-//        imageViewProfile.roundCorners(corners: [.topLeft], radius: 60)
-        
+    @objc private func logoutButtonTapped() {
+        viewModel.deleteAccessToken {
+            let vc = LoginVC()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     @objc private func didTapEditProfileButton() {
-        print("edit profile button tapped")
+        let vc = EditProfileVC()
+        vc.hidesBottomBarWhenPushed = true
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: true)
+    }
+    
+    private func configure() {
+        viewModel.getUserInfos { user in
+            guard let imageURL = user.pp_url,
+                  let name = user.full_name else { return }
+            self.imageViewProfile.kf.setImage(with: URL(string: imageURL))
+            self.lblName.text = name
+        }
     }
     
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = AppColor.primaryColor.colorValue()
         self.view.addSubviews(titleLabel,
+                              logoutButton,
                               mainView)
         self.mainView.addSubviews(imageViewProfile,
                                   lblName,
                                   btnEditProfile,
                                   collectionView)
-        
         setupLayouts()
     }
     
@@ -102,10 +124,15 @@ class SettingsVC: UIViewController {
             make.leading.equalToSuperview().offset(20)
         }
         
+        logoutButton.snp.makeConstraints { make in
+            make.trailing.equalToSuperview().offset(-24)
+            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.height.width.equalTo(30)
+        }
+        
         mainView.snp.makeConstraints { make in
             make.top.equalTo(titleLabel.snp.bottom).offset(54)
-            make.leading.trailing.equalToSuperview()
-            make.bottom.equalToSuperview()
+            make.leading.trailing.bottom.equalToSuperview()
         }
         
         imageViewProfile.snp.makeConstraints { make in
@@ -133,9 +160,7 @@ class SettingsVC: UIViewController {
             make.trailing.equalToSuperview().offset(-16)
             make.bottom.equalToSuperview()
         }
-        
     }
-
 }
 
 
@@ -152,13 +177,16 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         switch selectedItem {
         case 0:
             destinationVC = SecuritySettingsVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
+        case 3:
+            destinationVC = HelpSupportVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
         default:
             break
         }
         guard let destinationVC = destinationVC else { return }
         navigationController?.pushViewController(destinationVC, animated: true)
     }
-    
 }
 
 extension SettingsVC: UICollectionViewDataSource {
@@ -167,10 +195,8 @@ extension SettingsVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCVC().identifier, for: indexPath) as? SettingsCVC else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCVC.identifier, for: indexPath) as? SettingsCVC else { return UICollectionViewCell() }
         cell.configure(model: viewModel.settingsParameters[indexPath.item])
         return cell
     }
-    
-    
 }

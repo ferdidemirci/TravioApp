@@ -17,7 +17,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     var visitId: String?
     var placeId: String?
-    var placeDetails: MapPlace?
+    var placeDetails: Place?
     var isVisited = true
     var delegate: ReturnToDismiss?
     
@@ -61,7 +61,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = AppColor.backgroundColor.colorValue()
+        scrollView.backgroundColor = AppColor.backgroundLight.colorValue()
         scrollView.addSubview(scrollContentView)
         scrollView.isScrollEnabled = true
         return scrollView
@@ -98,6 +98,9 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         button.titleLabel?.font = .systemFont(ofSize: 12)
         button.setTitleColor(UIColor.white, for: .normal)
         button.tintColor = .white
+        button.setImage(UIImage(named: "bookmark.fill"), for: .normal)
+        button.backgroundColor = AppColor.primaryColor.colorValue()
+        button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapVisitedButton), for: .touchUpInside)
         return button
     }()
@@ -128,50 +131,85 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         scrollView.contentSize = CGSize(width: UIScreen.main.bounds.width, height: scrollContentView.frame.height)
     }
     
-    override func viewDidLayoutSubviews() {
-        visitedButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-    }
-    
     @objc func didTapBackButton() {
         navigationController?.popViewController(animated: true)
     }
     
     @objc func didTapVisitedButton() {
         if let visitId {
-            viewModel.deleteVisit(visitId: visitId) { message in
-                self.navigationController?.popToRootViewController(animated: true)
-                self.delegate?.returned(message: message)
+            self.showDeleteAlert { bool in
+                if bool {
+                    self.viewModel.deleteVisit(visitId: visitId) { message in
+                        self.navigationController?.popToRootViewController(animated: true)
+                        self.delegate?.returned(message: message)
+                    }
+                }
             }
         } else {
             if let placeId {
                 if isVisited {
-                    viewModel.deletePlace(placeId: placeId) { status in
-                        if status {
-                            self.navigationController?.popToRootViewController(animated: true)
-                            self.delegate?.returned(message: "Place delete successfully.")
-                        } else {
-                            self.showAlert(title: "Delete Error!", message: "Make sure the place you want to delete is created by you!")
+                    self.showDeleteAlert { bool in
+                        if bool {
+                            self.viewModel.deleteVisit(visitId: placeId) { message in
+                                self.showAlert(title: "Delete!", message: message)
+                                self.visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
+                                self.isVisited = false
+                            }
                         }
                     }
                 } else {
                     viewModel.createVisit(placeId: placeId) { Response in
-                        self.showAlert(title: "Successful!", message: "Place added successfully.")
-                        self.deleteButton()
+                        self.showAlert(title: "Visit Insert!", message: "Place added successfully.")
+                        self.visitedButton.setImage(UIImage(named: "bookmark.fill"), for: .normal)
+                        self.isVisited = true
                     }
                 }
-               
             }
         }
     }
     
-    private func configure() {
+    @objc func pageControlValueChanged() {
+        let currentPage = pageControl.currentPage
+        let indexPath = IndexPath(item: currentPage, section: 0)
+        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        let identifier = "customAnnotation"
+        var annotationView: MKAnnotationView
+        
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
+            dequeuedView.annotation = annotation
+            annotationView = dequeuedView
+        } else {
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView.canShowCallout = true
+            annotationView.image = UIImage(named: "mapLocation")
+        }
+        return annotationView
+    }
+    
+    func setupVisitDeteail(with visit: Visit, isVisited: Bool, delegate: ReturnToDismiss) {
+        self.visitId = visit.id
+        self.placeDetails = Place(
+            id: visit.place.id,
+            creator: visit.place.creator,
+            place: visit.place.place,
+            title: visit.place.title,
+            description: visit.place.description,
+            cover_image_url: visit.place.cover_image_url,
+            latitude: visit.place.latitude,
+            longitude: visit.place.longitude,
+            created_at: visit.created_at,
+            updated_at: visit.updated_at
+        )
+        self.isVisited = isVisited
+        self.delegate = delegate
+    }
+    
+    private func configure() {  
         if let placeDetails {
-            if isVisited {
-                deleteButton()
-            } else {
-                addButton()
-            }
-            
+            configureVisitedButton()
             titleLabel.text = placeDetails.title
             dateLabel.text = formatISO8601Date(placeDetails.created_at)
             createdNameLabel.text = "added by @\(placeDetails.creator)"
@@ -183,62 +221,31 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
             annotation.title = placeDetails.place
             mapView.addAnnotation(annotation)
 
-            // Haritayı belirli bir bölgeye yakınlaştırmak
             let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
             
             mapView.setRegion(region, animated: true)
         }
     }
     
-    private func deleteButton() {
-        visitedButton.backgroundColor = .red
-        visitedButton.setTitle("Delete", for: .normal)
-        visitedButton.setImage(UIImage(systemName: "trash.fill"), for: .normal)
-        visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
-    }
-    
-    private func addButton() {
-        visitedButton.backgroundColor = AppColor.primaryColor.colorValue()
-        visitedButton.setTitle("Add", for: .normal)
-        visitedButton.setImage(UIImage(named: "flyButton"), for: .normal)
-        visitedButton.centerTextAndImage(imageAboveText: true, spacing: 1)
-    }
-    
-    @objc func pageControlValueChanged() {
-        let currentPage = pageControl.currentPage
-        let indexPath = IndexPath(item: currentPage, section: 0)
-        collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
-    }
-    
-    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
-        
-        let identifier = "annotation"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
-        
-        if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
+    private func configureVisitedButton() {
+        if isVisited {
+            visitedButton.setImage(UIImage(named: "bookmark.fill"), for: .normal)
         } else {
-            annotationView?.annotation = annotation
+            visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
         }
-        
-        if let pinImage = UIImage(named: "mapLocation") {
-            let size = CGSize(width: 32, height: 42)
-            
-            UIGraphicsBeginImageContext(size)
-            pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            annotationView?.image = resizedImage
-        }
-        return annotationView
     }
     
     private func setupApi() {
+        if let placeId {
+            viewModel.getVisitByPlaceId(placeId: placeId) { status in
+                if status {
+                    self.isVisited = true
+                } else {
+                    self.isVisited = false
+                }
+                self.configure()
+            }
+        }
         if let placeDetails {
             viewModel.getGallery(placeId: placeDetails.id) {
                 self.collectionView.reloadData()
@@ -249,7 +256,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     private func setupViews(){
         mapView.delegate = self
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         view.addSubviews(collectionView, pageControl, backButton, visitedButton, scrollView)
         setupLayout()
     }
@@ -338,9 +345,7 @@ extension CustomDetailsVC: UICollectionViewDelegateFlowLayout, UIScrollViewDeleg
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
         pageControl.currentPage = Int(pageIndex)
-        
     }
-    
 }
 
 extension CustomDetailsVC: UICollectionViewDataSource {
@@ -350,8 +355,7 @@ extension CustomDetailsVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomDetailsSliderCVC().identifier, for: indexPath) as? CustomDetailsSliderCVC else { return UICollectionViewCell() }
-        
-        cell.congigure(model: viewModel.getImage(index: indexPath.row))
+        cell.configure(model: viewModel.getImage(index: indexPath.row))
         return cell
     }
 }

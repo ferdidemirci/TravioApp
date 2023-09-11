@@ -18,7 +18,6 @@ class MapVC: UIViewController, MKMapViewDelegate{
     var viewModel = MapVM()
     var place = ""
     
-    
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -36,7 +35,7 @@ class MapVC: UIViewController, MKMapViewDelegate{
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
-        collectionView.register(MapCVC.self, forCellWithReuseIdentifier: MapCVC().identifier)
+        collectionView.register(MapCVC.self, forCellWithReuseIdentifier: MapCVC.identifier)
         return collectionView
         
     }()
@@ -46,41 +45,6 @@ class MapVC: UIViewController, MKMapViewDelegate{
 
         setupViews()
         setupData()
-        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
-        mapView.addGestureRecognizer(longPressRecognizer)
-    }
-    
-
-    
-    private func setupViews(){
-        self.navigationController?.navigationBar.isHidden = true
-        view.backgroundColor = .systemBackground
-        view.addSubviews(mapView, collectionView)
-        setupLayout()
-    }
-    
-    private func setupLayout(){
-        mapView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-        }
-        
-        collectionView.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-18)
-            make.height.equalTo(178)
-        }
-    }
-    
-    func setupData() {
-        viewModel.getData {
-            self.collectionView.reloadData()
-            for location in self.viewModel.mapPlaces {
-                let annotation = MKPointAnnotation()
-                annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
-                self.mapView.addAnnotation(annotation)
-            }
-        }
     }
     
     @objc func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
@@ -100,7 +64,6 @@ class MapVC: UIViewController, MKMapViewDelegate{
     
     func getAddressFromCoordinate(coordinate: CLLocationCoordinate2D, complate: @escaping () -> Void){
         let geocoder = CLGeocoder()
-           
         let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
            
         geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
@@ -109,8 +72,7 @@ class MapVC: UIViewController, MKMapViewDelegate{
                 return
             }
             if let placemark = placemarks?.first {
-                if let street = placemark.thoroughfare,
-                   let city = placemark.locality,
+                if let city = placemark.locality,
                     let country = placemark.country {
                     self.place = "\(city), \(country)"
                     complate()
@@ -120,33 +82,20 @@ class MapVC: UIViewController, MKMapViewDelegate{
     }
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        if annotation is MKUserLocation {
-            return nil
-        }
+        let identifier = "customAnnotation"
+        var annotationView: MKAnnotationView
         
-        let identifier = "annotation"
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) as? MKPinAnnotationView
-        
-        if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.canShowCallout = true
+        if let dequeuedView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier) {
+            dequeuedView.annotation = annotation
+            annotationView = dequeuedView
         } else {
-            annotationView?.annotation = annotation
-        }
-        
-        if let pinImage = UIImage(named: "mapLocation") {
-            let size = CGSize(width: 32, height: 42)
-            
-            UIGraphicsBeginImageContext(size)
-            pinImage.draw(in: CGRect(x: 0, y: 0, width: size.width, height: size.height))
-            let resizedImage = UIGraphicsGetImageFromCurrentImageContext()
-            UIGraphicsEndImageContext()
-            
-            annotationView?.image = resizedImage
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView.canShowCallout = true
+            annotationView.image = UIImage(named: "mapLocation")
         }
         return annotationView
     }
-    
+        
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
         if let annotation = view.annotation as? MKPointAnnotation {
             let coordinate = annotation.coordinate
@@ -158,6 +107,39 @@ class MapVC: UIViewController, MKMapViewDelegate{
                 let indexPath = IndexPath(item: index, section: 0)
                 collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: true)
             }
+        }
+    }
+    
+    func setupData() {
+        viewModel.getData {
+            self.collectionView.reloadData()
+            for location in self.viewModel.mapPlaces {
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
+                self.mapView.addAnnotation(annotation)
+            }
+        }
+    }
+    
+    private func setupViews(){
+        let longPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        mapView.addGestureRecognizer(longPressRecognizer)
+        
+        self.navigationController?.navigationBar.isHidden = true
+        view.backgroundColor = .systemBackground
+        view.addSubviews(mapView, collectionView)
+        setupLayout()
+    }
+    
+    private func setupLayout(){
+        mapView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
+        }
+        
+        collectionView.snp.makeConstraints { make in
+            make.leading.trailing.equalToSuperview()
+            make.bottom.equalTo(view.safeAreaLayoutGuide).offset(-18)
+            make.height.equalTo(178)
         }
     }
     
@@ -174,43 +156,32 @@ extension MapVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource 
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapCVC().identifier, for: indexPath) as? MapCVC else { return UICollectionViewCell() }
-        cell.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-        cell.congigure(model: viewModel.mapPlaces[indexPath.row])
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MapCVC.identifier, for: indexPath) as? MapCVC else { return UICollectionViewCell() }
+        cell.configure(model: viewModel.mapPlaces[indexPath.row])
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let placeId = viewModel.mapPlaces[indexPath.row].id
         let placeDetails = viewModel.mapPlaces[indexPath.row]
         let vc = CustomDetailsVC()
-        vc.placeId = placeId
+        vc.placeId = placeDetails.id
         vc.placeDetails = placeDetails
         vc.delegate = self
-        viewModel.getVisitByPlaceId(placeId: placeId) { status in
-            if status {
-                vc.isVisited = true
-            } else {
-                vc.isVisited = false
-            }
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
-        
-        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 
 extension MapVC: UIScrollViewDelegate {
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-           let cellWidthIncludingSpacing = collectionView.frame.size.width - 42
-           
-           var offset = targetContentOffset.pointee
-           let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
-           let roundedIndex = round(index)
-           
-           offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
-           targetContentOffset.pointee = offset
-       }
+        let cellWidthIncludingSpacing = collectionView.frame.size.width - 42
+        
+        var offset = targetContentOffset.pointee
+        let index = (offset.x + scrollView.contentInset.left) / cellWidthIncludingSpacing
+        let roundedIndex = round(index)
+        
+        offset = CGPoint(x: roundedIndex * cellWidthIncludingSpacing - scrollView.contentInset.left, y: -scrollView.contentInset.top)
+        targetContentOffset.pointee = offset
+    }
 }
 
 extension MapVC: ReturnToMap, ReturnToDismiss{

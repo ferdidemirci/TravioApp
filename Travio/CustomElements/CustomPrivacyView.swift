@@ -16,24 +16,21 @@ class CustomPrivacyView: UIView {
         }
     }
     
-    private lazy var lblTitle: UILabel = {
+    lazy var lblTitle: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.medium.rawValue, size: 14)
         label.text = labelText
         return label
     }()
     
-    private lazy var switchOnOff: UISwitch = {
+    lazy var switchOnOff: UISwitch = {
         let sw = UISwitch()
-//        s.thumbTintColor = .blue
-        sw.isOn = false
         return sw
     }()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
-      
         setupViews()
     }
     
@@ -42,11 +39,13 @@ class CustomPrivacyView: UIView {
     }
     
     override func layoutSubviews() {
-        self.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        addShadow()
     }
     
     private func setupViews() {
         self.backgroundColor = .white
+        
         self.addSubviews(lblTitle,
                          switchOnOff)
         self.addShadow()

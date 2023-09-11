@@ -6,8 +6,8 @@
 //
 
 import UIKit
-import SDWebImage
 import SnapKit
+import Kingfisher
 
 class CustomDetailsSliderCVC: UICollectionViewCell {
     
@@ -26,6 +26,12 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
         return image
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -37,7 +43,7 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
     
     func setupViews() {
         
-        contentView.addSubviews(sliderImage, gradientImage)
+        contentView.addSubviews(sliderImage, gradientImage, activityIndicator)
         setupLayouts()
     }
     
@@ -52,14 +58,34 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
             make.trailing.equalToSuperview()
             make.height.equalTo(110)
         }
-    }
-    
-    public func congigure(model: Image) {
-        if let imageUrl = URL(string: model.image_url) {
-            sliderImage.sd_setImage(with: imageUrl)
-        } else {
-            sliderImage.image = UIImage(systemName: "photo")
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
         }
     }
+    
+    public func configure(model image: Image) {
+        
+        guard let urlStr = URL(string: image.image_url) else {
+            sliderImage.image = UIImage(systemName: "photo")
+            return
+        }
+        
+        activityIndicator.startAnimating()
+        sliderImage.kf.setImage(
+            with: urlStr,
+            completionHandler: { [weak activityIndicator] result in
+                activityIndicator?.stopAnimating()
+                activityIndicator?.removeFromSuperview()
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    self.sliderImage.image = UIImage(systemName: "photo")
+                }
+            }
+        )
+    }
+
 }
 

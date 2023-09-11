@@ -9,7 +9,15 @@ import UIKit
 
 class AddVisitPhotoCVC: UICollectionViewCell, UIPickerViewDelegate {
     
-    var identifier = "AddVisitPhotoCVC"
+    static let identifier = "AddVisitPhotoCVC"
+    
+    lazy var containerView: UIView = {
+        let view = UIView()
+        view.addSubviews(backgroundImageView, stackView)
+        view.backgroundColor = .white
+        view.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        return view
+    }()
     
     lazy var backgroundImageView: UIImageView = {
         let image = UIImageView()
@@ -48,19 +56,23 @@ class AddVisitPhotoCVC: UICollectionViewCell, UIPickerViewDelegate {
         setupViews()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+    override func layoutSubviews() {
+        self.addShadow()
     }
-    
-    
-    
+
     func setupViews() {
-        
-        contentView.addSubviews(backgroundImageView, stackView)
+        contentView.addSubviews(containerView)
         setupLayouts()
     }
     
     func setupLayouts() {
+        containerView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(16)
+            make.bottom.equalToSuperview().offset(-16)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+        }
+        
         backgroundImageView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
@@ -75,7 +87,8 @@ class AddVisitPhotoCVC: UICollectionViewCell, UIPickerViewDelegate {
         }
     }
     
-    public func congigure(model: Image) {
-        
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
+    
 }

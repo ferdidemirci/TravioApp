@@ -51,24 +51,20 @@ class AddVisitVC: UIViewController {
         let layout = UICollectionViewFlowLayout()
         layout.minimumLineSpacing = 18
         layout.scrollDirection = .horizontal
-        layout.sectionInset = UIEdgeInsets(top: 0, left: 24, bottom: 0, right: 24)
+        layout.sectionInset = UIEdgeInsets(top: 16, left: 24, bottom: 16, right: 24)
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
-//        collectionView.isPagingEnabled = true
-        collectionView.register(AddVisitPhotoCVC.self, forCellWithReuseIdentifier: AddVisitPhotoCVC().identifier)
+        collectionView.register(AddVisitPhotoCVC.self, forCellWithReuseIdentifier: AddVisitPhotoCVC.identifier)
         return collectionView
     }()
     
-    private lazy var addPlaceButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Add Place", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
-        button.titleLabel?.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
-        button.backgroundColor = AppColor.primaryColor.colorValue()
+    private lazy var addPlaceButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "AddPlace"
         button.addTarget(self, action: #selector(didTapAddPlace), for: .touchUpInside)
         return button
     }()
@@ -76,10 +72,6 @@ class AddVisitVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        addPlaceButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
     @objc private func didTapAddPlace() {
@@ -108,7 +100,7 @@ class AddVisitVC: UIViewController {
     }
     
     private func setupViews(){
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
         
         view.addSubviews(regtengleTop, placeNameView, descriptionView, countryAndCityView, collectionView, addPlaceButton)
         setupLayout()
@@ -144,14 +136,13 @@ class AddVisitVC: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(countryAndCityView.snp.bottom).offset(16)
-            make.leading.equalToSuperview()
-            make.trailing.equalToSuperview()
-            make.height.equalTo(215)
+            make.top.equalTo(countryAndCityView.snp.bottom)
+            make.leading.trailing.equalToSuperview()
+            make.height.equalTo(247)
         }
         
         addPlaceButton.snp.makeConstraints { make in
-            make.top.equalTo(collectionView.snp.bottom).offset(16)
+            make.top.equalTo(collectionView.snp.bottom)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(54)
@@ -163,7 +154,7 @@ class AddVisitVC: UIViewController {
 
 extension AddVisitVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let size = CGSize(width: collectionView.frame.width - 60, height: 215)
+        let size = CGSize(width: collectionView.frame.width - 100, height: 247)
         return size
     }
     
@@ -172,10 +163,7 @@ extension AddVisitVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddVisitPhotoCVC().identifier, for: indexPath) as? AddVisitPhotoCVC else { return UICollectionViewCell() }
-        cell.backgroundColor = .white
-        cell.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
-        cell.addShadow()
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AddVisitPhotoCVC.identifier, for: indexPath) as? AddVisitPhotoCVC else { return UICollectionViewCell() }
         return cell
     }
     

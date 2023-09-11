@@ -14,10 +14,10 @@ struct MapPlaceResponse: Codable {
 
 struct MapPlaceData: Codable {
     let count: Int
-    let places: [MapPlace]
+    let places: [Place]
 }
 
-struct MapPlace: Codable {
+struct Place: Codable {
     let id: String
     let creator: String
     let place: String

@@ -8,7 +8,7 @@
 import Foundation
 class MapVM {
     
-    var mapPlaces : [MapPlace] = []
+    var mapPlaces : [Place] = []
     
     func getData(complation: @escaping () -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.allPlaces) { (result: Result<MapPlaceResponse, Error>) in
@@ -18,19 +18,6 @@ class MapVM {
                 complation()
             case .failure(let error):
                 complation()
-            }
-        }
-    }
-    
-    func getVisitByPlaceId(placeId: String, complation: @escaping (Bool) -> Void) {
-        print("Place-------: \(placeId)")
-        NetworkHelper.shared.routerRequest(request: Router.getVisitByPlaceId(placeId: placeId)) { (result: Result<Response, Error>) in
-            print(result)
-            switch result {
-            case .success:
-                complation(false)
-            case .failure:
-                complation(true)
             }
         }
     }

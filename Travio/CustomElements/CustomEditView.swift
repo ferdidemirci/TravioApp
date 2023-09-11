@@ -31,7 +31,7 @@ class CustomEditView: UIView {
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont(name: AppFont.medium.rawValue, size: 14)
+        label.font = UIFont(name: AppFont.medium.rawValue, size: 12)
         label.text = labelText
         return label
     }()
@@ -48,7 +48,7 @@ class CustomEditView: UIView {
     }
     
     override func layoutSubviews() {
-        self.roundCorners(corners: [.allCorners], radius: 16)
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
     }
     
     private func setupViews() {

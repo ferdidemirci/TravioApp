@@ -6,14 +6,21 @@
 //
 
 import UIKit
-import Kingfisher
 import SnapKit
+import Kingfisher
 
 class HomeCVC: UICollectionViewCell {
     
     static let identifier = "HomeCVC"
     
-    private lazy var backgroundImage: UIImageView = {
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        view.addSubviews(backgroundImageView, gradientImage, titleLabel, locationImageView, locationLabel, activityIndicator)
+        return view
+    }()
+    
+    private lazy var backgroundImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
         return image
@@ -25,7 +32,7 @@ class HomeCVC: UICollectionViewCell {
         return image
     }()
     
-    private lazy var placeLabel: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
         label.textColor = .white
@@ -44,7 +51,7 @@ class HomeCVC: UICollectionViewCell {
     private lazy var locationImageView: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFill
-        image.image = UIImage(named: "location")
+        image.image = UIImage(named: "locationLight")
         image.tintColor = .white
         return image
     }()
@@ -57,16 +64,20 @@ class HomeCVC: UICollectionViewCell {
         return label
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
         
         setupViews()
-        congigure()
     }
     
     override func layoutSubviews() {
-        self.roundCorners(corners: [.topLeft, .bottomLeft, .topRight], radius: 16)
+        self.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
         self.addShadow()
     }
     
@@ -74,10 +85,9 @@ class HomeCVC: UICollectionViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // UIImagePickerController'dan seçilen resmi alma ve UIImageView'a koyma
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let selectedImage = info[.originalImage] as? UIImage {
-            backgroundImage.image = selectedImage
+            backgroundImageView.image = selectedImage
         }
         picker.dismiss(animated: true, completion: nil)
     }
@@ -88,12 +98,12 @@ class HomeCVC: UICollectionViewCell {
     
     func setupViews() {
         
-        self.addSubviews(backgroundImage, gradientImage, placeLabel, stackView)
+        self.addSubviews(backgroundImageView, gradientImage, titleLabel, stackView, activityIndicator)
         setupLayouts()
     }
     
     func setupLayouts() {
-        backgroundImage.snp.makeConstraints { make in
+        backgroundImageView.snp.makeConstraints { make in
             make.top.equalToSuperview()
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
@@ -105,7 +115,7 @@ class HomeCVC: UICollectionViewCell {
             make.height.equalTo(100)
         }
         
-        placeLabel.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(stackView.snp.top)
             make.leading.equalToSuperview().offset(16)
         }
@@ -114,16 +124,35 @@ class HomeCVC: UICollectionViewCell {
             make.leading.equalToSuperview().offset(20)
             make.bottom.equalToSuperview().offset(-14)
         }
+        
+        activityIndicator.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+        }
     }
     
-    public func congigure() {
-        placeLabel.text = "Londra Saat Kulesi"
-        locationLabel.text = "Londra"
-        backgroundImage.image = UIImage(named: "england")
-//        if let url = URL(string: model.cover_image_url) {
-//            backgroundImage.kf.setImage(with: url)
-//        }
-//
+    public func configure(model place: Place) {
+        locationLabel.text = place.place
+        titleLabel.text = place.title
+        
+        guard let urlStr = URL(string: place.cover_image_url) else {
+            backgroundImageView.image = UIImage(systemName: "photo")
+            return
+        }
+        
+        activityIndicator.startAnimating()
+        backgroundImageView.kf.setImage(
+            with: urlStr,
+            completionHandler: { [weak activityIndicator] result in
+                activityIndicator?.stopAnimating()
+                activityIndicator?.removeFromSuperview()
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    self.backgroundImageView.image = UIImage(systemName: "photo")
+                }
+            }
+        )
     }
 }
 

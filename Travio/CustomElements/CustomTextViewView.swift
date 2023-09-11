@@ -80,15 +80,6 @@ class CustomTextViewView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-//    func addShadow() {
-//        layer.shadowColor = UIColor.gray.cgColor
-//        layer.shadowOffset = CGSize(width: 0, height: 0)
-//        layer.shadowOpacity = 0.1
-//        layer.shadowRadius = 20
-//        clipsToBounds = false
-//        layer.cornerRadius = 16
-//        layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner]
-//    }
 }
 
 extension CustomTextViewView: UITextViewDelegate {

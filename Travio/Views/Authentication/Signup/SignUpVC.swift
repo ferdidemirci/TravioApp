@@ -7,10 +7,20 @@
 
 import UIKit
 import SnapKit
+import IQKeyboardManagerSwift
 
 class SignUpVC: UIViewController {
     
     var signUpViewModel = SignUpVM()
+    var delegate: ReturnToLogin?
+    
+    private lazy var backButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "backBarButtonIcon"), for: .normal)
+        button.tintColor = .red
+        button.addTarget(self, action: #selector(didTapBackButton), for: .touchUpInside)
+        return button
+    }()
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -22,12 +32,9 @@ class SignUpVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
-        view.addSubview(usernameTextFieldView)
-        view.addSubview(emailTextFieldView)
-        view.addSubview(passwordTextFieldView)
-        view.addSubview(confirmPasswordTextFieldView)
-        view.addSubview(signUpButton)
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
+        view.addSubviews(usernameTextFieldView, emailTextFieldView, passwordTextFieldView, confirmPasswordTextFieldView, signUpButton)
         return view
     }()
     
@@ -61,12 +68,11 @@ class SignUpVC: UIViewController {
         return view
     }()
     
-    private lazy var signUpButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("Sign Up", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+    private lazy var signUpButton: CustomButton = {
+        let button = CustomButton()
+        button.title = "Sign Up"
         button.backgroundColor = AppColor.isEnabledColor.colorValue()
-        button.isEnabled = true
+        button.isEnabled = false
         button.addTarget(self, action: #selector(didTapSignButton), for: .touchUpInside)
         return button
     }()
@@ -82,26 +88,24 @@ class SignUpVC: UIViewController {
         setupViews()
     }
     
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: .topLeft, radius: 80)
-        signUpButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 12)
-
-    }
-    
     @objc private func didTapSignButton() {
-        if let username = usernameTextFieldView.textField.text,
-           let email = emailTextFieldView.textField.text,
-           let password = passwordTextFieldView.textField.text,
-           let confirmPassword = confirmPasswordTextFieldView.textField.text {
-            
-            if password == confirmPassword && password.count < 15 && password.count > 6 {
-                
-                let newUser = User(full_name: username, email: email, password: password)
-                
-                signUpViewModel.postData(newUser, completion: {
-                    self.navigationController?.popToRootViewController(animated: true)
-                })
-            }
+        guard let username = usernameTextFieldView.textField.text,
+              let email = emailTextFieldView.textField.text,
+              let password = passwordTextFieldView.textField.text,
+              let confirmPassword = confirmPasswordTextFieldView.textField.text,
+              isValidEmail(email: email),
+              password == confirmPassword,
+              (8..<15).contains(password.count) else {
+            showAlert(title: "Invalid Information", message: "Please make sure you fill out the information correctly and completely.")
+            return
+        }
+
+        self.signUpButton.isEnabled = true
+        let newUser = User(full_name: username, email: email, password: password)
+        signUpViewModel.postData(newUser) { [weak self] in
+            guard let self = self else { return }
+            self.navigationController?.popToRootViewController(animated: true)
+            self.delegate?.returned(message: "The registration process was completed successfully.")
         }
     }
     
@@ -111,28 +115,26 @@ class SignUpVC: UIViewController {
     
     private func setupViews() {
         view.backgroundColor = AppColor.primaryColor.colorValue()
-        navigationController?.isNavigationBarHidden = false
-        
-        let backButton = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(didTapBackButton))
-        navigationItem.leftBarButtonItem = backButton
-        navigationController?.navigationBar.tintColor = .white
-        navigationController?.navigationBar.titleTextAttributes = [
-                    .foregroundColor: UIColor.white,
-                    .font: UIFont.boldSystemFont(ofSize: 36)
-                ]
-        
-        view.addSubviews(titleLabel, mainView)
+        navigationController?.isNavigationBarHidden = true
+        navigationItem.hidesBackButton = true
+        view.addSubviews(backButton, titleLabel, mainView)
         setupLayouts()
     }
     
     private func setupLayouts() {
+        
+        backButton.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide).offset(32)
+            make.leading.equalToSuperview().offset(24)
+        }
+        
         titleLabel.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(-22)
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(16)
             make.centerX.equalToSuperview()
         }
         
         mainView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(54)
+            make.top.equalTo(titleLabel.safeAreaLayoutGuide.snp.bottom).offset(52)
             make.leading.equalToSuperview()
             make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
@@ -170,7 +172,6 @@ class SignUpVC: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-24)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
-            make.height.equalTo(54)
         }
     }
 }
@@ -179,22 +180,16 @@ extension SignUpVC: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
         if !usernameTextFieldView.textField.text!.isEmpty &&
             !emailTextFieldView.textField.text!.isEmpty
-            && passwordTextFieldView.textField.text!.count >= 8 &&
-            passwordTextFieldView.textField.text == confirmPasswordTextFieldView.textField.text {
+            && passwordTextFieldView.textField.text!.count >= 8
+            && passwordTextFieldView.textField.text!.count <= 15
+            && passwordTextFieldView.textField.text == confirmPasswordTextFieldView.textField.text {
+            
             signUpButton.backgroundColor = AppColor.primaryColor.colorValue()
             signUpButton.isEnabled = true
+            
         } else {
             signUpButton.backgroundColor = AppColor.isEnabledColor.colorValue()
             signUpButton.isEnabled = false
         }
     }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField == emailTextFieldView.textField {
-            let newEmail = (textField.text! as NSString).replacingCharacters(in: range, with: string)
-            let isValid = isValidEmail(email: newEmail)
-                return true
-            }
-            return true
-        }
 }

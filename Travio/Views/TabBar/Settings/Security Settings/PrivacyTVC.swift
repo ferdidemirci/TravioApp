@@ -12,7 +12,7 @@ class PrivacyTVC: UITableViewCell {
     
     static let identifier = "PrivacyTVC"
     
-    private lazy var privacyView: CustomPrivacyView = {
+    lazy var privacyView: CustomPrivacyView = {
         let view = CustomPrivacyView()
         return view
     }()
@@ -27,11 +27,12 @@ class PrivacyTVC: UITableViewCell {
         super.init(coder: aDecoder)
         
         setupViews()
+        
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0))
+        self.backgroundColor = .clear
     }
     
     func configure(title: String) {
@@ -40,15 +41,15 @@ class PrivacyTVC: UITableViewCell {
     
     private func setupViews() {
         contentView.addSubview(privacyView)
-        
         setupLayouts()
     }
     
     private func setupLayouts() {
         privacyView.snp.makeConstraints { make in
             make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.leading.trailing.equalToSuperview()
+            make.bottom.equalToSuperview().offset(-8)
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
     }
     

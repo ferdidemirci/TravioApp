@@ -9,6 +9,11 @@ import UIKit
 
 class HomeDetailVC: UIViewController {
     
+    var viewModel = HomeDetailVM()
+    var viewTag: Int?
+    var sectionTitle: String?
+    var isToggle = false
+    
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "backBarButtonIcon"), for: .normal)
@@ -27,22 +32,17 @@ class HomeDetailVC: UIViewController {
     
     private lazy var mainView: UIView = {
         let view = UIView()
-        view.backgroundColor = AppColor.backgroundColor.colorValue()
-        view.addSubviews(collectionView, fromSmallButton, fromBigButton)
+        view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
+        view.backgroundColor = AppColor.backgroundLight.colorValue()
+        view.addSubviews(collectionView, sortButton)
         return view
     }()
     
-    private lazy var fromSmallButton: UIButton = {
+    private lazy var sortButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "fromSmall"), for: .normal)
+        button.setImage(UIImage(named: "fromA"), for: .normal)
         button.tintColor = .white
-        return button
-    }()
-    
-    private lazy var fromBigButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "fromBig"), for: .normal)
-        button.tintColor = .white
+        button.addTarget(self, action: #selector(didTapSortButton), for: .touchUpInside)
         return button
     }()
     
@@ -53,8 +53,9 @@ class HomeDetailVC: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
+        collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 0, right: 0)
         collectionView.register(HomeDetailCVC.self, forCellWithReuseIdentifier: HomeDetailCVC.identifier)
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         return collectionView
     }()
@@ -63,19 +64,53 @@ class HomeDetailVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: .topLeft, radius: 80)
+        setupApi()
     }
     
     @objc private func didTapBackButton() {
         navigationController?.popToRootViewController(animated: true)
     }
     
+    @objc private func didTapSortButton() {
+        isToggle.toggle()
+        if isToggle {
+            sortButton.setImage(UIImage(named: "fromZ"), for: .normal)
+            viewModel.sortingFromAtoZ()
+        } else {
+            sortButton.setImage(UIImage(named: "fromA"), for: .normal)
+            viewModel.sortingFromZtoA()
+        }
+        collectionView.reloadData()
+    }
+    
+    private func setupApi() {
+        let request: Router
+        var shouldReloadData = false
+        
+        switch viewTag {
+        case 0:
+            request = Router.popularPlaces(limit: nil)
+            shouldReloadData = true
+        case 1:
+            request = Router.lastPlaces(limit: nil)
+            shouldReloadData = true
+        case 2:
+            request = Router.lastPlaces(limit: nil)
+            shouldReloadData = true
+        default:
+            return
+        }
+        
+        viewModel.fetchPlaces(request: request) {
+            if shouldReloadData {
+                self.collectionView.reloadData()
+            }
+        }
+    }
+    
     private func setupViews(){
         view.backgroundColor = AppColor.primaryColor.colorValue()
-        
+        titleLabel.text = sectionTitle
         view.addSubviews(backButton, titleLabel, mainView)
         setupLayout()
     }
@@ -96,22 +131,15 @@ class HomeDetailVC: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        fromBigButton.snp.makeConstraints { make in
+        sortButton.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
-            make.width.equalTo(25)
-            make.height.equalTo(22)
-        }
-        
-        fromSmallButton.snp.makeConstraints { make in
-            make.top.equalTo(fromBigButton)
-            make.trailing.equalTo(fromBigButton.snp.leading).offset(-24)
-            make.width.equalTo(25)
+            make.width.equalTo(22)
             make.height.equalTo(22)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(70)
+            make.top.equalToSuperview()
             make.bottom.equalToSuperview()
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
@@ -127,16 +155,27 @@ extension HomeDetailVC: UICollectionViewDelegateFlowLayout {
         let size = CGSize(width: collectionView.frame.width, height: 89)
         return size
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let placeId = viewModel.placeArray[indexPath.row].id
+        let placeDetails = viewModel.placeArray[indexPath.row]
+        let vc = CustomDetailsVC()
+        vc.placeId = placeId
+        vc.placeDetails = placeDetails
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 extension HomeDetailVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return viewModel.placeArray.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeDetailCVC.identifier, for: indexPath) as? HomeDetailCVC else { return UICollectionViewCell() }
         cell.backgroundColor = .white
+        let place = viewModel.placeArray[indexPath.row]
+        cell.configure(model: place)
         return cell
     }
 }
