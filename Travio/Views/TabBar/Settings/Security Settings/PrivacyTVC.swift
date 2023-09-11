@@ -42,6 +42,7 @@ class PrivacyTVC: UITableViewCell {
     private func setupViews() {
         contentView.addSubview(privacyView)
         setupLayouts()
+        privacyView.switchOnOff.addTarget(self, action: #selector(permissionOnDeviceSettings(_ :)), for: .valueChanged)
     }
     
     private func setupLayouts() {
@@ -51,6 +52,14 @@ class PrivacyTVC: UITableViewCell {
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
         }
+    }
+    
+    @objc func permissionOnDeviceSettings(_ sender: UISwitch) {
+        
+        if let settingsURL = URL(string: UIApplication.openSettingsURLString) {
+            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
+        }
+        
     }
     
 }
