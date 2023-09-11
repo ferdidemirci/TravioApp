@@ -39,7 +39,8 @@ class SettingsVC: UIViewController {
     private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
-        iv.backgroundColor = .red
+        iv.backgroundColor = .clear
+        iv.tintColor = AppColor.backgroundDark.colorValue()
         iv.layer.masksToBounds = true
         iv.layer.cornerRadius = 60
         return iv
@@ -63,7 +64,7 @@ class SettingsVC: UIViewController {
     }()
     
     private lazy var activityIndicator: UIActivityIndicatorView = {
-        let indicator = UIActivityIndicatorView(style: .large)
+        let indicator = UIActivityIndicatorView(style: .medium)
         indicator.color = AppColor.primaryColor.colorValue()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
@@ -88,6 +89,7 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        setupApi()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -103,21 +105,44 @@ class SettingsVC: UIViewController {
     
     @objc private func didTapEditProfileButton() {
         let vc = EditProfileVC()
+        vc.user = viewModel.userInfos
         vc.hidesBottomBarWhenPushed = true
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
     
     private func configure() {
-        viewModel.getUserInfos { user in
-            guard let imageURL = user.pp_url,
-                  let url = URL(string: imageURL),
-                  let name = user.full_name else {
-                self.profileImageView.image = UIImage(systemName: "photo")
-                return
+        guard let user = viewModel.userInfos,
+              let imageURL = user.pp_url,
+              let url = URL(string: imageURL),
+              let name = user.full_name else {
+            self.profileImageView.image = UIImage(named: "person.fill")
+            return
+        }
+        self.nameLabel.text = name
+        activityIndicator.startAnimating()
+        profileImageView.kf.setImage(
+            with: url,
+            completionHandler: { [weak activityIndicator] result in
+                activityIndicator?.stopAnimating()
+                activityIndicator?.removeFromSuperview()
+                switch result {
+                case .success:
+                    break
+                case .failure:
+                    self.profileImageView.image = UIImage(named: "person.fill")
+                }
             }
-            self.nameLabel.text = name
-
+        )
+    }
+    
+    private func setupApi() {
+        viewModel.getUserInfos() { status in
+            if status {
+                self.configure()
+            } else {
+                self.showAlert(title: "Error!", message: "User information could not be found. Please try again.")
+            }
         }
     }
     
@@ -185,7 +210,6 @@ class SettingsVC: UIViewController {
         }
     }
 }
-
 
 extension SettingsVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -13,6 +13,7 @@ import Kingfisher
 class EditProfileVC: UIViewController {
     
     let viewModel = EditProfileVM()
+    var user: Me?
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()

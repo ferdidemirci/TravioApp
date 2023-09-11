@@ -29,7 +29,7 @@ enum AppColor {
         case .isEnabledColor:
             return UIColor(red: 153.0/255.0, green: 153.0/255.0, blue: 153.0/255.0, alpha: 1.0)
         case .tabBarColor:
-            return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.75)
+            return UIColor(red: 255.0/255.0, green: 255.0/255.0, blue: 255.0/255.0, alpha: 0.90)
             
         }
     }
