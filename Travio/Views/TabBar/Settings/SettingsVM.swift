@@ -18,14 +18,15 @@ class SettingsVM {
                                                SettingsModel(leftImage: "info", text: "About"),
                                                SettingsModel(leftImage: "termsofuse", text: "Terms of Use")]
     
-    func getUserInfos(completion: @escaping (Me) -> Void) {
+    func getUserInfos(completion: @escaping (Bool) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
             switch results {
             case .success(let data):
                 self.userInfos = data
-                completion(data)
+                completion(true)
             case .failure(let error):
                 print(error.localizedDescription)
+                completion(false)
             }
         }
     }
@@ -35,5 +36,4 @@ class SettingsVM {
         self.keychain.delete(key)
         completion()
     }
-    
 }
