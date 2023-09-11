@@ -409,8 +409,8 @@
 		C0D1E1A72AA5D47800E632E0 /* Edit Profile */ = {
 			isa = PBXGroup;
 			children = (
-				C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */,
 				C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */,
+				C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */,
 			);
 			path = "Edit Profile";
 			sourceTree = "<group>";

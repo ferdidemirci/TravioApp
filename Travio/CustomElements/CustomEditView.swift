@@ -23,40 +23,35 @@ class CustomEditView: UIView {
     }
     
     private lazy var iconImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage(named: iconImage)
-        iv.backgroundColor = .clear
-        return iv
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: iconImage)
+        imageView.backgroundColor = .clear
+        return imageView
     }()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.medium.rawValue, size: 12)
         label.text = labelText
+        label.textColor = AppColor.backgroundDark.colorValue()
         return label
     }()
     
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        
       
         setupViews()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func layoutSubviews() {
-        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        self.addShadow()
     }
     
     private func setupViews() {
+        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         self.backgroundColor = .white
         self.addSubviews(iconImageView,
                          titleLabel)
-        self.addShadow()
-        
         setupLayouts()
     }
     
@@ -73,4 +68,7 @@ class CustomEditView: UIView {
         }
     }
     
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
