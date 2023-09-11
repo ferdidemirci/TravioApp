@@ -9,7 +9,7 @@ import Foundation
 import Alamofire
 
 class EditProfileVM {
-    var userInfos: Me?
+    
     var url: [String]?
     var imageData: [Data] = []
     
@@ -17,7 +17,6 @@ class EditProfileVM {
         NetworkHelper.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
             switch results {
             case .success(let data):
-                self.userInfos = data
                 completion(data)
             case .failure(let error):
                 print(error.localizedDescription)
@@ -26,7 +25,6 @@ class EditProfileVM {
     }
     
     func uploadImage(completion: @escaping () -> Void){
-        
         NetworkHelper.shared.uploadRequest(route: Router.upload(image: imageData)) { (result: Result<UploadResponse, Error>) in
             switch result {
             case .success(let success):
@@ -38,13 +36,13 @@ class EditProfileVM {
         }
     }
     
-    func editProfile(params: Parameters) {
+    func editProfile(params: Parameters, completion: @escaping (Bool, String) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.editProfile(parameters: params)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let data):
-                print("Edit Profile: \(data)")
+                completion(true, data.message)
             case .failure(let error):
-                print("Edit Profile Error: \(error.localizedDescription)")
+                completion(false, error.localizedDescription)
             }
         }
     }

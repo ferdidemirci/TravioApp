@@ -36,14 +36,13 @@ class EditProfileVC: UIViewController {
         return view
     }()
     
-    private lazy var profileImage: UIImageView = {
-        let iv = UIImageView()
-        iv.contentMode = .scaleAspectFill
-        iv.image = UIImage(named: "bruce")
-        iv.backgroundColor = .red
-        iv.layer.masksToBounds = true
-        iv.layer.cornerRadius = 60
-        return iv
+    private lazy var profileImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.backgroundColor = .white
+        imageView.layer.cornerRadius = 60
+        return imageView
     }()
     
     private lazy var changePhotoButton: UIButton = {
@@ -56,9 +55,8 @@ class EditProfileVC: UIViewController {
         return button
     }()
     
-    private lazy var lblName: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.text = "Bruce Wills"
         label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
         return label
@@ -101,16 +99,17 @@ class EditProfileVC: UIViewController {
         return button
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupViews()
         configure()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        mainView.roundCorners(corners: [.topLeft], radius: 80)
-        saveButton.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
     }
     
     @objc private func closeButtonTapped() {
@@ -132,20 +131,50 @@ class EditProfileVC: UIViewController {
             let params: Parameters = ["full_name": name,
                                       "email": email,
                                       "pp_url": imageURL]
-            self.viewModel.editProfile(params: params)
+            self.viewModel.editProfile(params: params) { status, message in
+                self.handleProfileEditResult(status, message)
+            }
         }
     }
     
+    private func handleProfileEditResult(_ status: Bool, _ message: String) {
+            if status {
+                self.dismiss(animated: true)
+                self.showAlert(title: "Successfuly!", message: message)
+            } else {
+                self.showAlert(title: "Error!", message: message)
+            }
+        }
+    
     private func configure() {
-        viewModel.getUserInfos { user in
+        viewModel.getUserInfos { [self] user in
             guard let imageURL = user.pp_url,
                   let name = user.full_name,
                   let createdDate = user.created_at,
-                  let role = user.role else { return }
-            self.profileImage.kf.setImage(with: URL(string: imageURL))
-            self.lblName.text = name
+                  let role = user.role,
+                  let url = URL(string: imageURL) else {
+                self.profileImageView.image = UIImage(systemName: "photo")
+                return
+            }
+            
+            self.nameLabel.text = name
             self.birthView.labelText = formatISO8601Date(createdDate) ?? "Unknown"
             self.roleView.labelText = role
+            
+            activityIndicator.startAnimating()
+            profileImageView.kf.setImage(
+                with: url,
+                completionHandler: { [weak activityIndicator] result in
+                    activityIndicator?.stopAnimating()
+                    activityIndicator?.removeFromSuperview()
+                    switch result {
+                    case .success:
+                        break
+                    case .failure:
+                        self.profileImageView.image = UIImage(systemName: "photo")
+                    }
+                }
+            )
         }
     }
     
@@ -155,9 +184,10 @@ class EditProfileVC: UIViewController {
         self.view.addSubviews(titleLabel,
                               closeButton,
                               mainView)
-        mainView.addSubviews(profileImage,
+        mainView.addSubviews(profileImageView,
+                             activityIndicator,
                              changePhotoButton,
-                             lblName,
+                             nameLabel,
                              birthView,
                              roleView, nameView, emailView, saveButton)
         setupLayouts()
@@ -173,7 +203,7 @@ class EditProfileVC: UIViewController {
         closeButton.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-24)
             make.centerY.equalTo(titleLabel.snp.centerY)
-            make.height.width.equalTo(24)
+            make.height.width.equalTo(20)
         }
         
         mainView.snp.makeConstraints { make in
@@ -181,33 +211,39 @@ class EditProfileVC: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        profileImage.snp.makeConstraints { make in
+        profileImageView.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(24)
+            make.centerX.equalToSuperview()
+            make.height.width.equalTo(120)
+        }
+        
+        activityIndicator.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(120)
         }
         
         changePhotoButton.snp.makeConstraints { make in
-            make.top.equalTo(profileImage.snp.bottom).offset(8)
+            make.top.equalTo(profileImageView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
             make.height.equalTo(18)
             make.width.equalTo(86)
         }
         
-        lblName.snp.makeConstraints { make in
+        nameLabel.snp.makeConstraints { make in
             make.top.equalTo(changePhotoButton.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
         }
         
         birthView.snp.makeConstraints { make in
-            make.top.equalTo(lblName.snp.bottom).offset(20)
+            make.top.equalTo(nameLabel.snp.bottom).offset(20)
             make.leading.equalToSuperview().offset(24)
             make.height.equalTo(52)
             make.width.equalTo(163)
         }
         
         roleView.snp.makeConstraints { make in
-            make.top.equalTo(lblName.snp.bottom).offset(20)
+            make.top.equalTo(nameLabel.snp.bottom).offset(20)
             make.leading.equalTo(birthView.snp.trailing).offset(16)
             make.height.equalTo(52)
             make.width.equalTo(163)
@@ -233,22 +269,18 @@ class EditProfileVC: UIViewController {
             make.trailing.equalTo(emailView.snp.trailing)
             make.height.equalTo(54)
         }
-        
     }
-    
 }
 
 extension EditProfileVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            profileImage.image = image
+            profileImageView.image = image
             if let imageData = image.jpegData(compressionQuality: 0.5) {
                 viewModel.imageData.append(imageData)
             }
         }
         picker.dismiss(animated: true)
     }
-    
 }
 
