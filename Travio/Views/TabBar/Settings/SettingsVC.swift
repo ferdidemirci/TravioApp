@@ -80,7 +80,7 @@ class SettingsVC: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.isPagingEnabled = true
         collectionView.showsVerticalScrollIndicator = false
-        collectionView.contentInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
+        collectionView.contentInset = UIEdgeInsets(top: 24, left: 16, bottom: 16, right: 16)
         collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC.identifier)
         return collectionView
     }()
@@ -89,11 +89,10 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-        setupApi()
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        configure()
+        setupApi()
     }
     
     @objc private func logoutButtonTapped() {
