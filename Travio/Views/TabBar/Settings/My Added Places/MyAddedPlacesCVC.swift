@@ -22,6 +22,7 @@ class MyAddedPlacesCVC: UICollectionViewCell {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 24)
+        label.numberOfLines = 0
         return label
     }()
     

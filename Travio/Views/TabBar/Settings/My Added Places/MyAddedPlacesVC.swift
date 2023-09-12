@@ -11,6 +11,7 @@ import SnapKit
 class MyAddedPlacesVC: UIViewController {
     
     let viewModel = MyAddedPlacesVM()
+    var isToggle = false
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
@@ -70,15 +71,15 @@ class MyAddedPlacesVC: UIViewController {
     }
     
     @objc private func didTapSortButton() {
-//        isToggle.toggle()
-//        if isToggle {
-//            sortButton.setImage(UIImage(named: "fromZ"), for: .normal)
-//            viewModel.sortingFromAtoZ()
-//        } else {
-//            sortButton.setImage(UIImage(named: "fromA"), for: .normal)
-//            viewModel.sortingFromZtoA()
-//        }
-//        collectionView.reloadData()
+        isToggle.toggle()
+        if isToggle {
+            sortButton.setImage(UIImage(named: "fromZ"), for: .normal)
+            viewModel.sortFromAtoZ()
+        } else {
+            sortButton.setImage(UIImage(named: "fromA"), for: .normal)
+            viewModel.sortFromZtoA()
+        }
+        collectionView.reloadData()
     }
     
     private func configure() {
@@ -94,7 +95,6 @@ class MyAddedPlacesVC: UIViewController {
     private func setupViews(){
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = AppColor.primaryColor.colorValue()
-//        titleLabel.text = sectionTitle
         view.addSubviews(backButton, titleLabel, mainView)
         setupLayout()
     }
@@ -145,7 +145,12 @@ extension MyAddedPlacesVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("cell did selected")
+        let placeId = viewModel.myAddedPlaces[indexPath.row].id
+        let placeDetails = viewModel.myAddedPlaces[indexPath.row]
+        let vc = CustomDetailsVC()
+        vc.placeId = placeId
+        vc.placeDetails = placeDetails
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 }
 

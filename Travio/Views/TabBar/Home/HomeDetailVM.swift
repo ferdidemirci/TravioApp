@@ -28,6 +28,6 @@ class HomeDetailVM {
     }
     
     func sortingFromZtoA() {
-        placeArray = placeArray.sorted { $0.title > $1.title }
+        placeArray = placeArray.sorted { $0.title.lowercased() > $1.title.lowercased() }
     }
 }
