@@ -19,8 +19,6 @@ class VisitsVC: UIViewController {
         return label
     }()
     
-    
-    
     private lazy var mainView: UIView = {
         let view = UIView()
         view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
@@ -61,9 +59,13 @@ class VisitsVC: UIViewController {
     }
     
     private func setupData() {
-        viewModel.getVisits {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+        viewModel.getVisits { status in
+            if status {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            } else {
+                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
             }
         }
     }

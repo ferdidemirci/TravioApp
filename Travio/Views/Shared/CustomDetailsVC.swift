@@ -108,6 +108,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     private lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.delegate = self
+        mapView.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
         return mapView
     }()
     

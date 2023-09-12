@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 import Photos
 import CoreLocation
+import UIKit
 
 class PermissionHelper {
     

@@ -53,7 +53,6 @@ class HomeDetailVC: UIViewController {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
         collectionView.dataSource = self
-        collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 0, right: 0)
         collectionView.register(HomeDetailCVC.self, forCellWithReuseIdentifier: HomeDetailCVC.identifier)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
@@ -139,7 +138,7 @@ class HomeDetailVC: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
+            make.top.equalTo(sortButton.snp.bottom).offset(24)
             make.bottom.equalToSuperview()
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)

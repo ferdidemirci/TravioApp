@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+protocol ReturnToSettings: AnyObject {
+    func returned(message: String)
+}
+
 class SettingsVC: UIViewController {
     
     let viewModel = SettingsVM()
@@ -223,7 +227,9 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         
         switch selectedItem {
         case 0:
-            destinationVC = SecuritySettingsVC()
+            let vc = SecuritySettingsVC()
+            vc.delegate = self
+            destinationVC = vc
             destinationVC?.hidesBottomBarWhenPushed = true
         case 2:
             destinationVC = MyAddedPlacesVC()
@@ -254,5 +260,11 @@ extension SettingsVC: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCVC.identifier, for: indexPath) as? SettingsCVC else { return UICollectionViewCell() }
         cell.configure(model: viewModel.settingsParameters[indexPath.item])
         return cell
+    }
+}
+
+extension SettingsVC: ReturnToSettings {
+    func returned(message: String) {
+        self.showAlert(title: "Successfuly", message: message)
     }
 }
