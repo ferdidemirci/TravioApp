@@ -65,6 +65,8 @@
 		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
 		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
 		C0A2E73E2AAF7C4100D3F879 /* PermissionHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A2E73D2AAF7C4100D3F879 /* PermissionHelper.swift */; };
+		C0A2E7412AAF91B300D3F879 /* MyAddedPlacesVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A2E7402AAF91B300D3F879 /* MyAddedPlacesVC.swift */; };
+		C0A2E7432AAF9C0100D3F879 /* MyAddedPlacesCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A2E7422AAF9C0100D3F879 /* MyAddedPlacesCVC.swift */; };
 		C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */; };
 		C0B540212AAA503F008EE38A /* HelpSupportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B540202AAA503F008EE38A /* HelpSupportVC.swift */; };
 		C0B540232AAA5AB9008EE38A /* HelpSupportTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */; };
@@ -73,6 +75,7 @@
 		C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F972AA1C92F006B560B /* CustomEditView.swift */; };
 		C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37332AA27710007C3595 /* PrivacyTVC.swift */; };
 		C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37352AA277CB007C3595 /* PasswordTVC.swift */; };
+		C0C879B12AB0418E00089E93 /* MyAddedPlacesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */; };
 		C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */; };
 		C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */; };
 		C0D1E1AD2AA65E9500E632E0 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */; };
@@ -133,6 +136,8 @@
 		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
 		C0A2E73D2AAF7C4100D3F879 /* PermissionHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PermissionHelper.swift; sourceTree = "<group>"; };
+		C0A2E7402AAF91B300D3F879 /* MyAddedPlacesVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVC.swift; sourceTree = "<group>"; };
+		C0A2E7422AAF9C0100D3F879 /* MyAddedPlacesCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesCVC.swift; sourceTree = "<group>"; };
 		C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecuritySettingsVM.swift; sourceTree = "<group>"; };
 		C0B540202AAA503F008EE38A /* HelpSupportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportVC.swift; sourceTree = "<group>"; };
 		C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportTVC.swift; sourceTree = "<group>"; };
@@ -141,6 +146,7 @@
 		C0BE1F972AA1C92F006B560B /* CustomEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditView.swift; sourceTree = "<group>"; };
 		C0BF37332AA27710007C3595 /* PrivacyTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTVC.swift; sourceTree = "<group>"; };
 		C0BF37352AA277CB007C3595 /* PasswordTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTVC.swift; sourceTree = "<group>"; };
+		C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVM.swift; sourceTree = "<group>"; };
 		C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVM.swift; sourceTree = "<group>"; };
 		C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
@@ -375,6 +381,16 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		C0A2E73F2AAF917C00D3F879 /* My Added Places */ = {
+			isa = PBXGroup;
+			children = (
+				C0A2E7402AAF91B300D3F879 /* MyAddedPlacesVC.swift */,
+				C0A2E7422AAF9C0100D3F879 /* MyAddedPlacesCVC.swift */,
+				C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */,
+			);
+			path = "My Added Places";
+			sourceTree = "<group>";
+		};
 		C0B5401F2AAA501E008EE38A /* Help&Support */ = {
 			isa = PBXGroup;
 			children = (
@@ -399,6 +415,7 @@
 		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0A2E73F2AAF917C00D3F879 /* My Added Places */,
 				C0B5401F2AAA501E008EE38A /* Help&Support */,
 				C0D1E1A72AA5D47800E632E0 /* Edit Profile */,
 				C0BE1F922AA1C873006B560B /* Security Settings */,
@@ -536,6 +553,7 @@
 				811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */,
 				81E0C72E2AA0B10E00299DF3 /* ResponseModel.swift in Sources */,
 				81E0C72C2AA0B0CC00299DF3 /* MainTabBarC.swift in Sources */,
+				C0A2E7432AAF9C0100D3F879 /* MyAddedPlacesCVC.swift in Sources */,
 				C0D1E1AD2AA65E9500E632E0 /* EditProfileVC.swift in Sources */,
 				81E0C7162AA0ADE600299DF3 /* VisitsVM.swift in Sources */,
 				81E0C7102AA0AD0600299DF3 /* SignUpVC.swift in Sources */,
@@ -555,6 +573,7 @@
 				81E0C7362AA0B12E00299DF3 /* VisitModel.swift in Sources */,
 				C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */,
 				81E0C70A2AA0AC7C00299DF3 /* Helpers.swift in Sources */,
+				C0C879B12AB0418E00089E93 /* MyAddedPlacesVM.swift in Sources */,
 				819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */,
 				81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */,
 				C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */,
@@ -562,6 +581,7 @@
 				81E0C7122AA0AD5300299DF3 /* SignUpVM.swift in Sources */,
 				C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */,
 				81E0C6ED2AA0A7FA00299DF3 /* Extensions.swift in Sources */,
+				C0A2E7412AAF91B300D3F879 /* MyAddedPlacesVC.swift in Sources */,
 				81E0C73A2AA0B13700299DF3 /* UserModel.swift in Sources */,
 				C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */,
 				C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */,

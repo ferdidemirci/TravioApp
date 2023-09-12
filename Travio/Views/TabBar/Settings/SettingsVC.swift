@@ -225,6 +225,9 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         case 0:
             destinationVC = SecuritySettingsVC()
             destinationVC?.hidesBottomBarWhenPushed = true
+        case 2:
+            destinationVC = MyAddedPlacesVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
         case 3:
             destinationVC = HelpSupportVC()
             destinationVC?.hidesBottomBarWhenPushed = true
