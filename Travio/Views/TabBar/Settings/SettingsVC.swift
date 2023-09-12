@@ -231,6 +231,9 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         case 3:
             destinationVC = HelpSupportVC()
             destinationVC?.hidesBottomBarWhenPushed = true
+        case 4:
+            destinationVC = AboutUsVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
         default:
             break
         }
