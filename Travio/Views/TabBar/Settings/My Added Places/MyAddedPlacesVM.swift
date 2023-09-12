@@ -24,4 +24,12 @@ class MyAddedPlacesVM {
         }
     }
     
+    func sortFromAtoZ() {
+        myAddedPlaces = myAddedPlaces.sorted { $0.title.lowercased() < $1.title.lowercased() }
+    }
+    
+    func sortFromZtoA() {
+        myAddedPlaces = myAddedPlaces.sorted { $0.title.lowercased() > $1.title.lowercased() }
+    }
+    
 }
