@@ -30,9 +30,8 @@ class MainTabBarC: UITabBarController {
         let settingsVC = SettingsVC()
         settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "tabBar3"), tag: 3)
 
-        let tabBarList = [homeVC, visitsVC, mapVC]
+        let tabBarList = [homeVC, visitsVC, mapVC, settingsVC]
         viewControllers = tabBarList.map({ UINavigationController(rootViewController: $0) })
-        viewControllers?.append(settingsVC)
         self.tabBar.tintColor = AppColor.primaryColor.colorValue()
         self.tabBar.backgroundColor = AppColor.tabBarColor.colorValue()
         

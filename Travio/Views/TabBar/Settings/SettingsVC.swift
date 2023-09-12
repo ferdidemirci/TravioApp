@@ -98,6 +98,7 @@ class SettingsVC: UIViewController {
     @objc private func logoutButtonTapped() {
         viewModel.deleteAccessToken {
             let vc = LoginVC()
+            vc.hidesBottomBarWhenPushed = true
             self.navigationController?.pushViewController(vc, animated: true)
         }
     }
