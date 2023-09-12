@@ -10,6 +10,8 @@ import SnapKit
 
 class MyAddedPlacesVC: UIViewController {
     
+    let viewModel = MyAddedPlacesVM()
+    
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "backBarButtonIcon"), for: .normal)
@@ -60,6 +62,7 @@ class MyAddedPlacesVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
+        configure()
     }
     
     @objc private func didTapBackButton() {
@@ -76,6 +79,16 @@ class MyAddedPlacesVC: UIViewController {
 //            viewModel.sortingFromZtoA()
 //        }
 //        collectionView.reloadData()
+    }
+    
+    private func configure() {
+        viewModel.getAllPlacesForUser { success in
+            if success {
+                self.collectionView.reloadData()
+            } else {
+                print(self.debugDescription)
+            }
+        }
     }
     
     private func setupViews(){
@@ -132,26 +145,20 @@ extension MyAddedPlacesVC: UICollectionViewDelegateFlowLayout {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let placeId = viewModel.placeArray[indexPath.row].id
-//        let placeDetails = viewModel.placeArray[indexPath.row]
-//        let vc = CustomDetailsVC()
-//        vc.placeId = placeId
-//        vc.placeDetails = placeDetails
-//        self.navigationController?.pushViewController(vc, animated: true)
+        print("cell did selected")
     }
 }
 
 extension MyAddedPlacesVC: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        return viewModel.placeArray.count
-        return 10
+        return viewModel.myAddedPlaces.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyAddedPlacesCVC.identifier, for: indexPath) as? MyAddedPlacesCVC else { return UICollectionViewCell() }
         cell.backgroundColor = .white
-//        let place = viewModel.placeArray[indexPath.row]
-//        cell.configure(model: place)
+        let places = viewModel.myAddedPlaces[indexPath.row]
+        cell.configure(model: places)
         return cell
     }
 }

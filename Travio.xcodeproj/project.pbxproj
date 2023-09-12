@@ -75,6 +75,7 @@
 		C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BE1F972AA1C92F006B560B /* CustomEditView.swift */; };
 		C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37332AA27710007C3595 /* PrivacyTVC.swift */; };
 		C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37352AA277CB007C3595 /* PasswordTVC.swift */; };
+		C0C879B12AB0418E00089E93 /* MyAddedPlacesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */; };
 		C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */; };
 		C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */; };
 		C0D1E1AD2AA65E9500E632E0 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */; };
@@ -145,6 +146,7 @@
 		C0BE1F972AA1C92F006B560B /* CustomEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomEditView.swift; sourceTree = "<group>"; };
 		C0BF37332AA27710007C3595 /* PrivacyTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTVC.swift; sourceTree = "<group>"; };
 		C0BF37352AA277CB007C3595 /* PasswordTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTVC.swift; sourceTree = "<group>"; };
+		C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVM.swift; sourceTree = "<group>"; };
 		C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVM.swift; sourceTree = "<group>"; };
 		C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
@@ -384,6 +386,7 @@
 			children = (
 				C0A2E7402AAF91B300D3F879 /* MyAddedPlacesVC.swift */,
 				C0A2E7422AAF9C0100D3F879 /* MyAddedPlacesCVC.swift */,
+				C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */,
 			);
 			path = "My Added Places";
 			sourceTree = "<group>";
@@ -570,6 +573,7 @@
 				81E0C7362AA0B12E00299DF3 /* VisitModel.swift in Sources */,
 				C0BE1F962AA1C8FF006B560B /* CustomPrivacyView.swift in Sources */,
 				81E0C70A2AA0AC7C00299DF3 /* Helpers.swift in Sources */,
+				C0C879B12AB0418E00089E93 /* MyAddedPlacesVM.swift in Sources */,
 				819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */,
 				81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */,
 				C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */,
