@@ -76,6 +76,7 @@
 		C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37332AA27710007C3595 /* PrivacyTVC.swift */; };
 		C0BF37362AA277CB007C3595 /* PasswordTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0BF37352AA277CB007C3595 /* PasswordTVC.swift */; };
 		C0C879B12AB0418E00089E93 /* MyAddedPlacesVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */; };
+		C0C879B62AB07B4F00089E93 /* AboutUsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C879B52AB07B4F00089E93 /* AboutUsVC.swift */; };
 		C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */; };
 		C0D1E1AB2AA65DD100E632E0 /* EditProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */; };
 		C0D1E1AD2AA65E9500E632E0 /* EditProfileVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */; };
@@ -147,6 +148,7 @@
 		C0BF37332AA27710007C3595 /* PrivacyTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyTVC.swift; sourceTree = "<group>"; };
 		C0BF37352AA277CB007C3595 /* PasswordTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTVC.swift; sourceTree = "<group>"; };
 		C0C879B02AB0418E00089E93 /* MyAddedPlacesVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyAddedPlacesVM.swift; sourceTree = "<group>"; };
+		C0C879B52AB07B4F00089E93 /* AboutUsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutUsVC.swift; sourceTree = "<group>"; };
 		C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVC.swift; sourceTree = "<group>"; };
 		C0D1E1AA2AA65DD100E632E0 /* EditProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVM.swift; sourceTree = "<group>"; };
 		C0D1E1AC2AA65E9500E632E0 /* EditProfileVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileVC.swift; sourceTree = "<group>"; };
@@ -217,9 +219,6 @@
 				811FA10C2AA4CB1600FC378E /* HomeVM.swift */,
 				811FA10E2AA4CC1600FC378E /* HomeTVC.swift */,
 				811FA1102AA50A4600FC378E /* HomeCVC.swift */,
-				811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */,
-				819B95C42AA611E40068D733 /* HomeDetailVM.swift */,
-				811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -249,9 +248,6 @@
 				81E0C71C2AA0AE5C00299DF3 /* MapVC.swift */,
 				81E0C71A2AA0AE4700299DF3 /* MapVM.swift */,
 				81E0C71E2AA0AEA700299DF3 /* MapCVC.swift */,
-				81E0C7202AA0AF2500299DF3 /* AddVisitVC.swift */,
-				81E0C73D2AA0B3E700299DF3 /* AddVisitVM.swift */,
-				81E0C7222AA0AF7C00299DF3 /* AddVisitPhotoCVC.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -350,7 +346,9 @@
 				C0C927C42AA0D0AC0077B7BA /* Settings */,
 				81E0C6DA2AA0A69000299DF3 /* Visits */,
 				81E0C6DB2AA0A69700299DF3 /* Map */,
+				C0C879B32AB07ABF00089E93 /* Add Visit */,
 				81E0C6D82AA0A67900299DF3 /* Home */,
+				C0C879B22AB07A7600089E93 /* Home Detail */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -412,13 +410,42 @@
 			path = "Security Settings";
 			sourceTree = "<group>";
 		};
+		C0C879B22AB07A7600089E93 /* Home Detail */ = {
+			isa = PBXGroup;
+			children = (
+				811FA1142AA51BDC00FC378E /* HomeDetailVC.swift */,
+				819B95C42AA611E40068D733 /* HomeDetailVM.swift */,
+				811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */,
+			);
+			path = "Home Detail";
+			sourceTree = "<group>";
+		};
+		C0C879B32AB07ABF00089E93 /* Add Visit */ = {
+			isa = PBXGroup;
+			children = (
+				81E0C7202AA0AF2500299DF3 /* AddVisitVC.swift */,
+				81E0C73D2AA0B3E700299DF3 /* AddVisitVM.swift */,
+				81E0C7222AA0AF7C00299DF3 /* AddVisitPhotoCVC.swift */,
+			);
+			path = "Add Visit";
+			sourceTree = "<group>";
+		};
+		C0C879B42AB07B0200089E93 /* About Us */ = {
+			isa = PBXGroup;
+			children = (
+				C0C879B52AB07B4F00089E93 /* AboutUsVC.swift */,
+			);
+			path = "About Us";
+			sourceTree = "<group>";
+		};
 		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				C0A2E73F2AAF917C00D3F879 /* My Added Places */,
-				C0B5401F2AAA501E008EE38A /* Help&Support */,
 				C0D1E1A72AA5D47800E632E0 /* Edit Profile */,
 				C0BE1F922AA1C873006B560B /* Security Settings */,
+				C0A2E73F2AAF917C00D3F879 /* My Added Places */,
+				C0B5401F2AAA501E008EE38A /* Help&Support */,
+				C0C879B42AB07B0200089E93 /* About Us */,
 				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
 				C09C220A2AA119350084B54F /* SettingsVM.swift */,
 				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
@@ -560,6 +587,7 @@
 				C0BF37342AA27710007C3595 /* PrivacyTVC.swift in Sources */,
 				81E0C7302AA0B12B00299DF3 /* MeModel.swift in Sources */,
 				81E0C7212AA0AF2500299DF3 /* AddVisitVC.swift in Sources */,
+				C0C879B62AB07B4F00089E93 /* AboutUsVC.swift in Sources */,
 				81E0C7272AA0B03100299DF3 /* VisitCVC.swift in Sources */,
 				81E0C71B2AA0AE4700299DF3 /* MapVM.swift in Sources */,
 				81E0C73C2AA0B13700299DF3 /* TokenModel.swift in Sources */,
