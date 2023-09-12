@@ -72,7 +72,7 @@ class MapVC: UIViewController, MKMapViewDelegate{
                 return
             }
             if let placemark = placemarks?.first {
-                if let city = placemark.locality,
+                if let city = placemark.administrativeArea,
                     let country = placemark.country {
                     self.place = "\(city), \(country)"
                     complate()

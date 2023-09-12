@@ -8,8 +8,6 @@
 import UIKit
 import SnapKit
 
-
-
 class HomeTVC: UITableViewCell {
     
     static let identifier = "HomeTVC"
