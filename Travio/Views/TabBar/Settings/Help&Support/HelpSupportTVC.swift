@@ -28,7 +28,7 @@ class HelpSupportTVC: UITableViewCell {
         return iv
     }()
     
-    private lazy var descriptionLabel: UILabel = {
+     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.light.rawValue, size: 10)
         label.numberOfLines = 0
@@ -69,7 +69,7 @@ class HelpSupportTVC: UITableViewCell {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(16)
             make.leading.equalToSuperview().offset(12)
-            make.trailing.equalTo(expandIcon.snp.leading).offset(12)
+            make.trailing.equalTo(expandIcon.snp.leading).offset(-12)
         }
         
         expandIcon.snp.makeConstraints { make in

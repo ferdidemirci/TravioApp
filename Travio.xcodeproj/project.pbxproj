@@ -61,6 +61,7 @@
 		81E0C73C2AA0B13700299DF3 /* TokenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C73B2AA0B13700299DF3 /* TokenModel.swift */; };
 		81E0C73E2AA0B3E700299DF3 /* AddVisitVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C73D2AA0B3E700299DF3 /* AddVisitVM.swift */; };
 		81E0C7402AA0B45A00299DF3 /* CustomDetailsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C73F2AA0B45A00299DF3 /* CustomDetailsVM.swift */; };
+		C00C731F2AB2551600A08090 /* HelpSupportVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C00C731E2AB2551600A08090 /* HelpSupportVM.swift */; };
 		C09C220B2AA119350084B54F /* SettingsVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220A2AA119350084B54F /* SettingsVM.swift */; };
 		C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220C2AA119930084B54F /* SettingsModel.swift */; };
 		C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = C09C220E2AA119CE0084B54F /* SettingsCVC.swift */; };
@@ -134,6 +135,7 @@
 		81E0C73B2AA0B13700299DF3 /* TokenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenModel.swift; sourceTree = "<group>"; };
 		81E0C73D2AA0B3E700299DF3 /* AddVisitVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddVisitVM.swift; sourceTree = "<group>"; };
 		81E0C73F2AA0B45A00299DF3 /* CustomDetailsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomDetailsVM.swift; sourceTree = "<group>"; };
+		C00C731E2AB2551600A08090 /* HelpSupportVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpSupportVM.swift; sourceTree = "<group>"; };
 		C09C220A2AA119350084B54F /* SettingsVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsVM.swift; sourceTree = "<group>"; };
 		C09C220C2AA119930084B54F /* SettingsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsModel.swift; sourceTree = "<group>"; };
 		C09C220E2AA119CE0084B54F /* SettingsCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCVC.swift; sourceTree = "<group>"; };
@@ -396,6 +398,7 @@
 			children = (
 				C0B540202AAA503F008EE38A /* HelpSupportVC.swift */,
 				C0B540222AAA5AB9008EE38A /* HelpSupportTVC.swift */,
+				C00C731E2AB2551600A08090 /* HelpSupportVM.swift */,
 			);
 			path = "Help&Support";
 			sourceTree = "<group>";
@@ -621,6 +624,7 @@
 				81E0C7122AA0AD5300299DF3 /* SignUpVM.swift in Sources */,
 				C0BE1F982AA1C92F006B560B /* CustomEditView.swift in Sources */,
 				81E0C6ED2AA0A7FA00299DF3 /* Extensions.swift in Sources */,
+				C00C731F2AB2551600A08090 /* HelpSupportVM.swift in Sources */,
 				C0A2E7412AAF91B300D3F879 /* MyAddedPlacesVC.swift in Sources */,
 				81E0C73A2AA0B13700299DF3 /* UserModel.swift in Sources */,
 				C0C927C62AA0D12B0077B7BA /* SettingsVC.swift in Sources */,

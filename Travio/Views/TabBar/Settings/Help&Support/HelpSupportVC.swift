@@ -8,37 +8,19 @@
 import UIKit
 import SnapKit
 
-struct FAQItem {
-    let question: String
-    let answer: String
-}
+
 
 class HelpSupportVC: UIViewController {
     
-    let faqData: [FAQItem] = [
-        FAQItem(question: "Nasıl bir gezi planlamalıyım?",
-                answer: "Gezi planlaması yaparken öncelikle hedeflerinizi belirlemeniz önemlidir. Sonra nereye gitmek istediğinizi ve ne tür bir deneyim aradığınızı düşünün. Buna göre konaklama, ulaşım ve aktiviteleri planlayabilirsiniz."),
-        FAQItem(question: "Vize işlemleri nasıl yapılır?",
-                answer: "Vize gereksinimleri ülkelere göre değişir. Hedef ülkenizin konsolosluğu veya büyükelçiliği ile iletişime geçip gerekli belgeleri ve süreci öğrenmelisiniz."),
-        FAQItem(question: "Hangi mevsimde gitmeliyim?",
-                answer: "Gezi yaparken gitmek istediğiniz yerin mevsimleri önemlidir. Tatil amacınıza ve hava koşullarına bağlı olarak en uygun mevsimi seçmelisiniz."),
-        FAQItem(question: "Gezi sırasında nasıl bütçe yapmalıyım?",
-                answer: "Bütçenizi belirlemek ve kontrol altında tutmak için önceden araştırma yapmalısınız. Ulaşım, konaklama, yeme içme ve aktivite maliyetlerini göz önünde bulundurun."),
-        FAQItem(question: "Yabancı dil bilmeden nasıl iletişim kurarım?",
-                answer: "Yabancı dil bilmediğinizde temel ifadeleri öğrenmek ve çeviri uygulamaları kullanmak yardımcı olabilir. Ayrıca jestler ve mimiklerle iletişim kurabilirsiniz."),
-        FAQItem(question: "Nasıl güvenli bir şekilde seyahat edebilirim?",
-                answer: "Seyahat sağlığınıza, kişisel güvenliğinize ve mal varlığınıza dikkat edin. Pasaport ve değerli eşyalarınızı güvende tutun ve acil durumlar için bir acil durum planı yapın."),
-        FAQItem(question: "Yerel kültüre nasıl saygılı olabilirim?",
-                answer: "Yerel kültürü anlamaya çalışın ve yerel adetlere saygılı olun. Giyim kurallarına dikkat edin ve fotoğraf çekerken izin isteyin.")
-    ]
+    let viewModel = HelpSupportVM()
     
     var selectedIndex = -1
     var isExpand = false
     
-    private lazy var btnBack: UIButton = {
+    private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "back"), for: .normal)
-        button.addTarget(self, action: #selector(btnBackTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     
@@ -63,7 +45,7 @@ class HelpSupportVC: UIViewController {
         tv.backgroundColor = AppColor.backgroundLight.colorValue()
         tv.separatorStyle = .none
         tv.showsVerticalScrollIndicator = false
-        tv.estimatedRowHeight = 150
+        tv.estimatedRowHeight = 74
         tv.rowHeight = UITableView.automaticDimension
         tv.register(HelpSupportTVC.self, forCellReuseIdentifier: HelpSupportTVC.identifier)
         return tv
@@ -80,14 +62,14 @@ class HelpSupportVC: UIViewController {
         mainView.roundCorners(corners: [.topLeft], radius: 80)
     }
     
-    @objc private func btnBackTapped() {
-        print("back button tapped")
+    @objc private func backButtonTapped() {
+        navigationController?.popViewController(animated: true)
     }
     
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = AppColor.primaryColor.colorValue()
-        self.view.addSubviews(btnBack,
+        self.view.addSubviews(backButton,
                               lblTitle,
                               mainView)
         self.mainView.addSubviews(tableView)
@@ -95,7 +77,7 @@ class HelpSupportVC: UIViewController {
     }
     
     private func setupLayouts() {
-        btnBack.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(32)
             make.leading.equalToSuperview().offset(24)
             make.height.equalTo(22)
@@ -103,8 +85,8 @@ class HelpSupportVC: UIViewController {
         }
         
         lblTitle.snp.makeConstraints { make in
-            make.leading.equalTo(btnBack.snp.trailing).offset(24)
-            make.centerY.equalTo(btnBack.snp.centerY)
+            make.leading.equalTo(backButton.snp.trailing).offset(24)
+            make.centerY.equalTo(backButton.snp.centerY)
         }
         
         mainView.snp.makeConstraints { make in
@@ -128,7 +110,7 @@ extension HelpSupportVC: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if selectedIndex == indexPath.row && isExpand == true {
-            return 140
+            return self.calculateHeight(selectedIndexPath: indexPath)
         } else {
             return 74
         }
@@ -165,6 +147,12 @@ extension HelpSupportVC: UITableViewDelegate {
                 isExpand = true
             }
         }
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.backgroundColor = .clear
+            cell.selectionStyle = .none
+        }
+        
         selectedIndex = indexPath.row
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
@@ -173,21 +161,23 @@ extension HelpSupportVC: UITableViewDelegate {
 
 extension HelpSupportVC: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return faqData.count
+        return viewModel.faqData.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: HelpSupportTVC.identifier, for: indexPath) as? HelpSupportTVC else { return UITableViewCell() }
-        cell.configure(with: faqData[indexPath.row])
+        cell.configure(with: viewModel.faqData[indexPath.row])
         return cell
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        if let indexPath = tableView.indexPathsForVisibleRows?.first {
-            tableView.scrollToRow(at: indexPath, at: .middle, animated: false)
-        }
+    func calculateHeight(selectedIndexPath: IndexPath) -> CGFloat {
+        guard let cell = self.tableView.cellForRow(at: selectedIndexPath) as? HelpSupportTVC else { return CGFloat() }
+        var labelFrame = cell.descriptionLabel.frame
+        let width = cell.descriptionLabel.frame.size.width
+        let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let requiredSize = cell.descriptionLabel.sizeThatFits(maxSize)
+        labelFrame.size.height = requiredSize.height
+        return 16 + 58 + 12 + labelFrame.size.height + 16
     }
-    
-    
     
 }
