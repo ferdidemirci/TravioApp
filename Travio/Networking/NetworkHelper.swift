@@ -12,18 +12,13 @@ class NetworkHelper {
     
     static let shared = NetworkHelper()
     
-    func routerRequest<T: Codable>(request: URLRequestConvertible, callback: @escaping (Result<T, Error>) -> Void) {
-        AF.request(request).responseJSON { response in
+    func routerRequest<T: Decodable>(request: URLRequestConvertible, callback: @escaping (Result<T, Error>) -> Void) {
+        AF.request(request)
+            .validate()
+            .responseDecodable(of: T.self) { response in
             switch response.result {
             case .success(let value):
-                do {
-                    let jsonData = try JSONSerialization.data(withJSONObject: value)
-                    let decodedData = try JSONDecoder().decode(T.self, from: jsonData)
-                    callback(.success(decodedData))
-                } catch {
-                    callback(.failure(error))
-                }
-                
+                callback(.success(value))
             case .failure(let error):
                 callback(.failure(error))
             }

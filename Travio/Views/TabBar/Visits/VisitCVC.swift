@@ -97,6 +97,7 @@ class VisitCVC: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(locationImageView.snp.top)
             make.leading.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
         }
         
         locationImageView.snp.makeConstraints { make in

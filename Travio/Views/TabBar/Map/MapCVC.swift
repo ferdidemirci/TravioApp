@@ -107,6 +107,7 @@ class MapCVC: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(stackView.snp.top)
             make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
         }
         
         stackView.snp.makeConstraints { make in

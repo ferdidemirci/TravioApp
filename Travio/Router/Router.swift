@@ -105,14 +105,14 @@ public enum Router: URLRequestConvertible {
                 params["limit"] = limit
             }
             return params
-        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById, .popularPlaces, .lastPlaces, .user, .getAllPlacesForUser:
+        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById, .user, .getAllPlacesForUser:
             return [:]
         }
     }
     
     private var headers: HTTPHeaders {
         switch self {
-        case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .upload, .popularPlaces, .lastPlaces:
+        case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .popularPlaces, .lastPlaces:
             return [:]
         case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById, .deletePlace, .user, .editProfile, .changePassword, .getAllPlacesForUser:
             return ["Authorization": "Bearer \(accessToken)"]

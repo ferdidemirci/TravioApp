@@ -16,7 +16,7 @@ class MapVM {
             case .success(let result):
                 self.mapPlaces = result.data.places
                 complation()
-            case .failure(let error):
+            case .failure:
                 complation()
             }
         }

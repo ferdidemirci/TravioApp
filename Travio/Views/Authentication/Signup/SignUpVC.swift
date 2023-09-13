@@ -73,7 +73,7 @@ class SignUpVC: UIViewController {
         button.title = "Sign Up"
         button.backgroundColor = AppColor.isEnabledColor.colorValue()
         button.isEnabled = false
-        button.addTarget(self, action: #selector(didTapSignButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         return button
     }()
     
@@ -88,7 +88,7 @@ class SignUpVC: UIViewController {
         setupViews()
     }
     
-    @objc private func didTapSignButton() {
+    @objc private func didTapSignUpButton() {
         guard let username = usernameTextFieldView.textField.text,
               let email = emailTextFieldView.textField.text,
               let password = passwordTextFieldView.textField.text,
@@ -102,10 +102,14 @@ class SignUpVC: UIViewController {
 
         self.signUpButton.isEnabled = true
         let newUser = User(full_name: username, email: email, password: password)
-        signUpViewModel.postData(newUser) { [weak self] in
+        signUpViewModel.postData(newUser) { [weak self] status in
             guard let self = self else { return }
-            self.navigationController?.popToRootViewController(animated: true)
-            self.delegate?.returned(message: "The registration process was completed successfully.")
+            if status {
+                self.navigationController?.popToRootViewController(animated: true)
+                self.delegate?.returned(message: "The registration process was completed successfully.")
+            }  else {
+                self.showAlert(title: "SignUp Failed!", message: "An unexpected error occurred during the registration process. Please try again.")
+            }
         }
     }
     

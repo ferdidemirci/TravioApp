@@ -13,17 +13,6 @@ class EditProfileVM {
     var url: [String]?
     var imageData: [Data] = []
     
-    func getUserInfos(completion: @escaping (Me) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
-            switch results {
-            case .success(let data):
-                completion(data)
-            case .failure(let error):
-                print(error.localizedDescription)
-            }
-        }
-    }
-    
     func uploadImage(completion: @escaping () -> Void){
         NetworkHelper.shared.uploadRequest(route: Router.upload(image: imageData)) { (result: Result<UploadResponse, Error>) in
             switch result {

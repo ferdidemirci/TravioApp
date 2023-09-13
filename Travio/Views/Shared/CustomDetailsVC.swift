@@ -76,6 +76,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 30)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -306,6 +307,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
 
         dateLabel.snp.makeConstraints { make in

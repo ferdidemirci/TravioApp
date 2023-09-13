@@ -39,7 +39,7 @@ class AddVisitVM {
                 }
                 complate()
             case .failure(let error):
-                print("Error")
+                print("Error!: \(error.localizedDescription)")
             }
         }
     }

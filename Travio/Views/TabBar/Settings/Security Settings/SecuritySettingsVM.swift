@@ -18,7 +18,7 @@ class SecuritySettingsVM {
             switch result {
             case .success:
                 completion(true)
-            case .failure(let error):
+            case .failure:
                 completion(false)
             }
         }

@@ -148,7 +148,7 @@ class EditProfileVC: UIViewController {
         }
     
     private func configure() {
-        viewModel.getUserInfos { [self] user in
+        if let user = user {
             guard let imageURL = user.pp_url,
                   let name = user.full_name,
                   let createdDate = user.created_at,
