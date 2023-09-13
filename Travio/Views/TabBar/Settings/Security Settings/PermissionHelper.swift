@@ -34,19 +34,22 @@ class PermissionHelper {
     
     static func requestLocationPermission(completion: @escaping (Bool) -> Void) {
         let locationManager = CLLocationManager()
-        if CLLocationManager.locationServicesEnabled() {
-            switch CLLocationManager.authorizationStatus() {
-            case .authorizedAlways, .authorizedWhenInUse:
-                completion(true)
-            case .denied, .restricted:
-                completion(false)
-            case .notDetermined:
-                locationManager.requestWhenInUseAuthorization()
-            @unknown default:
+        let status = locationManager.authorizationStatus
+        DispatchQueue.global().async {
+            if CLLocationManager.locationServicesEnabled() {
+                switch status {
+                case .authorizedAlways, .authorizedWhenInUse:
+                    completion(true)
+                case .denied, .restricted:
+                    completion(false)
+                case .notDetermined:
+                    locationManager.requestWhenInUseAuthorization()
+                @unknown default:
+                    completion(false)
+                }
+            } else {
                 completion(false)
             }
-        } else {
-            completion(false)
         }
     }
     

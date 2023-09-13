@@ -22,23 +22,9 @@ class SecuritySettingsVC: UIViewController {
     let viewModel = SecuritySettingsVM()
     weak var delegate: ReturnToSettings?
     
-    var cameraPermissionEnabled = false {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
-    var photoLibraryPermissionEnabled = false {
-        didSet {
-            tableView.reloadData()
-        }
-    }
-    
-    var locationPermissionEnabled = false {
-        didSet {
-            tableView.reloadData()
-        }
-    }
+    var cameraPermissionEnabled = false
+    var photoLibraryPermissionEnabled = false
+    var locationPermissionEnabled = false
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
@@ -121,6 +107,8 @@ class SecuritySettingsVC: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    // MARK: Permission Functions
+    
     @objc private func appDidBecomeActive() {
         checkCameraPermission()
         checkPhotoLibraryPermission()
@@ -134,38 +122,40 @@ class SecuritySettingsVC: UIViewController {
     private func permissionRequests() {
         PermissionHelper.requestCameraPermission { granted in
             if granted {
-                print("access allowed")
+                self.cameraPermissionEnabled = true
+                self.tableView.reloadData()
             } else {
-                print("access denied")
+                self.cameraPermissionEnabled = false
             }
         }
         
         PermissionHelper.requestPhotoLibraryPermission { granted in
             if granted {
-                print("access allowed")
+                self.photoLibraryPermissionEnabled = true
+                self.tableView.reloadData()
             } else {
-                print("access denied")
+                self.photoLibraryPermissionEnabled = false
             }
         }
         
         PermissionHelper.requestLocationPermission { granted in
             if granted {
-                print("access allowed")
+                self.locationPermissionEnabled = true
+                self.tableView.reloadData()
             } else {
-                print("access denied")
+                self.locationPermissionEnabled = false
             }
         }
     }
     
     @objc private func checkCameraPermission() {
-        
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized, .restricted:
             cameraPermissionEnabled = true
         case .denied, .notDetermined:
             cameraPermissionEnabled = false
         @unknown default:
-            print("Kamera izni: Bilinmeyen durum")
+            cameraPermissionEnabled = false
         }
     }
     
@@ -194,9 +184,11 @@ class SecuritySettingsVC: UIViewController {
         case .notDetermined:
             locationPermissionEnabled = false
         @unknown default:
-            print("Konum izni: Bilinmeyen durum")
+            locationPermissionEnabled = false
         }
     }
+    
+    // MARK: View Functions
     
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
@@ -239,6 +231,8 @@ class SecuritySettingsVC: UIViewController {
         }
     }
 }
+
+// MARK: TableView Delegate and DataSource Functions
 
 extension SecuritySettingsVC: UITableViewDelegate {
     
@@ -306,6 +300,7 @@ extension SecuritySettingsVC: UITableViewDataSource {
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyTVC.identifier, for: indexPath) as? PrivacyTVC else { return UITableViewCell() }
             cell.configure(title: viewModel.cellTitles[section][row])
+            cell.selectionStyle = .none
             let toggle = cell.privacyView.switchOnOff
             
             switch row {
