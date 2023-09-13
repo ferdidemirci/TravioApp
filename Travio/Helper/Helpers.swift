@@ -61,3 +61,20 @@ func isValidEmail(email: String) -> Bool {
     let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
     return emailPredicate.evaluate(with: email)
 }
+
+func loadImageWithActivityIndicator(from url: URL, indicator: UIActivityIndicatorView, into imageView: UIImageView) {
+    indicator.startAnimating()
+    imageView.kf.setImage(
+        with: url,
+        completionHandler: { [weak indicator] result in
+            indicator?.stopAnimating()
+            indicator?.removeFromSuperview()
+            switch result {
+            case .success:
+                break
+            case .failure:
+                imageView.image = UIImage(named: "user")
+            }
+        }
+    )
+}

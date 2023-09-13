@@ -124,20 +124,8 @@ class SettingsVC: UIViewController {
             return
         }
         self.nameLabel.text = name
-        activityIndicator.startAnimating()
-        profileImageView.kf.setImage(
-            with: url,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.profileImageView.image = UIImage(named: "person.fill")
-                }
-            }
-        )
+        
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView)
     }
     
     private func setupApi() {

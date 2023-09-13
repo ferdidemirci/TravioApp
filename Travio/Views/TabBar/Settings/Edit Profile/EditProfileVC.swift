@@ -162,20 +162,7 @@ class EditProfileVC: UIViewController {
             self.birthView.labelText = formatISO8601Date(createdDate) ?? "Unknown"
             self.roleView.labelText = role
             
-            activityIndicator.startAnimating()
-            profileImageView.kf.setImage(
-                with: url,
-                completionHandler: { [weak activityIndicator] result in
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    switch result {
-                    case .success:
-                        break
-                    case .failure:
-                        self.profileImageView.image = UIImage(named: "user")
-                    }
-                }
-            )
+            loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView)
         }
     }
     

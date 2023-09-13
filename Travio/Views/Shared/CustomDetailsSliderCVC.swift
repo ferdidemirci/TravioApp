@@ -66,25 +66,12 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
     
     public func configure(model image: Image) {
         
-        guard let urlStr = URL(string: image.image_url) else {
+        guard let url = URL(string: image.image_url) else {
             sliderImage.image = UIImage(named: "image.fill")
             return
         }
         
-        activityIndicator.startAnimating()
-        sliderImage.kf.setImage(
-            with: urlStr,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.sliderImage.image = UIImage(named: "image.fill")
-                }
-            }
-        )
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: sliderImage)
     }
 
 }

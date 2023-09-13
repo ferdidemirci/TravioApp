@@ -124,25 +124,12 @@ class MapCVC: UICollectionViewCell {
         locationLabel.text = place.place
         titleLabel.text = place.title
         
-        guard let urlStr = URL(string: place.cover_image_url) else {
+        guard let url = URL(string: place.cover_image_url) else {
             backgroundImageView.image = UIImage(named: "image.fill")
             return
         }
         
-        activityIndicator.startAnimating()
-        backgroundImageView.kf.setImage(
-            with: urlStr,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.backgroundImageView.image = UIImage(named: "image.fill")
-                }
-            }
-        )
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: backgroundImageView)
     }
 }
 
