@@ -67,7 +67,7 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
     public func configure(model image: Image) {
         
         guard let urlStr = URL(string: image.image_url) else {
-            sliderImage.image = UIImage(systemName: "photo")
+            sliderImage.image = UIImage(named: "image.fill")
             return
         }
         
@@ -81,7 +81,7 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
                 case .success:
                     break
                 case .failure:
-                    self.sliderImage.image = UIImage(systemName: "photo")
+                    self.sliderImage.image = UIImage(named: "image.fill")
                 }
             }
         )

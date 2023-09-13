@@ -11,6 +11,13 @@ class HomeDetailCVC: UICollectionViewCell {
     
     static let identifier = "HomeDetailCVC"
     
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        return view
+    }()
+    
     private lazy var placeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -58,20 +65,23 @@ class HomeDetailCVC: UICollectionViewCell {
         setupViews()
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     override func layoutSubviews() {
-        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        self.addShadow()
     }
     
     func setupViews() {
-        contentView.addSubviews(placeImageView, titleLabel, stackView, activityIndicator)
+        contentView.addSubviews(containerView)
+        containerView.addSubviews(placeImageView, titleLabel, stackView, activityIndicator)
         setupLayouts()
     }
     
     func setupLayouts() {
+        
+        containerView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
         
         placeImageView.snp.makeConstraints { make in
             make.top.leading.bottom.equalToSuperview()
@@ -105,7 +115,7 @@ class HomeDetailCVC: UICollectionViewCell {
         titleLabel.text = place.title
         
         guard let urlStr = URL(string: place.cover_image_url) else {
-            placeImageView.image = UIImage(systemName: "photo")
+            placeImageView.image = UIImage(named: "image.fill")
             return
         }
         
@@ -120,9 +130,13 @@ class HomeDetailCVC: UICollectionViewCell {
                 case .success:
                     break
                 case .failure:
-                    self.placeImageView.image = UIImage(systemName: "photo")
+                    self.placeImageView.image = UIImage(named: "image.fill")
                 }
             }
         )
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 }

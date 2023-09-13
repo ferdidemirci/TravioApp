@@ -135,7 +135,7 @@ class HomeCVC: UICollectionViewCell {
         titleLabel.text = place.title
         
         guard let urlStr = URL(string: place.cover_image_url) else {
-            backgroundImageView.image = UIImage(systemName: "photo")
+            backgroundImageView.image = UIImage(named: "image.fill")
             return
         }
         
@@ -149,7 +149,7 @@ class HomeCVC: UICollectionViewCell {
                 case .success:
                     break
                 case .failure:
-                    self.backgroundImageView.image = UIImage(systemName: "photo")
+                    self.backgroundImageView.image = UIImage(named: "image.fill")
                 }
             }
         )

@@ -54,6 +54,7 @@ class HomeDetailVC: UIViewController {
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.register(HomeDetailCVC.self, forCellWithReuseIdentifier: HomeDetailCVC.identifier)
+        collectionView.contentInset = UIEdgeInsets(top: 70, left: 0, bottom: 0, right: 0)
         collectionView.showsVerticalScrollIndicator = false
         collectionView.backgroundColor = .clear
         return collectionView
@@ -138,10 +139,7 @@ class HomeDetailVC: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(sortButton.snp.bottom).offset(24)
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
+            make.edges.equalToSuperview()
         }
     }
 }
@@ -172,9 +170,19 @@ extension HomeDetailVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeDetailCVC.identifier, for: indexPath) as? HomeDetailCVC else { return UICollectionViewCell() }
-        cell.backgroundColor = .white
         let place = viewModel.placeArray[indexPath.row]
         cell.configure(model: place)
         return cell
     }
+}
+
+extension HomeDetailVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y + 50  > 0 {
+            sortButton.isHidden = true
+        } else {
+            sortButton.isHidden = false
+        }
+    }
+
 }

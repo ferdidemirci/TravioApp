@@ -154,7 +154,7 @@ class EditProfileVC: UIViewController {
                   let createdDate = user.created_at,
                   let role = user.role,
                   let url = URL(string: imageURL) else {
-                self.profileImageView.image = UIImage(systemName: "photo")
+                self.profileImageView.image = UIImage(named: "user")
                 return
             }
             
@@ -172,7 +172,7 @@ class EditProfileVC: UIViewController {
                     case .success:
                         break
                     case .failure:
-                        self.profileImageView.image = UIImage(systemName: "photo")
+                        self.profileImageView.image = UIImage(named: "user")
                     }
                 }
             )
