@@ -17,6 +17,7 @@
 		819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819B95C42AA611E40068D733 /* HomeDetailVM.swift */; };
 		81A263EE2AB2317100CE3934 /* NotificationCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A263ED2AB2317100CE3934 /* NotificationCenterHelper.swift */; };
 		81B83A9B2AB2F0CA00EA902C /* NavigationControllerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B83A9A2AB2F0CA00EA902C /* NavigationControllerHelper.swift */; };
+		81B83A9D2AB3072100EA902C /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81B83A9C2AB3072100EA902C /* KeychainHelper.swift */; };
 		81E0C6C42AA0A62D00299DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */; };
 		81E0C6C62AA0A62D00299DF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */; };
 		81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C72AA0A62D00299DF3 /* HomeVC.swift */; };
@@ -95,6 +96,7 @@
 		819B95C42AA611E40068D733 /* HomeDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailVM.swift; sourceTree = "<group>"; };
 		81A263ED2AB2317100CE3934 /* NotificationCenterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterHelper.swift; sourceTree = "<group>"; };
 		81B83A9A2AB2F0CA00EA902C /* NavigationControllerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationControllerHelper.swift; sourceTree = "<group>"; };
+		81B83A9C2AB3072100EA902C /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
 		81E0C6C02AA0A62D00299DF3 /* Travio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -286,6 +288,7 @@
 				81E0C7092AA0AC7C00299DF3 /* Helpers.swift */,
 				81A263ED2AB2317100CE3934 /* NotificationCenterHelper.swift */,
 				81B83A9A2AB2F0CA00EA902C /* NavigationControllerHelper.swift */,
+				81B83A9C2AB3072100EA902C /* KeychainHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -583,6 +586,7 @@
 				81E0C71F2AA0AEA700299DF3 /* MapCVC.swift in Sources */,
 				C0A544582AA7153000CB24D7 /* SecuritySettingsVM.swift in Sources */,
 				81E0C7082AA0AC0E00299DF3 /* CustomTextFieldView.swift in Sources */,
+				81B83A9D2AB3072100EA902C /* KeychainHelper.swift in Sources */,
 				811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */,
 				81E0C7382AA0B13600299DF3 /* GalleryModel.swift in Sources */,
 				C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */,

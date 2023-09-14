@@ -7,7 +7,6 @@
 
 import Foundation
 import Alamofire
-import KeychainSwift
 
 public enum Router: URLRequestConvertible {
     
@@ -33,7 +32,7 @@ public enum Router: URLRequestConvertible {
 
     
     var accessToken: String {
-        guard let accessToken = KeychainSwift().get("accessTokenKey") else { return "" }
+        guard let accessToken = KeychainHelper.shared.getValue(forKey: "accessTokenKey") else { return "" }
         return accessToken
     }
     

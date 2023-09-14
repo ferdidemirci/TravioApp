@@ -8,7 +8,6 @@
 import UIKit
 import SnapKit
 import Kingfisher
-import KeychainSwift
 
 protocol ReturnToSettings: AnyObject {
     func returned(message: String)
@@ -17,7 +16,6 @@ protocol ReturnToSettings: AnyObject {
 class SettingsVC: UIViewController {
     
     let viewModel = SettingsVM()
-    let keychainSwift = KeychainSwift()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()

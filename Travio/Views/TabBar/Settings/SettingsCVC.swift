@@ -77,7 +77,7 @@ class SettingsCVC: UICollectionViewCell {
         iconImageView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
-            make.height.width.equalTo(20)
+            make.height.equalTo(20)
         }
         
         titleLabel.snp.makeConstraints { make in

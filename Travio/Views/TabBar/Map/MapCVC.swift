@@ -15,6 +15,7 @@ class MapCVC: UICollectionViewCell {
     
     private lazy var backgroundImageView: UIImageView = {
         let image = UIImageView()
+        image.backgroundColor = AppColor.backgroundLight.colorValue()
         image.contentMode = .scaleAspectFill
         return image
     }()

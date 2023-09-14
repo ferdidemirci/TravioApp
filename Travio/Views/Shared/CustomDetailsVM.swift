@@ -6,13 +6,11 @@
 //
 
 import Foundation
-import KeychainSwift
 import Alamofire
 
 class CustomDetailsVM {
     typealias closure = (() -> Void)
     var galleries: [Image] = []
-    let keychain = KeychainSwift()
     
     func getGallery(placeId: String, complate: @escaping closure) {
         NetworkHelper.shared.routerRequest(request: Router.allGalleryByPlaceId(placeId: placeId)) { (result: Result<GalleryResponse, Error>) in

@@ -7,7 +7,6 @@
 
 import UIKit
 import Foundation
-import KeychainSwift
 
 class NavigationControllerHelper {
     static let shared = NavigationControllerHelper()
@@ -15,24 +14,21 @@ class NavigationControllerHelper {
     private init() {}
     
     func startScreenSelection(_ window: UIWindow?) {
-        if KeychainSwift().get("accessTokenKey") == nil {
-            showLoginScreen(window!)
-        } else {
-            showHomeScreen(window!)
-        }
+        let isAccessTokenPresent = KeychainHelper.shared.getValue(forKey: "accessTokenKey") != nil
+        isAccessTokenPresent ? showHomeScreen(window) : showLoginScreen(window)
     }
     
-    func showLoginScreen(_ window: UIWindow) {
+    func showLoginScreen(_ window: UIWindow?) {
         let loginVC = LoginVC()
         let rootVC = UINavigationController(rootViewController: loginVC)
-        window.rootViewController = rootVC
-        window.makeKeyAndVisible()
+        window?.rootViewController = rootVC
+        window?.makeKeyAndVisible()
     }
     
-    func showHomeScreen(_ window: UIWindow) {
+    func showHomeScreen(_ window: UIWindow?) {
         let rootVC = MainTabBarC()
-        window.rootViewController = rootVC
-        window.makeKeyAndVisible()
+        window?.rootViewController = rootVC
+        window?.makeKeyAndVisible()
     }
     
     func logout(_ windowScene: UIWindowScene) {
