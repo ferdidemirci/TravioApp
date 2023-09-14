@@ -8,6 +8,7 @@
 import UIKit
 import SnapKit
 import Kingfisher
+import KeychainSwift
 
 protocol ReturnToSettings: AnyObject {
     func returned(message: String)
@@ -16,6 +17,7 @@ protocol ReturnToSettings: AnyObject {
 class SettingsVC: UIViewController {
     
     let viewModel = SettingsVM()
+    let keychainSwift = KeychainSwift()
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -100,10 +102,12 @@ class SettingsVC: UIViewController {
     }
     
     @objc private func logoutButtonTapped() {
-        viewModel.deleteAccessToken {
-            let vc = LoginVC()
-            vc.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(vc, animated: true)
+        viewModel.deleteAccessToken { status in
+            if status, let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene{
+                NavigationControllerHelper.shared.logout(windowScene)
+            } else {
+                self.showAlert(title: "Error!", message: "Access token deletion failed. Please try again.")
+            }
         }
     }
     

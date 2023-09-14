@@ -30,9 +30,13 @@ class SettingsVM {
         }
     }
     
-    func deleteAccessToken(completion: () -> Void) {
+    func deleteAccessToken(completion: (Bool) -> Void) {
         let key = "accessTokenKey"
-        self.keychain.delete(key)
-        completion()
+        let status = self.keychain.delete(key)
+        if status {
+            completion(true)
+        } else {
+            completion(false)
+        }
     }
 }
