@@ -15,7 +15,7 @@ class HomeVM {
     var placeArray: [Place] = []
 
     
-    func fetchPlaces(for section: Sections, completion: @escaping () -> Void) {
+    func fetchPlaces(for section: Sections, completion: @escaping (Bool) -> Void) {
         var request: Router
         let query = 5
         switch section {
@@ -38,9 +38,9 @@ class HomeVM {
                 case .userPlaces:
                     self.userPlaces = data.data.places
                 }
-                completion()
-            case .failure(let error):
-                print("Error!:\(error)")
+                completion(true)
+            case .failure:
+                completion(false)
             }
         }
     }

@@ -17,8 +17,7 @@ class MyAddedPlacesVM {
             case .success(let value):
                 self.myAddedPlaces = value.data.places
                 completion(true)
-            case .failure(let error):
-                print("Hata: \(error.localizedDescription)")
+            case .failure:
                 completion(false)
             }
         }

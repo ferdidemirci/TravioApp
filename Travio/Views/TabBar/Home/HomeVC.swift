@@ -107,7 +107,7 @@ class HomeVC: UIViewController {
             vc.viewTag = 2
             vc.sectionTitle = viewModel.sectionTitles[2]
         default:
-            print("Tag yok")
+            break
         }
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -119,8 +119,12 @@ class HomeVC: UIViewController {
         
         sections.forEach { section in
             dispatchGroup.enter()
-            viewModel.fetchPlaces(for: section) {
-                dispatchGroup.leave()
+            viewModel.fetchPlaces(for: section) { status in
+                if status {
+                    dispatchGroup.leave()
+                } else {
+                    self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
+                }
             }
         }
         

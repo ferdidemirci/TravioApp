@@ -147,33 +147,49 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     @objc func didTapVisitedButton() {
         if let visitId {
-            self.showDeleteAlert { bool in
-                if bool {
-                    self.viewModel.deleteVisit(visitId: visitId) { message in
-                        self.navigationController?.popToRootViewController(animated: true)
-                        self.delegate?.returned(message: message)
-                    }
+            visitDelete(visitId: visitId)
+        } else {
+            placeProcess()
+        }
+    }
+    
+    private func visitDelete(visitId: String) {
+        self.showDeleteAlert { bool in
+            if bool {
+                self.viewModel.deleteVisit(visitId: visitId) { status, message in
+                    self.navigationController?.popToRootViewController(animated: true)
+                    self.delegate?.returned(message: message)
                 }
             }
-        } else {
-            if let placeId {
-                if isVisited {
-                    self.showDeleteAlert { bool in
-                        if bool {
-                            self.viewModel.deleteVisit(visitId: placeId) { message in
+        }
+    }
+    
+    private func placeProcess() {
+        if let placeId {
+            if isVisited {
+                self.showDeleteAlert { bool in
+                    if bool {
+                        self.viewModel.deleteVisit(visitId: placeId) {status, message in
+                            if status {
                                 NotificationCenterHelper.shared.postNotification()
                                 self.showAlert(title: "Delete!", message: message)
                                 self.visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
                                 self.isVisited = false
+                            } else {
+                                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
                             }
                         }
                     }
-                } else {
-                    viewModel.createVisit(placeId: placeId) { Response in
+                }
+            } else {
+                viewModel.createVisit(placeId: placeId) { status, response in
+                    if status {
                         NotificationCenterHelper.shared.postNotification()
                         self.showAlert(title: "Visit Insert!", message: "Place added successfully.")
                         self.visitedButton.setImage(UIImage(named: "bookmark.fill"), for: .normal)
                         self.isVisited = true
+                    } else {
+                        self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
                     }
                 }
             }

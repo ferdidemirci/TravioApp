@@ -11,14 +11,14 @@ class HomeDetailVM {
     
     var placeArray: [Place] = []
         
-    func fetchPlaces(request: Router, completion: @escaping () -> Void) {
+    func fetchPlaces(request: Router, completion: @escaping (Bool) -> Void) {
          NetworkHelper.shared.routerRequest(request: request) { (result: Result<MapPlaceResponse, Error>) in
              switch result {
              case .success(let data):
                  self.placeArray = data.data.places
-                 completion()
-             case .failure(let error):
-                 print("Hata: \(error)")
+                 completion(true)
+             case .failure:
+                 completion(false)
              }
          }
      }

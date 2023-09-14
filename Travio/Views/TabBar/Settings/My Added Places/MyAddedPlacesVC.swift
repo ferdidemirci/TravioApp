@@ -87,7 +87,7 @@ class MyAddedPlacesVC: UIViewController {
             if success {
                 self.collectionView.reloadData()
             } else {
-                print(self.debugDescription)
+                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
             }
         }
     }

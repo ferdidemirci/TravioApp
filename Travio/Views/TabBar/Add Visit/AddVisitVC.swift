@@ -75,25 +75,49 @@ class AddVisitVC: UIViewController {
     }
     
     @objc private func didTapAddPlace() {
-        viewModel.uploadImage { 
-            if let place = self.placeNameView.textField.text,
-               let description = self.descriptionView.textView.text,
-               let countryAndCity = self.countryAndCityView.textField.text,
-               let coverImage = self.viewModel.urls.first {
-                let params: Parameters = ["place": countryAndCity,
-                                          "title": place,
-                                          "description": description,
-                                          "cover_image_url": coverImage,
-                                          "latitude": self.latitude,
-                                          "longitude": self.longitude]
-                
-                self.viewModel.createPlace(parameters: params) {
-                    self.delegate?.returned()
-                    self.dismiss(animated: true)
-                }
+        viewModel.uploadImage { [weak self] status in
+            guard let self = self else { return }
+            
+            if status {
+                self.createPlace()
+            } else {
+                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
             }
         }
     }
+    
+    private func createPlace() {
+        guard
+            let place = placeNameView.textField.text,
+            let description = descriptionView.textView.text,
+            let countryAndCity = countryAndCityView.textField.text,
+            let coverImage = viewModel.urls.first
+        else {
+            showAlert(title: "Error!", message: "Please fill in all required fields.")
+            return
+        }
+
+        let params: Parameters = [
+            "place": countryAndCity,
+            "title": place,
+            "description": description,
+            "cover_image_url": coverImage,
+            "latitude": latitude,
+            "longitude": longitude
+        ]
+
+        viewModel.createPlace(parameters: params) { [weak self] success in
+            guard let self = self else { return }
+
+            if success {
+                self.delegate?.returned()
+                self.dismiss(animated: true)
+            } else {
+                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
+            }
+        }
+    }
+
     
     func configure(place: String) {
         countryAndCityView.textField.text = place

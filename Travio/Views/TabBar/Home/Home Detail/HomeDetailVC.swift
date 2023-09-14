@@ -101,9 +101,11 @@ class HomeDetailVC: UIViewController {
             return
         }
         
-        viewModel.fetchPlaces(request: request) {
-            if shouldReloadData {
+        viewModel.fetchPlaces(request: request) { status in
+            if shouldReloadData, status {
                 self.collectionView.reloadData()
+            } else {
+                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
             }
         }
     }

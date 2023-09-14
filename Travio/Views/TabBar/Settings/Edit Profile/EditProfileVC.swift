@@ -125,16 +125,21 @@ class EditProfileVC: UIViewController {
     }
     
     @objc private func saveButtonTapped() {
-        viewModel.uploadImage {
-            guard let name = self.nameView.textField.text,
-                  let email = self.emailView.textField.text,
-                  let imageURL = self.viewModel.url?.first else { return }
-            let params: Parameters = ["full_name": name,
-                                      "email": email,
-                                      "pp_url": imageURL]
-            self.viewModel.editProfile(params: params) { status, message in
-                self.handleProfileEditResult(status, message)
+        viewModel.uploadImage { status in
+            if status {
+                guard let name = self.nameView.textField.text,
+                      let email = self.emailView.textField.text,
+                      let imageURL = self.viewModel.url?.first else { return }
+                let params: Parameters = ["full_name": name,
+                                          "email": email,
+                                          "pp_url": imageURL]
+                self.viewModel.editProfile(params: params) { status, message in
+                    self.handleProfileEditResult(status, message)
+                }
+            } else {
+                
             }
+            
         }
     }
     

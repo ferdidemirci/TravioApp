@@ -13,14 +13,14 @@ class EditProfileVM {
     var url: [String]?
     var imageData: [Data] = []
     
-    func uploadImage(completion: @escaping () -> Void){
+    func uploadImage(completion: @escaping (Bool) -> Void){
         NetworkHelper.shared.uploadRequest(route: Router.upload(image: imageData)) { (result: Result<UploadResponse, Error>) in
             switch result {
             case .success(let success):
                 self.url = success.urls
-                completion()
-            case .failure(let error):
-                print(error.localizedDescription)
+                completion(true)
+            case .failure:
+                completion(false)
             }
         }
     }

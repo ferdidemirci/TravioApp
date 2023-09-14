@@ -10,72 +10,69 @@ import KeychainSwift
 import Alamofire
 
 class CustomDetailsVM {
-    typealias closure = (() -> Void)?
+    typealias closure = (() -> Void)
     var galleries: [Image] = []
     let keychain = KeychainSwift()
     
-    func getGallery(placeId: String, complate: closure) {
+    func getGallery(placeId: String, complate: @escaping closure) {
         NetworkHelper.shared.routerRequest(request: Router.allGalleryByPlaceId(placeId: placeId)) { (result: Result<GalleryResponse, Error>) in
             switch result {
             case .success(let result):
                 self.galleries = result.data.images
-                complate!()
-            case .failure(let error):
-                print("Gallery Error! \(error)")
+                complate()
+            case .failure:break
             }
         }
     }
     
-    func createVisit(placeId: String, complate: @escaping (String) -> Void) {
+    func createVisit(placeId: String, completion: @escaping (Bool, String) -> Void) {
         let params = ["place_id": placeId,
                       "visited_at": "2023-08-10T00:00:00Z"]
         NetworkHelper.shared.routerRequest(request: Router.createVisit(parameters: params)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let response):
-                complate(response.message)
-            case .failure(let error):
-                print("Create Place: \(error.localizedDescription)")
+                completion(true, response.message)
+            case .failure:
+                completion(false, "")
             }
         }
     }
     
-    func deleteVisit(visitId: String, complate: @escaping (String) -> Void) {
+    func deleteVisit(visitId: String, completion: @escaping (Bool, String) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.deleteVisitById(visitId: visitId)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let data):
-                complate(data.message)
-            case .failure(let error):
-                print("Delete Visit: \(error.localizedDescription)")
+                completion(true, data.message)
+            case .failure:
+                completion(false, "")
             }
         }
     }
     
-    func deletePlace(placeId: String, complate: @escaping (Bool) -> Void) {
+    func deletePlace(placeId: String, completion: @escaping (Bool) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.deletePlace(placeId: placeId)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let response):
                 if response.status == "success" {
-                    complate(true)
+                    completion(true)
                 } else {
-                    complate(false)
+                    completion(false)
                 }
-            case .failure(let error):
-                print("Delete Place: \(error.localizedDescription)")
+            case .failure: break
             }
         }
     }
     
-    func getVisitByPlaceId(placeId: String, complation: @escaping (Bool) -> Void) {
+    func getVisitByPlaceId(placeId: String, completion: @escaping (Bool) -> Void) {
         NetworkHelper.shared.routerRequest(request: Router.getVisitByPlaceId(placeId: placeId)) { (result: Result<Response, Error>) in
             switch result{
             case .success(let response):
                 if response.status == "success" {
-                    complation(true)
+                    completion(true)
                 } else {
-                    complation(false)
+                    completion(false)
                 }
-            case .failure(let error):
-                print("Visit by Place_ID: \(error.localizedDescription)")
+            case .failure: break
             }
         }
     }
