@@ -125,7 +125,7 @@ class SettingsVC: UIViewController {
         }
         self.nameLabel.text = name
         
-        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView)
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView, imageName: "person.fill")
     }
     
     private func setupApi() {

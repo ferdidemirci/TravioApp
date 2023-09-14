@@ -18,10 +18,18 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     var visitId: String?
     var placeId: String?
     var placeDetails: Place?
-    var isVisited = true
+    var isVisited = false
     var delegate: ReturnToDismiss?
     
     var viewModel = CustomDetailsVM()
+    
+    private lazy var sliderImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "slider.image")
+        image.layer.masksToBounds = true
+        return image
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -99,10 +107,10 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         button.titleLabel?.font = .systemFont(ofSize: 12)
         button.setTitleColor(UIColor.white, for: .normal)
         button.tintColor = .white
-        button.setImage(UIImage(named: "bookmark.fill"), for: .normal)
         button.backgroundColor = AppColor.primaryColor.colorValue()
         button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapVisitedButton), for: .touchUpInside)
+        button.addShadow()
         return button
     }()
     
@@ -153,6 +161,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
                     self.showDeleteAlert { bool in
                         if bool {
                             self.viewModel.deleteVisit(visitId: placeId) { message in
+                                NotificationCenterHelper.shared.postNotification()
                                 self.showAlert(title: "Delete!", message: message)
                                 self.visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
                                 self.isVisited = false
@@ -161,6 +170,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
                     }
                 } else {
                     viewModel.createVisit(placeId: placeId) { Response in
+                        NotificationCenterHelper.shared.postNotification()
                         self.showAlert(title: "Visit Insert!", message: "Place added successfully.")
                         self.visitedButton.setImage(UIImage(named: "bookmark.fill"), for: .normal)
                         self.isVisited = true
@@ -259,11 +269,18 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     private func setupViews(){
         mapView.delegate = self
         view.backgroundColor = AppColor.backgroundLight.colorValue()
-        view.addSubviews(collectionView, pageControl, backButton, visitedButton, scrollView)
+        view.addSubviews(sliderImage, collectionView, pageControl, backButton, visitedButton, scrollView)
         setupLayout()
     }
     
     private func setupLayout(){
+        
+        sliderImage.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.height.equalTo(250)
+        }
         
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview()

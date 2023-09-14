@@ -22,13 +22,13 @@ class MainTabBarC: UITabBarController {
         homeVC.tabBarItem = UITabBarItem(title: "Home", image: UIImage(systemName: "house.fill"), tag: 0)
         
         let visitsVC = VisitsVC()
-        visitsVC.tabBarItem = UITabBarItem(title: "Visits", image: UIImage(named: "tabBar1"), tag: 1)
+        visitsVC.tabBarItem = UITabBarItem(title: "Visits", image: UIImage(named: "tabBar.visit"), tag: 1)
         
         let mapVC = MapVC()
-        mapVC.tabBarItem = UITabBarItem(title: "Map", image: UIImage(systemName: "map.fill"), tag: 2)
+        mapVC.tabBarItem = UITabBarItem(title: "Map", image: UIImage(named: "tabBar.map"), tag: 2)
         
         let settingsVC = SettingsVC()
-        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "tabBar3"), tag: 3)
+        settingsVC.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(named: "tabBar.settings"), tag: 3)
 
         let tabBarList = [homeVC, visitsVC, mapVC, settingsVC]
         viewControllers = tabBarList.map({ UINavigationController(rootViewController: $0) })

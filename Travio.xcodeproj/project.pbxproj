@@ -15,6 +15,7 @@
 		8135D7A52AA9BC6D002600A3 /* IQKeyboardManagerSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 8135D7A42AA9BC6D002600A3 /* IQKeyboardManagerSwift */; };
 		8157774F2AA8B5DE0056EDAA /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8157774E2AA8B5DE0056EDAA /* CustomButton.swift */; };
 		819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819B95C42AA611E40068D733 /* HomeDetailVM.swift */; };
+		81A263EE2AB2317100CE3934 /* NotificationCenterHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81A263ED2AB2317100CE3934 /* NotificationCenterHelper.swift */; };
 		81E0C6C42AA0A62D00299DF3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */; };
 		81E0C6C62AA0A62D00299DF3 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */; };
 		81E0C6C82AA0A62D00299DF3 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81E0C6C72AA0A62D00299DF3 /* HomeVC.swift */; };
@@ -91,6 +92,7 @@
 		811FA1162AA51D5200FC378E /* HomeDetailCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailCVC.swift; sourceTree = "<group>"; };
 		8157774E2AA8B5DE0056EDAA /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		819B95C42AA611E40068D733 /* HomeDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeDetailVM.swift; sourceTree = "<group>"; };
+		81A263ED2AB2317100CE3934 /* NotificationCenterHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCenterHelper.swift; sourceTree = "<group>"; };
 		81E0C6C02AA0A62D00299DF3 /* Travio.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Travio.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		81E0C6C32AA0A62D00299DF3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		81E0C6C52AA0A62D00299DF3 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -221,6 +223,7 @@
 				811FA10C2AA4CB1600FC378E /* HomeVM.swift */,
 				811FA10E2AA4CC1600FC378E /* HomeTVC.swift */,
 				811FA1102AA50A4600FC378E /* HomeCVC.swift */,
+				C0C879B22AB07A7600089E93 /* Home Detail */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 			isa = PBXGroup;
 			children = (
 				81E0C7092AA0AC7C00299DF3 /* Helpers.swift */,
+				81A263ED2AB2317100CE3934 /* NotificationCenterHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -350,7 +354,6 @@
 				81E0C6DB2AA0A69700299DF3 /* Map */,
 				C0C879B32AB07ABF00089E93 /* Add Visit */,
 				81E0C6D82AA0A67900299DF3 /* Home */,
-				C0C879B22AB07A7600089E93 /* Home Detail */,
 			);
 			path = TabBar;
 			sourceTree = "<group>";
@@ -451,15 +454,15 @@
 		C0C927C42AA0D0AC0077B7BA /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
+				C09C220A2AA119350084B54F /* SettingsVM.swift */,
+				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
 				C0D1E1A72AA5D47800E632E0 /* Edit Profile */,
 				C0BE1F922AA1C873006B560B /* Security Settings */,
 				C0A2E73F2AAF917C00D3F879 /* My Added Places */,
 				C0B5401F2AAA501E008EE38A /* Help&Support */,
 				C0C879B42AB07B0200089E93 /* About Us */,
 				C0B8C0D62AB0E60F000C5B7F /* Terms of Use */,
-				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
-				C09C220A2AA119350084B54F /* SettingsVM.swift */,
-				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				81E0C70A2AA0AC7C00299DF3 /* Helpers.swift in Sources */,
 				C0C879B12AB0418E00089E93 /* MyAddedPlacesVM.swift in Sources */,
 				819B95C52AA611E40068D733 /* HomeDetailVM.swift in Sources */,
+				81A263EE2AB2317100CE3934 /* NotificationCenterHelper.swift in Sources */,
 				81E0C7042AA0AA6E00299DF3 /* NetworkHelper.swift in Sources */,
 				C09C220F2AA119CE0084B54F /* SettingsCVC.swift in Sources */,
 				81E0C7252AA0B00F00299DF3 /* CustomDetailsSliderCVC.swift in Sources */,

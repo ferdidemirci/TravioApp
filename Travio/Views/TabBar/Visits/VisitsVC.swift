@@ -52,9 +52,10 @@ class VisitsVC: UIViewController {
         
         setupViews()
         setupData()
+        NotificationCenterHelper.shared.addObserver(observer: self, selector: #selector(VisitUpdateNotification))
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
+
+    @objc private func VisitUpdateNotification() {
         setupData()
     }
     

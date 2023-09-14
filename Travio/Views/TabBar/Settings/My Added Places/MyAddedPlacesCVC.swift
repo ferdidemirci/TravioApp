@@ -83,7 +83,7 @@ class MyAddedPlacesCVC: UICollectionViewCell {
             return
         }
         
-        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: placeImageView)
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: placeImageView, imageName: "image.fill")
     }
     
     func setupViews() {

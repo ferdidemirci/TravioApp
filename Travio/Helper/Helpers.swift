@@ -62,7 +62,7 @@ func isValidEmail(email: String) -> Bool {
     return emailPredicate.evaluate(with: email)
 }
 
-func loadImageWithActivityIndicator(from url: URL, indicator: UIActivityIndicatorView, into imageView: UIImageView) {
+func loadImageWithActivityIndicator(from url: URL, indicator: UIActivityIndicatorView, into imageView: UIImageView, imageName: String) {
     indicator.startAnimating()
     imageView.kf.setImage(
         with: url,
@@ -73,7 +73,7 @@ func loadImageWithActivityIndicator(from url: URL, indicator: UIActivityIndicato
             case .success:
                 break
             case .failure:
-                imageView.image = UIImage(named: "user")
+                imageView.image = UIImage(named: imageName)
             }
         }
     )

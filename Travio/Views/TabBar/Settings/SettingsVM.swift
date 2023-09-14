@@ -24,8 +24,7 @@ class SettingsVM {
             case .success(let data):
                 self.userInfos = data
                 completion(true)
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure:
                 completion(false)
             }
         }

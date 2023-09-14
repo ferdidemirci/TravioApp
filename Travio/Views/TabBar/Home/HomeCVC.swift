@@ -140,7 +140,7 @@ class HomeCVC: UICollectionViewCell {
             return
         }
         
-        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: backgroundImageView)
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: backgroundImageView, imageName: "iamge.fill")
         
     }
 }

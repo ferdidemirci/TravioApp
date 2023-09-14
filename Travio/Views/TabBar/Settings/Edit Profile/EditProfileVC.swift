@@ -154,7 +154,7 @@ class EditProfileVC: UIViewController {
                   let createdDate = user.created_at,
                   let role = user.role,
                   let url = URL(string: imageURL) else {
-                self.profileImageView.image = UIImage(named: "user")
+                self.profileImageView.image = UIImage(named: "person.fill")
                 return
             }
             
@@ -162,7 +162,7 @@ class EditProfileVC: UIViewController {
             self.birthView.labelText = formatISO8601Date(createdDate) ?? "Unknown"
             self.roleView.labelText = role
             
-            loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView)
+            loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView, imageName: "person.fill")
         }
     }
     
