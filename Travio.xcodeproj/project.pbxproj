@@ -241,7 +241,6 @@
 			children = (
 				81E0C7282AA0B06800299DF3 /* VisitsVC.swift */,
 				81E0C7152AA0ADE600299DF3 /* VisitsVM.swift */,
-				81E0C7262AA0B03100299DF3 /* VisitCVC.swift */,
 			);
 			path = Visits;
 			sourceTree = "<group>";
@@ -463,6 +462,7 @@
 				C0C927C52AA0D12B0077B7BA /* SettingsVC.swift */,
 				C09C220A2AA119350084B54F /* SettingsVM.swift */,
 				C09C220E2AA119CE0084B54F /* SettingsCVC.swift */,
+				81E0C7262AA0B03100299DF3 /* VisitCVC.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";

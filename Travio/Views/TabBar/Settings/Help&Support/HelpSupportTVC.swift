@@ -11,12 +11,12 @@ import SnapKit
 class HelpSupportTVC: UITableViewCell {
     
     static let identifier = "HelpSupportTVC"
-    var isExpanded = false
     
-    private lazy var titleLabel: UILabel = {
+    lazy var questionLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.medium.rawValue, size: 14)
         label.numberOfLines = 0
+//        label.backgroundColor = .red
         return label
     }()
     
@@ -44,7 +44,7 @@ class HelpSupportTVC: UITableViewCell {
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         
-        setupViews()
+//        setupViews()
     }
     
     override func layoutSubviews() {
@@ -54,35 +54,40 @@ class HelpSupportTVC: UITableViewCell {
     }
     
     public func configure(with model: FAQItem) {
-        titleLabel.text = model.question
+        questionLabel.text = model.question
         descriptionLabel.text = model.answer
     }
     
     private func setupViews() {
-        self.contentView.addSubviews(titleLabel, expandIcon, descriptionLabel)
+        self.contentView.addSubviews(questionLabel,
+                                     expandIcon,
+                                     descriptionLabel)
         self.contentView.backgroundColor = .white
         self.backgroundColor = .clear
         setupLayouts()
     }
     
     private func setupLayouts() {
-        titleLabel.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(16)
+        questionLabel.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(30)
             make.leading.equalToSuperview().offset(12)
             make.trailing.equalTo(expandIcon.snp.leading).offset(-12)
+//            make.centerY.equalToSuperview()
+//            make.bottom.equalToSuperview().offset(-16)
+//            make.height.equalTo(42)
         }
         
         expandIcon.snp.makeConstraints { make in
             make.trailing.equalToSuperview().offset(-18)
-            make.centerY.equalTo(titleLabel.snp.centerY)
+            make.centerY.equalTo(questionLabel.snp.centerY)
             make.width.equalTo(20)
             make.height.equalTo(25)
         }
         
         descriptionLabel.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(12)
-            make.leading.equalTo(titleLabel.snp.leading)
-            make.trailing.equalTo(titleLabel.snp.trailing)
+            make.top.equalTo(questionLabel.snp.bottom).offset(12)
+            make.leading.equalTo(questionLabel.snp.leading)
+            make.trailing.equalTo(questionLabel.snp.trailing)
             make.bottom.equalToSuperview().offset(-16)
         }
     }

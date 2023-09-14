@@ -28,7 +28,7 @@ class HelpSupportVM {
         FAQItem(question: "Nasıl güvenli bir şekilde seyahat edebilirim?",
                 answer: "Seyahat sağlığınıza, kişisel güvenliğinize ve mal varlığınıza dikkat edin. Pasaport ve değerli eşyalarınızı güvende tutun ve acil durumlar için bir acil durum planı yapın."),
         FAQItem(question: "Yerel kültüre nasıl saygılı olabilirim?",
-                answer: "Yerel kültürü anlamaya çalışın ve yerel adetlere saygılı olun. Giyim kurallarına dikkat edin ve fotoğraf çekerken izin isteyin.")
+                answer: "Yerel kültürü anlamaya çalışın ve yerel adetlere saygılı olun. Giyim kurallarına dikkat edin ve fotoğraf çekerken izin isteyin.Yerel kültürü anlamaya çalışın ve yerel adetlere saygılı olun. Giyim kurallarına dikkat edin ve fotoğraf çekerken izin isteyin.Yerel kültürü anlamaya çalışın ve yerel adetlere saygılı olun. Giyim kurallarına dikkat edin ve fotoğraf çekerken izin isteyin.Yerel kültürü anlamaya çalışın ve yerel adetlere saygılı olun. Giyim kurallarına dikkat edin ve fotoğraf çekerken izin isteyin.Yerel kültürü anlamaya çalışın ve yerel adetlere saygılı olun. Giyim kurallarına dikkat edin ve fotoğraf çekerken izin isteyin.")
     ]
     
 }

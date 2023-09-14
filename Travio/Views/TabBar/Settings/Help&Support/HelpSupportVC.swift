@@ -45,7 +45,7 @@ class HelpSupportVC: UIViewController {
         tv.backgroundColor = AppColor.backgroundLight.colorValue()
         tv.separatorStyle = .none
         tv.showsVerticalScrollIndicator = false
-        tv.estimatedRowHeight = 74
+//        tv.estimatedRowHeight = 86
         tv.rowHeight = UITableView.automaticDimension
         tv.register(HelpSupportTVC.self, forCellReuseIdentifier: HelpSupportTVC.identifier)
         return tv
@@ -112,7 +112,7 @@ extension HelpSupportVC: UITableViewDelegate {
         if selectedIndex == indexPath.row && isExpand == true {
             return self.calculateHeight(selectedIndexPath: indexPath)
         } else {
-            return 74
+            return 86
         }
     }
     
@@ -177,7 +177,7 @@ extension HelpSupportVC: UITableViewDataSource {
         let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
         let requiredSize = cell.descriptionLabel.sizeThatFits(maxSize)
         labelFrame.size.height = requiredSize.height
-        return 16 + 58 + 12 + labelFrame.size.height + 16
+        return 86 + 12 + labelFrame.size.height + 16
     }
     
 }
