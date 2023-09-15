@@ -171,7 +171,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
                     if bool {
                         self.viewModel.deleteVisit(visitId: placeId) {status, message in
                             if status {
-                                NotificationCenterHelper.shared.postNotification()
+                                NotificationCenterManager.shared.postNotification()
                                 self.showAlert(title: "Delete!", message: message)
                                 self.visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
                                 self.isVisited = false
@@ -184,7 +184,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
             } else {
                 viewModel.createVisit(placeId: placeId) { status, response in
                     if status {
-                        NotificationCenterHelper.shared.postNotification()
+                        NotificationCenterManager.shared.postNotification()
                         self.showAlert(title: "Visit Insert!", message: "Place added successfully.")
                         self.visitedButton.setImage(UIImage(named: "bookmark.fill"), for: .normal)
                         self.isVisited = true

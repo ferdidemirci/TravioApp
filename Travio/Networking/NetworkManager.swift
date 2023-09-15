@@ -8,9 +8,9 @@
 import Foundation
 import Alamofire
 
-class NetworkHelper {
+class NetworkManager {
     
-    static let shared = NetworkHelper()
+    static let shared = NetworkManager()
     
     func routerRequest<T: Decodable>(request: URLRequestConvertible, callback: @escaping (Result<T, Error>) -> Void) {
         AF.request(request)

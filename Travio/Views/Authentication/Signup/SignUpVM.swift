@@ -14,7 +14,7 @@ class SignUpVM {
         let params = ["full_name": "\(userModel.full_name)",
                       "email": "\(userModel.email)",
                       "password": "\(userModel.password)"]
-        NetworkHelper.shared.routerRequest(request: Router.signIn(parameters: params)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.signIn(parameters: params)) { (result: Result<Response, Error>) in
             switch result {
             case .success:
                 completion(true)

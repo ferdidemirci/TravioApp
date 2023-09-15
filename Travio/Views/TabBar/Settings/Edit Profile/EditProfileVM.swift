@@ -14,7 +14,7 @@ class EditProfileVM {
     var imageData: [Data] = []
     
     func uploadImage(completion: @escaping (Bool) -> Void){
-        NetworkHelper.shared.uploadRequest(route: Router.upload(image: imageData)) { (result: Result<UploadResponse, Error>) in
+        NetworkManager.shared.uploadRequest(route: Router.upload(image: imageData)) { (result: Result<UploadResponse, Error>) in
             switch result {
             case .success(let success):
                 self.url = success.urls
@@ -26,7 +26,7 @@ class EditProfileVM {
     }
     
     func editProfile(params: Parameters, completion: @escaping (Bool, String) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.editProfile(parameters: params)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.editProfile(parameters: params)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let data):
                 completion(true, data.message)

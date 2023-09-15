@@ -7,8 +7,8 @@
 
 import Foundation
 
-class NotificationCenterHelper {
-    static let shared = NotificationCenterHelper()
+class NotificationCenterManager {
+    static let shared = NotificationCenterManager()
     
     private init() {}
 

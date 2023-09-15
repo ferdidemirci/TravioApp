@@ -17,7 +17,7 @@ class SettingsVM {
                                                SettingsModel(leftImage: "termsofuse", text: "Terms of Use")]
     
     func getUserInfos(completion: @escaping (Bool) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
             switch results {
             case .success(let data):
                 self.userInfos = data
@@ -28,7 +28,10 @@ class SettingsVM {
         }
     }
     
-    func deleteAccessToken(completion: (Bool) -> Void) {
-        completion(KeychainHelper.shared.deleteValue(forKey: "accessTokenKey"))
+    func deleteTokens(completion: @escaping (Bool) -> Void) {
+        let accessTokenDeleted = KeychainManager.shared.deleteValue(forKey: "accessTokenKey")
+        let refreshTokenDeleted = KeychainManager.shared.deleteValue(forKey: "refreshTokenKey")
+        
+        completion(accessTokenDeleted && refreshTokenDeleted)
     }
 }

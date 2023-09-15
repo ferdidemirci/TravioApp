@@ -12,7 +12,7 @@ class MyAddedPlacesVM {
     var myAddedPlaces: [Place] = []
     
     func getAllPlacesForUser(completion: @escaping (Bool) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.getAllPlacesForUser) { (result: Result<MapPlaceResponse, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.getAllPlacesForUser) { (result: Result<MapPlaceResponse, Error>) in
             switch result {
             case .success(let value):
                 self.myAddedPlaces = value.data.places

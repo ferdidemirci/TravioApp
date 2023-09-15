@@ -13,7 +13,7 @@ class VisitsVM {
     var visits: [Visit] = []
     
     func getVisits(completion: @escaping closure) {
-        NetworkHelper.shared.routerRequest(request: Router.allVisit) { (result: Result<VisitsResponse, Error> ) in
+        NetworkManager.shared.routerRequest(request: Router.allVisit) { (result: Result<VisitsResponse, Error> ) in
             switch result {
             case .success(let data):
                 self.visits = data.data.visits

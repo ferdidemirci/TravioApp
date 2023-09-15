@@ -100,9 +100,9 @@ class SettingsVC: UIViewController {
     }
     
     @objc private func logoutButtonTapped() {
-        viewModel.deleteAccessToken { status in
+        viewModel.deleteTokens { status in
             if status, let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene{
-                NavigationControllerHelper.shared.logout(windowScene)
+                AuthenticationManager.shared.logout(windowScene)
             } else {
                 self.showAlert(title: "Error!", message: "Access token deletion failed. Please try again.")
             }

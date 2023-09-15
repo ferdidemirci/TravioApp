@@ -27,7 +27,7 @@ class HomeVM {
             request = Router.lastPlaces(limit: query)
         }
         
-        NetworkHelper.shared.routerRequest(request: request) { (result: Result<MapPlaceResponse, Error>) in
+        NetworkManager.shared.routerRequest(request: request) { (result: Result<MapPlaceResponse, Error>) in
             switch result {
             case .success(let data):
                 switch section {

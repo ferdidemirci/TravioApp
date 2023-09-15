@@ -8,8 +8,8 @@
 import Foundation
 import KeychainSwift
 
-class KeychainHelper {
-    static let shared = KeychainHelper()
+class KeychainManager {
+    static let shared = KeychainManager()
     
     private let keychain = KeychainSwift()
     
@@ -25,5 +25,21 @@ class KeychainHelper {
     
     func deleteValue(forKey key: String) -> Bool {
         return keychain.delete(key)
+    }
+    
+    func getAccessToken() -> String? {
+        return getValue(forKey: "accessTokenKey")
+    }
+    
+    func setAccessToken(_ accessToken: String) {
+        saveValue(accessToken, forKey: "accessTokenKey")
+    }
+    
+    func getRefreshToken() -> String? {
+        return getValue(forKey: "refreshTokenKey")
+    }
+    
+    func setRefreshToken(_ refreshToken: String) {
+        saveValue(refreshToken, forKey: "refreshTokenKey")
     }
 }

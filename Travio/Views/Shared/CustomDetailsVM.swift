@@ -13,7 +13,7 @@ class CustomDetailsVM {
     var galleries: [Image] = []
     
     func getGallery(placeId: String, complate: @escaping closure) {
-        NetworkHelper.shared.routerRequest(request: Router.allGalleryByPlaceId(placeId: placeId)) { (result: Result<GalleryResponse, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.allGalleryByPlaceId(placeId: placeId)) { (result: Result<GalleryResponse, Error>) in
             switch result {
             case .success(let result):
                 self.galleries = result.data.images
@@ -26,7 +26,7 @@ class CustomDetailsVM {
     func createVisit(placeId: String, completion: @escaping (Bool, String) -> Void) {
         let params = ["place_id": placeId,
                       "visited_at": "2023-08-10T00:00:00Z"]
-        NetworkHelper.shared.routerRequest(request: Router.createVisit(parameters: params)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.createVisit(parameters: params)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let response):
                 completion(true, response.message)
@@ -37,7 +37,7 @@ class CustomDetailsVM {
     }
     
     func deleteVisit(visitId: String, completion: @escaping (Bool, String) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.deleteVisitById(visitId: visitId)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.deleteVisitById(visitId: visitId)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let data):
                 completion(true, data.message)
@@ -48,7 +48,7 @@ class CustomDetailsVM {
     }
     
     func deletePlace(placeId: String, completion: @escaping (Bool) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.deletePlace(placeId: placeId)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.deletePlace(placeId: placeId)) { (result: Result<Response, Error>) in
             switch result {
             case .success(let response):
                 if response.status == "success" {
@@ -62,7 +62,7 @@ class CustomDetailsVM {
     }
     
     func getVisitByPlaceId(placeId: String, completion: @escaping (Bool) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.getVisitByPlaceId(placeId: placeId)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.getVisitByPlaceId(placeId: placeId)) { (result: Result<Response, Error>) in
             switch result{
             case .success(let response):
                 if response.status == "success" {
