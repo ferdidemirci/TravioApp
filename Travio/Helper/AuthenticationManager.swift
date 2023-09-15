@@ -53,7 +53,7 @@ class AuthenticationManager {
     }
     
     func refreshToken(_ refreshToken: String, completion: @escaping (Bool) -> Void) {
-        guard let refreshToken = keychainManager.getRefreshToken() else { return }
+        guard let refreshToken = keychainManager.getValue(forKey: "refreshTokenKey") else { return }
         let param: Parameters = ["refresh_token": refreshToken]
         
         NetworkManager.shared.routerRequest(request: Router.refreshToken(parameters: param)) { (result: Result<TokenResponse, Error>) in
