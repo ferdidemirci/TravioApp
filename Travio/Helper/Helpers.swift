@@ -43,6 +43,11 @@ enum AppFont: String  {
     case bold = "Poppins-Bold"
 }
 
+enum ImageSource {
+    case camera
+    case photoLibrary
+}
+
 func formatISO8601Date(_ dateString: String) -> String? {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"

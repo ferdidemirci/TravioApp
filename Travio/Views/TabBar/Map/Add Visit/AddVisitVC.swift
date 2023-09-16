@@ -75,6 +75,7 @@ class AddVisitVC: UIViewController {
     }
     
     @objc private func didTapAddPlace() {
+        addPlaceButton.isEnabled = false
         viewModel.uploadImage { [weak self] status in
             guard let self = self else { return }
             
@@ -93,10 +94,11 @@ class AddVisitVC: UIViewController {
             let countryAndCity = countryAndCityView.textField.text,
             let coverImage = viewModel.urls.first
         else {
+            addPlaceButton.isEnabled = true
             showAlert(title: "Error!", message: "Please fill in all required fields.")
             return
         }
-
+        
         let params: Parameters = [
             "place": countryAndCity,
             "title": place,
@@ -110,6 +112,7 @@ class AddVisitVC: UIViewController {
             guard let self = self else { return }
 
             if success {
+                addPlaceButton.isEnabled = true
                 self.delegate?.returned()
                 self.dismiss(animated: true)
             } else {
@@ -192,35 +195,31 @@ extension AddVisitVC: UICollectionViewDelegateFlowLayout, UICollectionViewDataSo
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
+        ImagePickerHelper.shared.showImageSourceOptions(from: self)
     }
 }
 
 extension AddVisitVC: UINavigationControllerDelegate, UIImagePickerControllerDelegate {
     
-    @objc func stackViewTapped(row: Int) {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
         picker.dismiss(animated: true, completion: nil)
-        if let image = info[.originalImage] as? UIImage {
-               if let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first,
-                  let cell = collectionView.cellForItem(at: selectedIndexPath) as? AddVisitPhotoCVC {
-                   cell.stackView.isHidden = true
-                   cell.backgroundImageView.image = image
-                   if let imageData = image.jpegData(compressionQuality: 0.5) {
-                       viewModel.imagesData.append(imageData)
-                   }
-               }
-           }
+        if let selectedIndexPath = collectionView.indexPathsForSelectedItems?.first,
+           let cell = collectionView.cellForItem(at: selectedIndexPath) as? AddVisitPhotoCVC {
+            
+            if let image = info[.originalImage] as? UIImage {
+                cell.stackView.isHidden = true
+                cell.backgroundImageView.image = image
+                
+                if let imageData = image.jpegData(compressionQuality: 0.5) {
+                    if selectedIndexPath.item < viewModel.imagesData.count {
+                        viewModel.imagesData[selectedIndexPath.item] = imageData
+                    } else {
+                        viewModel.imagesData.append(imageData)
+                    }
+                }
+            }
+        }
     }
 
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {

@@ -17,7 +17,6 @@ class AddVisitVM {
     var imagesData: [Data] = []
 
     func uploadImage(completion: @escaping closure){
-        
         NetworkManager.shared.uploadRequest(route: Router.upload(image: imagesData)) { (result: Result<UploadResponse, Error>) in
             switch result {
             case .success(let success):

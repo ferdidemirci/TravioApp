@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		811837192AB487D900995BBD /* ImagePickerHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811837182AB487D900995BBD /* ImagePickerHelper.swift */; };
 		811FA10D2AA4CB1600FC378E /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA10C2AA4CB1600FC378E /* HomeVM.swift */; };
 		811FA10F2AA4CC1600FC378E /* HomeTVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA10E2AA4CC1600FC378E /* HomeTVC.swift */; };
 		811FA1112AA50A4600FC378E /* HomeCVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 811FA1102AA50A4600FC378E /* HomeCVC.swift */; };
@@ -88,6 +89,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		811837182AB487D900995BBD /* ImagePickerHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerHelper.swift; sourceTree = "<group>"; };
 		811FA10C2AA4CB1600FC378E /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
 		811FA10E2AA4CC1600FC378E /* HomeTVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeTVC.swift; sourceTree = "<group>"; };
 		811FA1102AA50A4600FC378E /* HomeCVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCVC.swift; sourceTree = "<group>"; };
@@ -258,6 +260,7 @@
 				81E0C71C2AA0AE5C00299DF3 /* MapVC.swift */,
 				81E0C71A2AA0AE4700299DF3 /* MapVM.swift */,
 				81E0C71E2AA0AEA700299DF3 /* MapCVC.swift */,
+				C0C879B32AB07ABF00089E93 /* Add Visit */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -291,6 +294,7 @@
 				81B83A9A2AB2F0CA00EA902C /* AuthenticationManager.swift */,
 				81B83A9C2AB3072100EA902C /* KeychainManager.swift */,
 				81E0C6EC2AA0A7FA00299DF3 /* Extensions.swift */,
+				811837182AB487D900995BBD /* ImagePickerHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -352,7 +356,6 @@
 				C0C927C42AA0D0AC0077B7BA /* Settings */,
 				81E0C6DA2AA0A69000299DF3 /* Visits */,
 				81E0C6DB2AA0A69700299DF3 /* Map */,
-				C0C879B32AB07ABF00089E93 /* Add Visit */,
 				81E0C6D82AA0A67900299DF3 /* Home */,
 			);
 			path = TabBar;
@@ -587,6 +590,7 @@
 				C09C220D2AA119930084B54F /* SettingsModel.swift in Sources */,
 				811FA1152AA51BDC00FC378E /* HomeDetailVC.swift in Sources */,
 				81E0C7342AA0B12D00299DF3 /* PlaceModel.swift in Sources */,
+				811837192AB487D900995BBD /* ImagePickerHelper.swift in Sources */,
 				C0A2E73E2AAF7C4100D3F879 /* PermissionHelper.swift in Sources */,
 				C0BE1F942AA1C8BA006B560B /* SecuritySettingsVC.swift in Sources */,
 				81E0C7292AA0B06800299DF3 /* VisitsVC.swift in Sources */,

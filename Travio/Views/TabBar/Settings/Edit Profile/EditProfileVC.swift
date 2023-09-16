@@ -118,18 +118,19 @@ class EditProfileVC: UIViewController {
     }
     
     @objc private func changePhotoButtonTapped() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        ImagePickerHelper.shared.showImageSourceOptions(from: self)
     }
-    
+
     @objc private func saveButtonTapped() {
+        saveButton.isEnabled = false
         viewModel.uploadImage { status in
             if status {
                 guard let name = self.nameView.textField.text,
                       let email = self.emailView.textField.text,
-                      let imageURL = self.viewModel.url?.first else { return }
+                      let imageURL = self.viewModel.url?.first else {
+                    self.saveButton.isEnabled = true
+                    return
+                }
                 let params: Parameters = ["full_name": name,
                                           "email": email,
                                           "pp_url": imageURL]
@@ -139,18 +140,18 @@ class EditProfileVC: UIViewController {
             } else {
                 
             }
-            
         }
     }
     
     private func handleProfileEditResult(_ status: Bool, _ message: String) {
-            if status {
-                self.dismiss(animated: true)
-                self.showAlert(title: "Successfuly!", message: message)
-            } else {
-                self.showAlert(title: "Error!", message: message)
-            }
+        if status {
+            self.dismiss(animated: true)
+            self.showAlert(title: "Successfuly!", message: message)
+        } else {
+            self.showAlert(title: "Error!", message: message)
         }
+        saveButton.isEnabled = true
+    }
     
     private func configure() {
         if let user = user {

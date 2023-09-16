@@ -89,6 +89,7 @@ class SignUpVC: UIViewController {
     }
     
     @objc private func didTapSignUpButton() {
+        signUpButton.isEnabled = false
         guard let username = usernameTextFieldView.textField.text,
               let email = emailTextFieldView.textField.text,
               let password = passwordTextFieldView.textField.text,
@@ -96,6 +97,7 @@ class SignUpVC: UIViewController {
               isValidEmail(email: email),
               password == confirmPassword,
               (8..<15).contains(password.count) else {
+            signUpButton.isEnabled = true
             showAlert(title: "Invalid Information", message: "Please make sure you fill out the information correctly and completely.")
             return
         }
@@ -105,6 +107,7 @@ class SignUpVC: UIViewController {
         signUpViewModel.postData(newUser) { [weak self] status in
             guard let self = self else { return }
             if status {
+                signUpButton.isEnabled = true
                 self.navigationController?.popToRootViewController(animated: true)
                 self.delegate?.returned(message: "The registration process was completed successfully.")
             }  else {
