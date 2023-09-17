@@ -113,8 +113,8 @@ class HomeVC: UIViewController {
     }
     
     private func setupApi() {
+        self.view.showLoadingView()
         let dispatchGroup = DispatchGroup()
-        
         let sections = [Sections.popularPlaces, Sections.lastPlaces, Sections.userPlaces]
         
         sections.forEach { section in
@@ -129,6 +129,7 @@ class HomeVC: UIViewController {
         }
         
         dispatchGroup.notify(queue: .main) {
+            self.view.hideLoadingView()
             self.tableView.reloadData()
         }
     }

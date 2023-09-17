@@ -34,7 +34,25 @@ class MainTabBarC: UITabBarController {
         viewControllers = tabBarList.map({ UINavigationController(rootViewController: $0) })
         self.tabBar.tintColor = AppColor.primaryColor.colorValue()
         self.tabBar.backgroundColor = AppColor.tabBarColor.colorValue()
-        
-        view.addSubviews()
+        customizeTabBarAppearance()
+    }
+
+    private func customizeTabBarAppearance() {
+        tabBar.tintColor = AppColor.primaryColor.colorValue()
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurView = UIVisualEffectView(effect: blurEffect)
+        blurView.frame = tabBar.bounds
+        blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+        tabBar.insertSubview(blurView, at: 0)
+
+        blurView.alpha = 0.5
+        blurView.backgroundColor = .clear
+
+        let topBorder = CALayer()
+        topBorder.frame = CGRect(x: 0, y: 0, width: tabBar.frame.width, height: 0.5)
+        topBorder.backgroundColor = UIColor.gray.cgColor
+
+        tabBar.layer.addSublayer(topBorder)
     }
 }

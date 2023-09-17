@@ -131,7 +131,9 @@ class SettingsVC: UIViewController {
     }
     
     private func setupApi() {
+        self.view.showLoadingView()
         viewModel.getUserInfos() { status in
+            self.view.hideLoadingView()
             if status {
                 self.configure()
             } else {

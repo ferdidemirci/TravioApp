@@ -70,6 +70,47 @@ extension UIView {
         layer.maskedCorners = corners
         layer.masksToBounds = true
     }
+    
+    func showLoadingView() {
+        let backgroundView = UIView()
+        backgroundView.frame = UIScreen.main.bounds
+        backgroundView.backgroundColor = UIColor.clear
+        backgroundView.alpha = 0.85
+        backgroundView.tag = 999
+        
+        let blurEffect = UIBlurEffect(style: .extraLight)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.frame = backgroundView.bounds
+
+        
+        
+        let activityIndicator = UIActivityIndicatorView(style: .large)
+        activityIndicator.center = backgroundView.center
+        activityIndicator.startAnimating()
+
+        blurEffectView.contentView.addSubview(activityIndicator)
+        backgroundView.addSubview(blurEffectView)
+        
+        if let keyWindowScene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState == .foregroundActive }),
+            let keyWindow = keyWindowScene.windows.first(where: { $0.isKeyWindow }) {
+            keyWindow.addSubview(backgroundView)
+        }
+    }
+
+    func hideLoadingView() {
+        if let keyWindowScene = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .first(where: { $0.activationState == .foregroundActive }),
+            let keyWindow = keyWindowScene.windows.first(where: { $0.isKeyWindow }) {
+            for subview in keyWindow.subviews {
+                if subview.tag == 999 {
+                    subview.removeFromSuperview()
+                }
+            }
+        }
+    }
 }
 
 extension IndexPath {

@@ -289,11 +289,11 @@
 		81E0C6DE2AA0A70400299DF3 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
+				81E0C6EC2AA0A7FA00299DF3 /* Extensions.swift */,
 				81E0C7092AA0AC7C00299DF3 /* Helpers.swift */,
 				81A263ED2AB2317100CE3934 /* NotificationCenterManager.swift */,
 				81B83A9A2AB2F0CA00EA902C /* AuthenticationManager.swift */,
 				81B83A9C2AB3072100EA902C /* KeychainManager.swift */,
-				81E0C6EC2AA0A7FA00299DF3 /* Extensions.swift */,
 				811837182AB487D900995BBD /* ImagePickerHelper.swift */,
 			);
 			path = Helper;

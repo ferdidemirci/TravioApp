@@ -60,7 +60,9 @@ class VisitsVC: UIViewController {
     }
     
     private func setupData() {
+        self.view.showLoadingView()
         viewModel.getVisits { status in
+            self.view.hideLoadingView()
             if status {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()

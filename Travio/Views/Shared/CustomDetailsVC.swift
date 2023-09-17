@@ -367,7 +367,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         }
 
         scrollContentView.snp.makeConstraints { make in
-            make.bottom.equalTo(descriptionLabel.snp.bottom).offset(70)
+            make.bottom.equalTo(descriptionLabel.snp.bottom).offset(24)
         }
     }
 }
