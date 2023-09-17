@@ -16,7 +16,6 @@ class HelpSupportTVC: UITableViewCell {
         let label = UILabel()
         label.font = UIFont(name: AppFont.medium.rawValue, size: 14)
         label.numberOfLines = 0
-//        label.backgroundColor = .red
         return label
     }()
     
@@ -41,16 +40,15 @@ class HelpSupportTVC: UITableViewCell {
         setupViews()
     }
     
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-        setupViews()
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 0, left: 0, bottom: 12, right: 0))
+        self.contentView.frame = self.contentView.frame.inset(by: UIEdgeInsets(top: 6, left: 0, bottom: 6, right: 0))
         contentView.roundCorners(corners: [.topLeft, .topRight, .bottomLeft], radius: 16)
+        self.contentView.layoutIfNeeded()
     }
     
     public func configure(with model: FAQItem) {
@@ -72,9 +70,6 @@ class HelpSupportTVC: UITableViewCell {
             make.top.equalToSuperview().offset(30)
             make.leading.equalToSuperview().offset(12)
             make.trailing.equalTo(expandIcon.snp.leading).offset(-12)
-//            make.centerY.equalToSuperview()
-//            make.bottom.equalToSuperview().offset(-16)
-//            make.height.equalTo(42)
         }
         
         expandIcon.snp.makeConstraints { make in

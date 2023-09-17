@@ -8,8 +8,6 @@
 import UIKit
 import SnapKit
 
-
-
 class HelpSupportVC: UIViewController {
     
     let viewModel = HelpSupportVM()
@@ -45,7 +43,7 @@ class HelpSupportVC: UIViewController {
         tv.backgroundColor = AppColor.backgroundLight.colorValue()
         tv.separatorStyle = .none
         tv.showsVerticalScrollIndicator = false
-//        tv.estimatedRowHeight = 86
+        tv.estimatedRowHeight = 86
         tv.rowHeight = UITableView.automaticDimension
         tv.register(HelpSupportTVC.self, forCellReuseIdentifier: HelpSupportTVC.identifier)
         return tv
@@ -64,6 +62,16 @@ class HelpSupportVC: UIViewController {
     
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func calculateHeight(selectedIndexPath: IndexPath) -> CGFloat {
+        guard let cell = self.tableView.cellForRow(at: selectedIndexPath) as? HelpSupportTVC else { return CGFloat() }
+        var labelFrame = cell.descriptionLabel.frame
+        let width = cell.descriptionLabel.frame.size.width
+        let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
+        let requiredSize = cell.descriptionLabel.sizeThatFits(maxSize)
+        labelFrame.size.height = requiredSize.height
+        return 86 + 12 + labelFrame.size.height + 16
     }
     
     private func setupViews() {
@@ -112,7 +120,7 @@ extension HelpSupportVC: UITableViewDelegate {
         if selectedIndex == indexPath.row && isExpand == true {
             return self.calculateHeight(selectedIndexPath: indexPath)
         } else {
-            return 86
+            return 110
         }
     }
     
@@ -154,7 +162,9 @@ extension HelpSupportVC: UITableViewDelegate {
         }
         
         selectedIndex = indexPath.row
+        tableView.beginUpdates()
         tableView.reloadRows(at: [indexPath], with: .automatic)
+        tableView.endUpdates()
     }
     
 }
@@ -169,15 +179,4 @@ extension HelpSupportVC: UITableViewDataSource {
         cell.configure(with: viewModel.faqData[indexPath.row])
         return cell
     }
-    
-    func calculateHeight(selectedIndexPath: IndexPath) -> CGFloat {
-        guard let cell = self.tableView.cellForRow(at: selectedIndexPath) as? HelpSupportTVC else { return CGFloat() }
-        var labelFrame = cell.descriptionLabel.frame
-        let width = cell.descriptionLabel.frame.size.width
-        let maxSize = CGSize(width: width, height: CGFloat.greatestFiniteMagnitude)
-        let requiredSize = cell.descriptionLabel.sizeThatFits(maxSize)
-        labelFrame.size.height = requiredSize.height
-        return 86 + 12 + labelFrame.size.height + 16
-    }
-    
 }
