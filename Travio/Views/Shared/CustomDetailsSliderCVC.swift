@@ -17,6 +17,7 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
         let image = UIImageView()
         image.image = UIImage(named: "istanbul")
         image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "slider.image")
         return image
     }()
     
@@ -65,26 +66,12 @@ class CustomDetailsSliderCVC: UICollectionViewCell {
     }
     
     public func configure(model image: Image) {
-        
-        guard let urlStr = URL(string: image.image_url) else {
-            sliderImage.image = UIImage(systemName: "photo")
+        guard let url = URL(string: image.image_url) else {
+            sliderImage.image = UIImage(named: "slider.image")
             return
         }
         
-        activityIndicator.startAnimating()
-        sliderImage.kf.setImage(
-            with: urlStr,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.sliderImage.image = UIImage(systemName: "photo")
-                }
-            }
-        )
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: sliderImage, imageName: "slider.image")
     }
 
 }

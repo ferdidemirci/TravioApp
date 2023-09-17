@@ -100,10 +100,12 @@ class SettingsVC: UIViewController {
     }
     
     @objc private func logoutButtonTapped() {
-        viewModel.deleteAccessToken {
-            let vc = LoginVC()
-            vc.hidesBottomBarWhenPushed = true
-            self.navigationController?.pushViewController(vc, animated: true)
+        viewModel.deleteTokens { status in
+            if status, let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene{
+                AuthenticationManager.shared.logout(windowScene)
+            } else {
+                self.showAlert(title: "Error!", message: "Access token deletion failed. Please try again.")
+            }
         }
     }
     
@@ -124,24 +126,14 @@ class SettingsVC: UIViewController {
             return
         }
         self.nameLabel.text = name
-        activityIndicator.startAnimating()
-        profileImageView.kf.setImage(
-            with: url,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.profileImageView.image = UIImage(named: "person.fill")
-                }
-            }
-        )
+        
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView, imageName: "person.fill")
     }
     
     private func setupApi() {
+        self.view.showLoadingView()
         viewModel.getUserInfos() { status in
+            self.view.hideLoadingView()
             if status {
                 self.configure()
             } else {

@@ -43,6 +43,11 @@ enum AppFont: String  {
     case bold = "Poppins-Bold"
 }
 
+enum ImageSource {
+    case camera
+    case photoLibrary
+}
+
 func formatISO8601Date(_ dateString: String) -> String? {
     let dateFormatter = DateFormatter()
     dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSSSZ"
@@ -60,4 +65,21 @@ func isValidEmail(email: String) -> Bool {
     let emailRegex = "[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,64}"
     let emailPredicate = NSPredicate(format: "SELF MATCHES %@", emailRegex)
     return emailPredicate.evaluate(with: email)
+}
+
+func loadImageWithActivityIndicator(from url: URL, indicator: UIActivityIndicatorView, into imageView: UIImageView, imageName: String) {
+    indicator.startAnimating()
+    imageView.kf.setImage(
+        with: url,
+        completionHandler: { [weak indicator] result in
+            indicator?.stopAnimating()
+            indicator?.removeFromSuperview()
+            switch result {
+            case .success:
+                break
+            case .failure:
+                imageView.image = UIImage(named: imageName)
+            }
+        }
+    )
 }

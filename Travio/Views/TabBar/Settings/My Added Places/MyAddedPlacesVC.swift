@@ -87,7 +87,7 @@ class MyAddedPlacesVC: UIViewController {
             if success {
                 self.collectionView.reloadData()
             } else {
-                print(self.debugDescription)
+                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
             }
         }
     }
@@ -125,10 +125,7 @@ class MyAddedPlacesVC: UIViewController {
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalToSuperview()
-            make.bottom.equalToSuperview()
-            make.leading.equalToSuperview().offset(24)
-            make.trailing.equalToSuperview().offset(-24)
+            make.edges.equalToSuperview()
         }
     }
     
@@ -161,9 +158,19 @@ extension MyAddedPlacesVC: UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MyAddedPlacesCVC.identifier, for: indexPath) as? MyAddedPlacesCVC else { return UICollectionViewCell() }
-        cell.backgroundColor = .white
         let places = viewModel.myAddedPlaces[indexPath.row]
         cell.configure(model: places)
         return cell
     }
+}
+
+extension MyAddedPlacesVC: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if scrollView.contentOffset.y + 50  > 0 {
+            sortButton.isHidden = true
+        } else {
+            sortButton.isHidden = false
+        }
+    }
+
 }

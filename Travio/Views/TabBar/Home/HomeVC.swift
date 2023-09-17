@@ -107,24 +107,29 @@ class HomeVC: UIViewController {
             vc.viewTag = 2
             vc.sectionTitle = viewModel.sectionTitles[2]
         default:
-            print("Tag yok")
+            break
         }
         navigationController?.pushViewController(vc, animated: true)
     }
     
     private func setupApi() {
+        self.view.showLoadingView()
         let dispatchGroup = DispatchGroup()
-        
         let sections = [Sections.popularPlaces, Sections.lastPlaces, Sections.userPlaces]
         
         sections.forEach { section in
             dispatchGroup.enter()
-            viewModel.fetchPlaces(for: section) {
-                dispatchGroup.leave()
+            viewModel.fetchPlaces(for: section) { status in
+                if status {
+                    dispatchGroup.leave()
+                } else {
+                    self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
+                }
             }
         }
         
         dispatchGroup.notify(queue: .main) {
+            self.view.hideLoadingView()
             self.tableView.reloadData()
         }
     }

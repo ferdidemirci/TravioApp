@@ -18,10 +18,18 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     var visitId: String?
     var placeId: String?
     var placeDetails: Place?
-    var isVisited = true
+    var isVisited = false
     var delegate: ReturnToDismiss?
     
     var viewModel = CustomDetailsVM()
+    
+    private lazy var sliderImage: UIImageView = {
+        let image = UIImageView()
+        image.contentMode = .scaleAspectFill
+        image.image = UIImage(named: "slider.image")
+        image.layer.masksToBounds = true
+        return image
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -76,6 +84,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 30)
+        label.numberOfLines = 0
         return label
     }()
     
@@ -98,10 +107,10 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         button.titleLabel?.font = .systemFont(ofSize: 12)
         button.setTitleColor(UIColor.white, for: .normal)
         button.tintColor = .white
-        button.setImage(UIImage(named: "bookmark.fill"), for: .normal)
         button.backgroundColor = AppColor.primaryColor.colorValue()
         button.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 12)
         button.addTarget(self, action: #selector(didTapVisitedButton), for: .touchUpInside)
+        button.addShadow()
         return button
     }()
     
@@ -138,31 +147,49 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     
     @objc func didTapVisitedButton() {
         if let visitId {
-            self.showDeleteAlert { bool in
-                if bool {
-                    self.viewModel.deleteVisit(visitId: visitId) { message in
-                        self.navigationController?.popToRootViewController(animated: true)
-                        self.delegate?.returned(message: message)
-                    }
+            visitDelete(visitId: visitId)
+        } else {
+            placeProcess()
+        }
+    }
+    
+    private func visitDelete(visitId: String) {
+        self.showDeleteAlert { bool in
+            if bool {
+                self.viewModel.deleteVisit(visitId: visitId) { status, message in
+                    self.navigationController?.popToRootViewController(animated: true)
+                    self.delegate?.returned(message: message)
                 }
             }
-        } else {
-            if let placeId {
-                if isVisited {
-                    self.showDeleteAlert { bool in
-                        if bool {
-                            self.viewModel.deleteVisit(visitId: placeId) { message in
+        }
+    }
+    
+    private func placeProcess() {
+        if let placeId {
+            if isVisited {
+                self.showDeleteAlert { bool in
+                    if bool {
+                        self.viewModel.deleteVisit(visitId: placeId) {status, message in
+                            if status {
+                                NotificationCenterManager.shared.postNotification()
                                 self.showAlert(title: "Delete!", message: message)
                                 self.visitedButton.setImage(UIImage(named: "bookmark"), for: .normal)
                                 self.isVisited = false
+                            } else {
+                                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
                             }
                         }
                     }
-                } else {
-                    viewModel.createVisit(placeId: placeId) { Response in
+                }
+            } else {
+                viewModel.createVisit(placeId: placeId) { status, response in
+                    if status {
+                        NotificationCenterManager.shared.postNotification()
                         self.showAlert(title: "Visit Insert!", message: "Place added successfully.")
                         self.visitedButton.setImage(UIImage(named: "bookmark.fill"), for: .normal)
                         self.isVisited = true
+                    } else {
+                        self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
                     }
                 }
             }
@@ -258,11 +285,18 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     private func setupViews(){
         mapView.delegate = self
         view.backgroundColor = AppColor.backgroundLight.colorValue()
-        view.addSubviews(collectionView, pageControl, backButton, visitedButton, scrollView)
+        view.addSubviews(sliderImage, collectionView, pageControl, backButton, visitedButton, scrollView)
         setupLayout()
     }
     
     private func setupLayout(){
+        
+        sliderImage.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
+            make.height.equalTo(250)
+        }
         
         collectionView.snp.makeConstraints { make in
             make.top.equalToSuperview()
@@ -306,6 +340,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         titleLabel.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
         }
 
         dateLabel.snp.makeConstraints { make in
@@ -332,7 +367,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         }
 
         scrollContentView.snp.makeConstraints { make in
-            make.bottom.equalTo(descriptionLabel.snp.bottom).offset(70)
+            make.bottom.equalTo(descriptionLabel.snp.bottom).offset(24)
         }
     }
 }
