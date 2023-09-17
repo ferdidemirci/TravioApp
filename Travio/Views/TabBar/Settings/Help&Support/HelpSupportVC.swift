@@ -18,7 +18,7 @@ class HelpSupportVC: UIViewController {
     private lazy var backButton: UIButton = {
         let button = UIButton()
         button.setImage(UIImage(named: "backBarButtonIcon"), for: .normal)
-        button.addTarget(self, action: #selector(btnBackTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     
