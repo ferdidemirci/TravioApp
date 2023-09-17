@@ -118,43 +118,49 @@ class EditProfileVC: UIViewController {
     }
     
     @objc private func changePhotoButtonTapped() {
-        let imagePicker = UIImagePickerController()
-        imagePicker.delegate = self
-        imagePicker.sourceType = .photoLibrary
-        present(imagePicker, animated: true)
+        ImagePickerHelper.shared.showImageSourceOptions(from: self)
     }
-    
+
     @objc private func saveButtonTapped() {
-        viewModel.uploadImage {
-            guard let name = self.nameView.textField.text,
-                  let email = self.emailView.textField.text,
-                  let imageURL = self.viewModel.url?.first else { return }
-            let params: Parameters = ["full_name": name,
-                                      "email": email,
-                                      "pp_url": imageURL]
-            self.viewModel.editProfile(params: params) { status, message in
-                self.handleProfileEditResult(status, message)
+        saveButton.isEnabled = false
+        viewModel.uploadImage { status in
+            if status {
+                guard let name = self.nameView.textField.text,
+                      let email = self.emailView.textField.text,
+                      let imageURL = self.viewModel.url?.first else {
+                    self.saveButton.isEnabled = true
+                    return
+                }
+                let params: Parameters = ["full_name": name,
+                                          "email": email,
+                                          "pp_url": imageURL]
+                self.viewModel.editProfile(params: params) { status, message in
+                    self.handleProfileEditResult(status, message)
+                }
+            } else {
+                
             }
         }
     }
     
     private func handleProfileEditResult(_ status: Bool, _ message: String) {
-            if status {
-                self.dismiss(animated: true)
-                self.showAlert(title: "Successfuly!", message: message)
-            } else {
-                self.showAlert(title: "Error!", message: message)
-            }
+        if status {
+            self.dismiss(animated: true)
+            self.showAlert(title: "Successfuly!", message: message)
+        } else {
+            self.showAlert(title: "Error!", message: message)
         }
+        saveButton.isEnabled = true
+    }
     
     private func configure() {
-        viewModel.getUserInfos { [self] user in
+        if let user = user {
             guard let imageURL = user.pp_url,
                   let name = user.full_name,
                   let createdDate = user.created_at,
                   let role = user.role,
                   let url = URL(string: imageURL) else {
-                self.profileImageView.image = UIImage(systemName: "photo")
+                self.profileImageView.image = UIImage(named: "person.fill")
                 return
             }
             
@@ -162,20 +168,7 @@ class EditProfileVC: UIViewController {
             self.birthView.labelText = formatISO8601Date(createdDate) ?? "Unknown"
             self.roleView.labelText = role
             
-            activityIndicator.startAnimating()
-            profileImageView.kf.setImage(
-                with: url,
-                completionHandler: { [weak activityIndicator] result in
-                    activityIndicator?.stopAnimating()
-                    activityIndicator?.removeFromSuperview()
-                    switch result {
-                    case .success:
-                        break
-                    case .failure:
-                        self.profileImageView.image = UIImage(systemName: "photo")
-                    }
-                }
-            )
+            loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView, imageName: "person.fill")
         }
     }
     

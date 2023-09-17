@@ -10,16 +10,16 @@ import Alamofire
 
 class SignUpVM {
     
-    func postData(_ userModel: User, completion: @escaping () -> Void) {
+    func postData(_ userModel: User, completion: @escaping (Bool) -> Void) {
         let params = ["full_name": "\(userModel.full_name)",
                       "email": "\(userModel.email)",
                       "password": "\(userModel.password)"]
-        NetworkHelper.shared.routerRequest(request: Router.signIn(parameters: params)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.signIn(parameters: params)) { (result: Result<Response, Error>) in
             switch result {
-            case .success(let response):
-                completion()
-            case .failure(let error):
-                completion()
+            case .success:
+                completion(true)
+            case .failure:
+                completion(false)
             }
         }
     }

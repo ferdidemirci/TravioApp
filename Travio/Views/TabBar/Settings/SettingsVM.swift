@@ -6,11 +6,9 @@
 //
 
 import Foundation
-import KeychainSwift
 
 class SettingsVM {
     var userInfos: Me?
-    let keychain = KeychainSwift()
     var settingsParameters: [SettingsModel] = [SettingsModel(leftImage: "user", text: "Security Settings"),
                                                SettingsModel(leftImage: "scope", text: "App Defaults"),
                                                SettingsModel(leftImage: "mapIcon", text: "My Added Places"),
@@ -19,21 +17,21 @@ class SettingsVM {
                                                SettingsModel(leftImage: "termsofuse", text: "Terms of Use")]
     
     func getUserInfos(completion: @escaping (Bool) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.user) { (results: Result<Me, Error>) in
             switch results {
             case .success(let data):
                 self.userInfos = data
                 completion(true)
-            case .failure(let error):
-                print(error.localizedDescription)
+            case .failure:
                 completion(false)
             }
         }
     }
     
-    func deleteAccessToken(completion: () -> Void) {
-        let key = "accessTokenKey"
-        self.keychain.delete(key)
-        completion()
+    func deleteTokens(completion: @escaping (Bool) -> Void) {
+        let accessTokenDeleted = KeychainManager.shared.deleteValue(forKey: "accessTokenKey")
+        let refreshTokenDeleted = KeychainManager.shared.deleteValue(forKey: "refreshTokenKey")
+        
+        completion(accessTokenDeleted && refreshTokenDeleted)
     }
 }

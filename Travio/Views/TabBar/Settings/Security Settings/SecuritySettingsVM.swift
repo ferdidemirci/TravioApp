@@ -14,11 +14,11 @@ class SecuritySettingsVM {
     var passwords = ["Password": "", "confirmPassword": ""]
     
     func changePassword(newPassword: Parameters, completion: @escaping (Bool) -> Void) {
-        NetworkHelper.shared.routerRequest(request: Router.changePassword(parameters: newPassword)) { (result: Result<Response, Error>) in
+        NetworkManager.shared.routerRequest(request: Router.changePassword(parameters: newPassword)) { (result: Result<Response, Error>) in
             switch result {
             case .success:
                 completion(true)
-            case .failure(let error):
+            case .failure:
                 completion(false)
             }
         }

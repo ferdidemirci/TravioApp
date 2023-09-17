@@ -73,7 +73,7 @@ class SignUpVC: UIViewController {
         button.title = "Sign Up"
         button.backgroundColor = AppColor.isEnabledColor.colorValue()
         button.isEnabled = false
-        button.addTarget(self, action: #selector(didTapSignButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didTapSignUpButton), for: .touchUpInside)
         return button
     }()
     
@@ -88,7 +88,8 @@ class SignUpVC: UIViewController {
         setupViews()
     }
     
-    @objc private func didTapSignButton() {
+    @objc private func didTapSignUpButton() {
+        signUpButton.isEnabled = false
         guard let username = usernameTextFieldView.textField.text,
               let email = emailTextFieldView.textField.text,
               let password = passwordTextFieldView.textField.text,
@@ -96,16 +97,22 @@ class SignUpVC: UIViewController {
               isValidEmail(email: email),
               password == confirmPassword,
               (8..<15).contains(password.count) else {
+            signUpButton.isEnabled = true
             showAlert(title: "Invalid Information", message: "Please make sure you fill out the information correctly and completely.")
             return
         }
 
         self.signUpButton.isEnabled = true
         let newUser = User(full_name: username, email: email, password: password)
-        signUpViewModel.postData(newUser) { [weak self] in
+        signUpViewModel.postData(newUser) { [weak self] status in
             guard let self = self else { return }
-            self.navigationController?.popToRootViewController(animated: true)
-            self.delegate?.returned(message: "The registration process was completed successfully.")
+            if status {
+                signUpButton.isEnabled = true
+                self.navigationController?.popToRootViewController(animated: true)
+                self.delegate?.returned(message: "The registration process was completed successfully.")
+            }  else {
+                self.showAlert(title: "SignUp Failed!", message: "An unexpected error occurred during the registration process. Please try again.")
+            }
         }
     }
     

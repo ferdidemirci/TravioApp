@@ -52,14 +52,17 @@ class VisitsVC: UIViewController {
         
         setupViews()
         setupData()
+        NotificationCenterManager.shared.addObserver(observer: self, selector: #selector(VisitUpdateNotification))
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
+
+    @objc private func VisitUpdateNotification() {
         setupData()
     }
     
     private func setupData() {
+        self.view.showLoadingView()
         viewModel.getVisits { status in
+            self.view.hideLoadingView()
             if status {
                 DispatchQueue.main.async {
                     self.collectionView.reloadData()

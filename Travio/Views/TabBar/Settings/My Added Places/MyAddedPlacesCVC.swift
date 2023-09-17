@@ -12,6 +12,13 @@ class MyAddedPlacesCVC: UICollectionViewCell {
     
     static let identifier = "MyAddedPlacesCVC"
     
+    private lazy var containerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        view.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        return view
+    }()
+    
     private lazy var placeImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -51,7 +58,6 @@ class MyAddedPlacesCVC: UICollectionViewCell {
     private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .medium)
         indicator.translatesAutoresizingMaskIntoConstraints = false
-        indicator.tintColor = .red
         return indicator
     }()
     
@@ -65,42 +71,33 @@ class MyAddedPlacesCVC: UICollectionViewCell {
     }
     
     override func layoutSubviews() {
-        self.addCornerRadius(corners: [.layerMinXMaxYCorner, .layerMaxXMinYCorner, .layerMinXMinYCorner], radius: 16)
+        self.addShadow()
     }
     
     public func configure(model place: Place) {
         locationLabel.text = place.place
         titleLabel.text = place.title
         
-        guard let urlStr = URL(string: place.cover_image_url) else {
-            placeImageView.image = UIImage(systemName: "photo")
+        guard let url = URL(string: place.cover_image_url) else {
+            placeImageView.image = UIImage(named: "image.fill")
             return
         }
         
-        activityIndicator.startAnimating()
-        
-        placeImageView.kf.setImage(
-            with: urlStr,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.placeImageView.image = UIImage(systemName: "photo")
-                }
-            }
-        )
-        
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: placeImageView, imageName: "image.fill")
     }
     
     func setupViews() {
-        contentView.addSubviews(placeImageView, titleLabel, stackView, activityIndicator)
+        contentView.addSubviews(containerView)
+        containerView.addSubviews(placeImageView, titleLabel, stackView, activityIndicator)
         setupLayouts()
     }
     
     func setupLayouts() {
+        containerView.snp.makeConstraints { make in
+            make.top.bottom.equalToSuperview()
+            make.leading.equalToSuperview().offset(24)
+            make.trailing.equalToSuperview().offset(-24)
+        }
         
         placeImageView.snp.makeConstraints { make in
             make.top.leading.bottom.equalToSuperview()
