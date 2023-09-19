@@ -118,6 +118,7 @@ class HomeCVC: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(stackView.snp.top)
             make.leading.equalToSuperview().offset(16)
+            make.trailing.equalToSuperview().offset(-16)
         }
         
         stackView.snp.makeConstraints { make in
@@ -134,25 +135,13 @@ class HomeCVC: UICollectionViewCell {
         locationLabel.text = place.place
         titleLabel.text = place.title
         
-        guard let urlStr = URL(string: place.cover_image_url) else {
-            backgroundImageView.image = UIImage(systemName: "photo")
+        guard let url = URL(string: place.cover_image_url) else {
+            backgroundImageView.image = UIImage(named: "image.fill")
             return
         }
         
-        activityIndicator.startAnimating()
-        backgroundImageView.kf.setImage(
-            with: urlStr,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.backgroundImageView.image = UIImage(systemName: "photo")
-                }
-            }
-        )
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: backgroundImageView, imageName: "iamge.fill")
+        
     }
 }
 

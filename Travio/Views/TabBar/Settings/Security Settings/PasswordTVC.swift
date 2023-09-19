@@ -11,9 +11,12 @@ import SnapKit
 class PasswordTVC: UITableViewCell {
     
     static let identifier = "PasswordTVC"
+    weak var delegate: ReturnToSecuritySettings?
     
     lazy var textFieldView: CustomTextFieldView = {
         let view = CustomTextFieldView()
+        view.textField.delegate = self
+        view.secureTextEntry = true
         return view
     }()
     
@@ -34,8 +37,9 @@ class PasswordTVC: UITableViewCell {
         self.backgroundColor = .clear
     }
     
-    func configure(title: String) {
+    func configure(title: String, tag: Int) {
         textFieldView.titleLabel.text = title
+        textFieldView.textField.tag = tag
     }
     
     private func setupViews() {
@@ -49,6 +53,23 @@ class PasswordTVC: UITableViewCell {
             make.bottom.equalToSuperview().offset(-8)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
+        }
+    }
+}
+
+extension PasswordTVC: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        guard let text = textField.text, textField == textFieldView.textField else {
+            return
+        }
+                
+        switch textField.tag {
+        case 0:
+            delegate?.passwordTransfer(password: text)
+        case 1:
+            delegate?.confirmPasswordTransfer(confirmPassword: text)
+        default:
+            break
         }
     }
 }

@@ -19,8 +19,6 @@ class VisitsVC: UIViewController {
         return label
     }()
     
-    
-    
     private lazy var mainView: UIView = {
         let view = UIView()
         view.addCornerRadius(corners: [.layerMinXMinYCorner], radius: 80)
@@ -29,7 +27,7 @@ class VisitsVC: UIViewController {
         return view
     }()
     
-    let activityIndicator: UIActivityIndicatorView = {
+    private lazy var activityIndicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView(style: .large)
         indicator.color = AppColor.primaryColor.colorValue()
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -54,16 +52,23 @@ class VisitsVC: UIViewController {
         
         setupViews()
         setupData()
+        NotificationCenterManager.shared.addObserver(observer: self, selector: #selector(VisitUpdateNotification))
     }
-    
-    override func viewWillAppear(_ animated: Bool) {
+
+    @objc private func VisitUpdateNotification() {
         setupData()
     }
     
     private func setupData() {
-        viewModel.getVisits {
-            DispatchQueue.main.async {
-                self.collectionView.reloadData()
+        self.view.showLoadingView()
+        viewModel.getVisits { status in
+            self.view.hideLoadingView()
+            if status {
+                DispatchQueue.main.async {
+                    self.collectionView.reloadData()
+                }
+            } else {
+                self.showAlert(title: "Error!", message: "Fetching data from API failed. Please try again.")
             }
         }
     }

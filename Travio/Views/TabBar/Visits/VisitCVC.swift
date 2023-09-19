@@ -97,6 +97,7 @@ class VisitCVC: UICollectionViewCell {
         titleLabel.snp.makeConstraints { make in
             make.bottom.equalTo(locationImageView.snp.top)
             make.leading.equalToSuperview().offset(8)
+            make.trailing.equalToSuperview().offset(-8)
         }
         
         locationImageView.snp.makeConstraints { make in
@@ -118,24 +119,11 @@ class VisitCVC: UICollectionViewCell {
         locationLabel.text = visit.place
         titleLabel.text = visit.title
         
-        guard let urlStr = URL(string: visit.cover_image_url) else {
-            backgroundImageView.image = UIImage(systemName: "photo")
+        guard let url = URL(string: visit.cover_image_url) else {
+            backgroundImageView.image = UIImage(named: "image.fill")
             return
         }
         
-        activityIndicator.startAnimating()
-        backgroundImageView.kf.setImage(
-            with: urlStr,
-            completionHandler: { [weak activityIndicator] result in
-                activityIndicator?.stopAnimating()
-                activityIndicator?.removeFromSuperview()
-                switch result {
-                case .success:
-                    break
-                case .failure:
-                    self.backgroundImageView.image = UIImage(systemName: "photo")
-                }
-            }
-        )
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: backgroundImageView, imageName: "image.fill")
     }
 }

@@ -72,7 +72,7 @@ class MapVC: UIViewController, MKMapViewDelegate{
                 return
             }
             if let placemark = placemarks?.first {
-                if let city = placemark.locality,
+                if let city = placemark.administrativeArea,
                     let country = placemark.country {
                     self.place = "\(city), \(country)"
                     complate()
@@ -111,9 +111,11 @@ class MapVC: UIViewController, MKMapViewDelegate{
     }
     
     func setupData() {
+        self.view.showLoadingView()
         viewModel.getData {
             self.collectionView.reloadData()
             for location in self.viewModel.mapPlaces {
+                self.view.hideLoadingView()
                 let annotation = MKPointAnnotation()
                 annotation.coordinate = CLLocationCoordinate2D(latitude: location.latitude, longitude: location.longitude)
                 self.mapView.addAnnotation(annotation)

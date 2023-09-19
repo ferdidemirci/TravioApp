@@ -12,22 +12,28 @@ import CoreLocation
 import AVFoundation
 import Photos
 
+protocol ReturnToSecuritySettings: AnyObject {
+    func passwordTransfer(password text: String)
+    func confirmPasswordTransfer(confirmPassword text: String)
+}
+
 class SecuritySettingsVC: UIViewController {
     
     let viewModel = SecuritySettingsVM()
+    weak var delegate: ReturnToSettings?
     
     var cameraPermissionEnabled = false
     var photoLibraryPermissionEnabled = false
     var locationPermissionEnabled = false
     
-    private lazy var btnBack: UIButton = {
+    private lazy var backButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "back"), for: .normal)
-        button.addTarget(self, action: #selector(btnBackTapped), for: .touchUpInside)
+        button.setImage(UIImage(named: "backBarButtonIcon"), for: .normal)
+        button.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         return button
     }()
     
-    private lazy var lblTitle: UILabel = {
+    private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = "Security Settings"
         label.textColor = .white
@@ -63,61 +69,104 @@ class SecuritySettingsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidBecomeActive), name: Notification.Name("appDidBecomeActive"), object: nil)
         setupViews()
+        appDidBecomeActive()
+        permissionRequests()
     }
     
     @objc private func saveButtonTapped() {
-        let passwordIndex = IndexPath(row: 0, section: 0)
-        let confirmPasswordIndex = IndexPath(row: 1, section: 0)
-        guard let passwordCell = tableView.cellForRow(at: passwordIndex) as? PasswordTVC,
-              let confirmPasswordCell = tableView.cellForRow(at: confirmPasswordIndex) as? PasswordTVC else { return }
-        let password = passwordCell.textFieldView.textField.text
-        let confirmPassword = confirmPasswordCell.textFieldView.textField.text
+        guard let password = viewModel.passwords["password"],
+              let confirmPassword = viewModel.passwords["confirmPassword"] else {
+            showAlert(title: "Error!", message: "Password fields are missing.")
+            return
+        }
+        
         if password == confirmPassword {
-            guard let newPassword = password else { return }
-            let params: Parameters = ["new_password": newPassword]
-            viewModel.changePassword(newPassword: params)
+            if (8...16).contains(password.count) {
+                let params: Parameters = ["new_password": password]
+                viewModel.changePassword(newPassword: params) { [weak self] status in
+                    guard let self = self else { return }
+                    if status {
+                        self.navigationController?.popViewController(animated: true)
+                        self.delegate?.returned(message: "Security settings have been saved successfully.")
+                    } else {
+                        self.showAlert(title: "Error!", message: "Something went wrong while performing the password change. Please try again.")
+                    }
+                }
+            } else {
+                showAlert(title: "Password Length", message: "Make sure your password is between 8 - 16 characters.")
+            }
         } else {
-            showAlert(title: "UYARI", message: "Şifre eşleştirilemedi! Lütfen şifrelerin aynı olduğundan emin olun!")
+            showAlert(title: "Password Mismatch", message: "The entered passwords do not match. Please make sure you've entered the same password twice.")
         }
     }
+
     
-    @objc private func btnBackTapped() {
+    @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
     }
     
+    // MARK: Permission Functions
+    
     @objc private func appDidBecomeActive() {
-        checkLocationPermission()
-        checkPhotoLibraryPermission()
         checkCameraPermission()
+        checkPhotoLibraryPermission()
+        checkLocationPermission()
     }
     
     deinit {
         NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
     }
     
+    private func permissionRequests() {
+        PermissionHelper.requestCameraPermission { granted in
+            if granted {
+                self.cameraPermissionEnabled = true
+                self.tableView.reloadData()
+            } else {
+                self.cameraPermissionEnabled = false
+            }
+        }
+        
+        PermissionHelper.requestPhotoLibraryPermission { granted in
+            if granted {
+                self.photoLibraryPermissionEnabled = true
+                self.tableView.reloadData()
+            } else {
+                self.photoLibraryPermissionEnabled = false
+            }
+        }
+        
+        PermissionHelper.requestLocationPermission { granted in
+            if granted {
+                self.locationPermissionEnabled = true
+                self.tableView.reloadData()
+            } else {
+                self.locationPermissionEnabled = false
+            }
+        }
+    }
+    
     @objc private func checkCameraPermission() {
         switch AVCaptureDevice.authorizationStatus(for: .video) {
         case .authorized, .restricted:
-            permissionOnDeviceSettings()
             cameraPermissionEnabled = true
         case .denied, .notDetermined:
-            permissionOnDeviceSettings()
             cameraPermissionEnabled = false
         @unknown default:
-            print("Kamera izni: Bilinmeyen durum")
+            cameraPermissionEnabled = false
         }
     }
     
     @objc private func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus()
+        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
         switch status {
         case .authorized, .restricted:
-            permissionOnDeviceSettings()
             photoLibraryPermissionEnabled = true
         case .denied, .notDetermined:
-            permissionOnDeviceSettings()
+            photoLibraryPermissionEnabled = false
+        case .limited:
             photoLibraryPermissionEnabled = false
         @unknown default:
             photoLibraryPermissionEnabled = false
@@ -129,30 +178,23 @@ class SecuritySettingsVC: UIViewController {
         let status = locationManager.authorizationStatus
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
-            permissionOnDeviceSettings()
             locationPermissionEnabled = true
         case .denied, .restricted:
-            permissionOnDeviceSettings()
             locationPermissionEnabled = false
         case .notDetermined:
             locationPermissionEnabled = false
         @unknown default:
-            print("Konum izni: Bilinmeyen durum")
+            locationPermissionEnabled = false
         }
     }
     
-    private func permissionOnDeviceSettings() {
-        DispatchQueue.main.async {
-            guard let settingsURL = URL(string: UIApplication.openSettingsURLString) else { return }
-            UIApplication.shared.open(settingsURL, options: [:], completionHandler: nil)
-        }
-    }
+    // MARK: View Functions
     
     private func setupViews() {
         self.navigationController?.navigationBar.isHidden = true
         self.view.backgroundColor = AppColor.primaryColor.colorValue()
-        self.view.addSubviews(btnBack,
-                              lblTitle,
+        self.view.addSubviews(backButton,
+                              titleLabel,
                               mainView)
         self.mainView.addSubviews(tableView,
                                   saveButton)
@@ -160,20 +202,20 @@ class SecuritySettingsVC: UIViewController {
     }
     
     private func setupLayouts() {
-        btnBack.snp.makeConstraints { make in
+        backButton.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(32)
             make.leading.equalToSuperview().offset(24)
             make.height.equalTo(22)
             make.width.equalTo(24)
         }
         
-        lblTitle.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.top.equalTo(self.view.safeAreaLayoutGuide.snp.top).offset(19)
-            make.leading.equalTo(btnBack.snp.trailing).offset(24)
+            make.leading.equalTo(backButton.snp.trailing).offset(24)
         }
         
         mainView.snp.makeConstraints { make in
-            make.top.equalTo(lblTitle.snp.bottom).offset(58)
+            make.top.equalTo(titleLabel.snp.bottom).offset(58)
             make.leading.trailing.bottom.equalToSuperview()
         }
         
@@ -189,6 +231,8 @@ class SecuritySettingsVC: UIViewController {
         }
     }
 }
+
+// MARK: TableView Delegate and DataSource Functions
 
 extension SecuritySettingsVC: UITableViewDelegate {
     
@@ -249,12 +293,14 @@ extension SecuritySettingsVC: UITableViewDataSource {
         
         if section == 0 {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PasswordTVC.identifier, for: indexPath) as? PasswordTVC else { return UITableViewCell() }
-            cell.configure(title: viewModel.cellTitles[section][row])
+            cell.delegate = self
+            cell.configure(title: viewModel.cellTitles[section][row], tag: indexPath.row)
             cell.selectionStyle = .none
             return cell
         } else {
             guard let cell = tableView.dequeueReusableCell(withIdentifier: PrivacyTVC.identifier, for: indexPath) as? PrivacyTVC else { return UITableViewCell() }
             cell.configure(title: viewModel.cellTitles[section][row])
+            cell.selectionStyle = .none
             let toggle = cell.privacyView.switchOnOff
             
             switch row {
@@ -272,7 +318,15 @@ extension SecuritySettingsVC: UITableViewDataSource {
             }
             return cell
         }
-        
+    }
+}
+
+extension SecuritySettingsVC: ReturnToSecuritySettings {
+    func passwordTransfer(password: String) {
+        viewModel.passwords["password"] = password
     }
     
+    func confirmPasswordTransfer(confirmPassword: String) {
+        viewModel.passwords["confirmPassword"] = confirmPassword
+    }
 }

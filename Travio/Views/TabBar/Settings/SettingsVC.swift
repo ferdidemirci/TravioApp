@@ -9,6 +9,10 @@ import UIKit
 import SnapKit
 import Kingfisher
 
+protocol ReturnToSettings: AnyObject {
+    func returned(message: String)
+}
+
 class SettingsVC: UIViewController {
     
     let viewModel = SettingsVM()
@@ -36,23 +40,24 @@ class SettingsVC: UIViewController {
         return view
     }()
     
-    private lazy var imageViewProfile: UIImageView = {
+    private lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.backgroundColor = .clear
+        iv.tintColor = AppColor.backgroundDark.colorValue()
         iv.layer.masksToBounds = true
         iv.layer.cornerRadius = 60
         return iv
     }()
     
-    private lazy var lblName: UILabel = {
+    private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppColor.backgroundDark.colorValue()
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 16)
         return label
     }()
 
-    private lazy var btnEditProfile: UIButton = {
+    private lazy var editProfileButton: UIButton = {
         let button = UIButton()
         button.setTitle("Edit Profile", for: .normal)
         button.titleLabel?.font = UIFont(name: AppFont.regular.rawValue, size: 12)
@@ -62,8 +67,16 @@ class SettingsVC: UIViewController {
         return button
     }()
     
+    private lazy var activityIndicator: UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView(style: .medium)
+        indicator.color = AppColor.primaryColor.colorValue()
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        return indicator
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 8
         layout.scrollDirection = .vertical
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         collectionView.delegate = self
@@ -71,6 +84,7 @@ class SettingsVC: UIViewController {
         collectionView.backgroundColor = .clear
         collectionView.isPagingEnabled = true
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.contentInset = UIEdgeInsets(top: 24, left: 16, bottom: 16, right: 16)
         collectionView.register(SettingsCVC.self, forCellWithReuseIdentifier: SettingsCVC.identifier)
         return collectionView
     }()
@@ -79,29 +93,52 @@ class SettingsVC: UIViewController {
         super.viewDidLoad()
         
         setupViews()
-        configure()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        setupApi()
     }
     
     @objc private func logoutButtonTapped() {
-        viewModel.deleteAccessToken {
-            let vc = LoginVC()
-            self.navigationController?.pushViewController(vc, animated: true)
+        viewModel.deleteTokens { status in
+            if status, let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene{
+                AuthenticationManager.shared.logout(windowScene)
+            } else {
+                self.showAlert(title: "Error!", message: "Access token deletion failed. Please try again.")
+            }
         }
     }
     
     @objc private func didTapEditProfileButton() {
         let vc = EditProfileVC()
+        vc.user = viewModel.userInfos
         vc.hidesBottomBarWhenPushed = true
         vc.modalPresentationStyle = .fullScreen
         self.present(vc, animated: true)
     }
     
     private func configure() {
-        viewModel.getUserInfos { user in
-            guard let imageURL = user.pp_url,
-                  let name = user.full_name else { return }
-            self.imageViewProfile.kf.setImage(with: URL(string: imageURL))
-            self.lblName.text = name
+        guard let user = viewModel.userInfos,
+              let imageURL = user.pp_url,
+              let url = URL(string: imageURL),
+              let name = user.full_name else {
+            self.profileImageView.image = UIImage(named: "person.fill")
+            return
+        }
+        self.nameLabel.text = name
+        
+        loadImageWithActivityIndicator(from: url, indicator: activityIndicator, into: profileImageView, imageName: "person.fill")
+    }
+    
+    private func setupApi() {
+        self.view.showLoadingView()
+        viewModel.getUserInfos() { status in
+            self.view.hideLoadingView()
+            if status {
+                self.configure()
+            } else {
+                self.showAlert(title: "Error!", message: "User information could not be found. Please try again.")
+            }
         }
     }
     
@@ -111,9 +148,10 @@ class SettingsVC: UIViewController {
         self.view.addSubviews(titleLabel,
                               logoutButton,
                               mainView)
-        self.mainView.addSubviews(imageViewProfile,
-                                  lblName,
-                                  btnEditProfile,
+        self.mainView.addSubviews(profileImageView,
+                                  activityIndicator,
+                                  nameLabel,
+                                  editProfileButton,
                                   collectionView)
         setupLayouts()
     }
@@ -135,34 +173,39 @@ class SettingsVC: UIViewController {
             make.leading.trailing.bottom.equalToSuperview()
         }
         
-        imageViewProfile.snp.makeConstraints { make in
+        profileImageView.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(24)
             make.centerX.equalToSuperview()
             make.height.width.equalTo(120)
         }
         
-        lblName.snp.makeConstraints { make in
-            make.top.equalTo(imageViewProfile.snp.bottom).offset(8)
+        activityIndicator.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(24)
+            make.centerX.equalToSuperview()
+            make.height.width.equalTo(120)
+        }
+        
+        nameLabel.snp.makeConstraints { make in
+            make.top.equalTo(profileImageView.snp.bottom).offset(8)
             make.centerX.equalToSuperview()
             make.height.equalTo(24)
         }
         
-        btnEditProfile.snp.makeConstraints { make in
-            make.top.equalTo(lblName.snp.bottom)
+        editProfileButton.snp.makeConstraints { make in
+            make.top.equalTo(nameLabel.snp.bottom)
             make.centerX.equalToSuperview()
             make.width.equalTo(62)
             make.height.equalTo(18)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.top.equalTo(btnEditProfile.snp.bottom).offset(24)
-            make.leading.equalToSuperview().offset(16)
-            make.trailing.equalToSuperview().offset(-16)
+            make.top.equalTo(editProfileButton.snp.bottom).offset(8)
+            make.leading.equalToSuperview()
+            make.trailing.equalToSuperview()
             make.bottom.equalToSuperview()
         }
     }
 }
-
 
 extension SettingsVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -176,10 +219,21 @@ extension SettingsVC: UICollectionViewDelegateFlowLayout {
         
         switch selectedItem {
         case 0:
-            destinationVC = SecuritySettingsVC()
+            let vc = SecuritySettingsVC()
+            vc.delegate = self
+            destinationVC = vc
+            destinationVC?.hidesBottomBarWhenPushed = true
+        case 2:
+            destinationVC = MyAddedPlacesVC()
             destinationVC?.hidesBottomBarWhenPushed = true
         case 3:
             destinationVC = HelpSupportVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
+        case 4:
+            destinationVC = AboutUsVC()
+            destinationVC?.hidesBottomBarWhenPushed = true
+        case 5:
+            destinationVC = TermsOfUseVC()
             destinationVC?.hidesBottomBarWhenPushed = true
         default:
             break
@@ -198,5 +252,11 @@ extension SettingsVC: UICollectionViewDataSource {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: SettingsCVC.identifier, for: indexPath) as? SettingsCVC else { return UICollectionViewCell() }
         cell.configure(model: viewModel.settingsParameters[indexPath.item])
         return cell
+    }
+}
+
+extension SettingsVC: ReturnToSettings {
+    func returned(message: String) {
+        self.showAlert(title: "Successfuly", message: message)
     }
 }

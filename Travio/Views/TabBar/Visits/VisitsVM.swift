@@ -6,22 +6,20 @@
 //
 
 import Foundation
-import KeychainSwift
 import Alamofire
 
 class VisitsVM {
-    typealias closure = (() -> Void)?
+    typealias closure = ((Bool) -> Void)
     var visits: [Visit] = []
-    let keychain = KeychainSwift()
     
-    func getVisits(complate: closure) {
-        NetworkHelper.shared.routerRequest(request: Router.allVisit) { (result: Result<VisitsResponse, Error> ) in
+    func getVisits(completion: @escaping closure) {
+        NetworkManager.shared.routerRequest(request: Router.allVisit) { (result: Result<VisitsResponse, Error> ) in
             switch result {
             case .success(let data):
                 self.visits = data.data.visits
-                complate!()
-            case .failure(let error):
-                complate!()
+                completion(true)
+            case .failure:
+                completion(false)
             }
             
         }

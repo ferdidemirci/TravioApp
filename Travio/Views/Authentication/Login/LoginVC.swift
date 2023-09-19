@@ -94,15 +94,18 @@ class LoginVC: UIViewController {
     }
     
     @objc private func didTapLoginButton() {
-       guard let email = emailTextFieldView.textField.text, !email.isEmpty,
+        loginButton.isEnabled = false
+        guard let email = emailTextFieldView.textField.text, !email.isEmpty,
                   let password = passwordTextFieldView.textField.text, !password.isEmpty,
              isValidEmail(email: email) else {
+            loginButton.isEnabled = true
            showAlert(title: "Invalid Information!", message: "Please enter a valid email and password.")
            return
        }
 
         loginViewModel.postLogin(email: email, password: password) { status in
             if status {
+                self.loginButton.isEnabled = true
                 let vc = MainTabBarC()
                 self.navigationController?.pushViewController(vc, animated: true)
             } else {

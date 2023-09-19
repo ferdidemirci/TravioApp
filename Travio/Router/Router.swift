@@ -7,7 +7,6 @@
 
 import Foundation
 import Alamofire
-import KeychainSwift
 
 public enum Router: URLRequestConvertible {
     
@@ -29,10 +28,13 @@ public enum Router: URLRequestConvertible {
     case user
     case editProfile(parameters: Parameters)
     case changePassword(parameters: Parameters)
+    case getAllPlacesForUser
+    case me
+    case refreshToken(parameters: Parameters)
 
     
     var accessToken: String {
-        guard let accessToken = KeychainSwift().get("accessTokenKey") else { return "" }
+        guard let accessToken = KeychainManager.shared.getValue(forKey: "accessTokenKey") else { return "" }
         return accessToken
     }
     
@@ -42,9 +44,9 @@ public enum Router: URLRequestConvertible {
     
     private var method: HTTPMethod {
         switch self {
-        case .login, .signIn, .createVisit, .createPlace, .createGallery, .upload:
+        case .login, .signIn, .createVisit, .createPlace, .createGallery, .upload, .refreshToken:
             return .post
-        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .getVisitByPlaceId, .popularPlaces, .lastPlaces, .user:
+        case .placeById, .allPlaces, .allGalleryByPlaceId, .allVisit, .getVisitByPlaceId, .popularPlaces, .lastPlaces, .user, .getAllPlacesForUser, .me:
             return .get
         case .deleteVisitById, .deletePlace:
             return .delete
@@ -89,12 +91,18 @@ public enum Router: URLRequestConvertible {
             return "v1/edit-profile"
         case .changePassword:
             return "v1/change-password"
+        case .getAllPlacesForUser:
+            return "/v1/places/user"
+        case .me:
+            return "v1/me"
+        case .refreshToken:
+            return "/v1/auth/refresh"
         }
     }
     
     private var parameters: Parameters {
         switch self {
-        case .login(let parameters), .signIn(let parameters), .createVisit(let parameters), .createPlace(let parameters), .createGallery(let parameters), .editProfile(let parameters), .changePassword(let parameters):
+        case .login(let parameters), .signIn(let parameters), .createVisit(let parameters), .createPlace(let parameters), .createGallery(let parameters), .editProfile(let parameters), .changePassword(let parameters), .refreshToken(let parameters):
             return parameters
         case .popularPlaces(let limit), .lastPlaces(let limit):
             var params: Parameters = [:]
@@ -102,16 +110,16 @@ public enum Router: URLRequestConvertible {
                 params["limit"] = limit
             }
             return params
-        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById, .popularPlaces, .lastPlaces, .user:
+        case .placeById, .allPlaces, .deletePlace, .allGalleryByPlaceId, .allVisit, .upload, .getVisitByPlaceId, .deleteVisitById, .user, .getAllPlacesForUser, .me:
             return [:]
         }
     }
     
     private var headers: HTTPHeaders {
         switch self {
-        case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .upload, .popularPlaces, .lastPlaces:
+        case .login, .signIn, .allPlaces, .allGalleryByPlaceId, .popularPlaces, .lastPlaces, .refreshToken:
             return [:]
-        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById, .deletePlace, .user, .editProfile, .changePassword:
+        case .placeById, .createVisit, .allVisit, .createPlace, .createGallery, .getVisitByPlaceId, .deleteVisitById, .deletePlace, .user, .editProfile, .changePassword, .getAllPlacesForUser, .me:
             return ["Authorization": "Bearer \(accessToken)"]
         case .upload:
             return ["Content-Type": "multipart/form-data"]
