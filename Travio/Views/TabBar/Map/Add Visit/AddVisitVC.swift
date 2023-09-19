@@ -112,7 +112,7 @@ class AddVisitVC: UIViewController {
             guard let self = self else { return }
 
             if success {
-                addPlaceButton.isEnabled = true
+                self.addPlaceButton.isEnabled = true
                 self.delegate?.returned()
                 self.dismiss(animated: true)
             } else {

@@ -8,9 +8,6 @@
 import UIKit
 import SnapKit
 import Alamofire
-import CoreLocation
-import AVFoundation
-import Photos
 
 protocol ReturnToSecuritySettings: AnyObject {
     func passwordTransfer(password text: String)
@@ -21,10 +18,6 @@ class SecuritySettingsVC: UIViewController {
     
     let viewModel = SecuritySettingsVM()
     weak var delegate: ReturnToSettings?
-    
-    var cameraPermissionEnabled = false
-    var photoLibraryPermissionEnabled = false
-    var locationPermissionEnabled = false
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
@@ -101,7 +94,7 @@ class SecuritySettingsVC: UIViewController {
             showAlert(title: "Password Mismatch", message: "The entered passwords do not match. Please make sure you've entered the same password twice.")
         }
     }
-
+    
     
     @objc private func backButtonTapped() {
         navigationController?.popViewController(animated: true)
@@ -120,72 +113,22 @@ class SecuritySettingsVC: UIViewController {
     }
     
     private func permissionRequests() {
-        PermissionHelper.requestCameraPermission { granted in
-            if granted {
-                self.cameraPermissionEnabled = true
-                self.tableView.reloadData()
-            } else {
-                self.cameraPermissionEnabled = false
-            }
-        }
-        
-        PermissionHelper.requestPhotoLibraryPermission { granted in
-            if granted {
-                self.photoLibraryPermissionEnabled = true
-                self.tableView.reloadData()
-            } else {
-                self.photoLibraryPermissionEnabled = false
-            }
-        }
-        
-        PermissionHelper.requestLocationPermission { granted in
-            if granted {
-                self.locationPermissionEnabled = true
-                self.tableView.reloadData()
-            } else {
-                self.locationPermissionEnabled = false
-            }
+        viewModel.requestPermissions { [weak self] in
+            guard let self = self else { return }
+            self.tableView.reloadData()
         }
     }
     
     @objc private func checkCameraPermission() {
-        switch AVCaptureDevice.authorizationStatus(for: .video) {
-        case .authorized, .restricted:
-            cameraPermissionEnabled = true
-        case .denied, .notDetermined:
-            cameraPermissionEnabled = false
-        @unknown default:
-            cameraPermissionEnabled = false
-        }
+        viewModel.checkCameraPermission()
     }
     
     @objc private func checkPhotoLibraryPermission() {
-        let status = PHPhotoLibrary.authorizationStatus(for: .readWrite)
-        switch status {
-        case .authorized, .restricted:
-            photoLibraryPermissionEnabled = true
-        case .denied, .notDetermined:
-            photoLibraryPermissionEnabled = false
-        case .limited:
-            photoLibraryPermissionEnabled = false
-        @unknown default:
-            photoLibraryPermissionEnabled = false
-        }
+        viewModel.checkPhotoLibraryPermission()
     }
     
     @objc private func checkLocationPermission() {
-        let locationManager = CLLocationManager()
-        let status = locationManager.authorizationStatus
-        switch status {
-        case .authorizedAlways, .authorizedWhenInUse:
-            locationPermissionEnabled = true
-        case .denied, .restricted:
-            locationPermissionEnabled = false
-        case .notDetermined:
-            locationPermissionEnabled = false
-        @unknown default:
-            locationPermissionEnabled = false
-        }
+        viewModel.checkLocationPermission()
     }
     
     // MARK: View Functions
@@ -222,9 +165,9 @@ class SecuritySettingsVC: UIViewController {
         tableView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
-
+        
         saveButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom).offset(-18)
+            make.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom).offset(-18)
             make.leading.equalToSuperview().offset(24)
             make.trailing.equalToSuperview().offset(-24)
             make.height.equalTo(54)
@@ -305,17 +248,18 @@ extension SecuritySettingsVC: UITableViewDataSource {
             
             switch row {
             case 0:
-                toggle.isOn = cameraPermissionEnabled
+                toggle.isOn = viewModel.cameraPermissionEnabled
                 toggle.addTarget(self, action: #selector(checkCameraPermission), for: .valueChanged)
             case 1:
-                toggle.isOn = photoLibraryPermissionEnabled
+                toggle.isOn = viewModel.photoLibraryPermissionEnabled
                 toggle.addTarget(self, action: #selector(checkPhotoLibraryPermission), for: .valueChanged)
             case 2:
-                toggle.isOn = locationPermissionEnabled
+                toggle.isOn = viewModel.locationPermissionEnabled
                 toggle.addTarget(self, action: #selector(checkLocationPermission), for: .valueChanged)
             default:
                 break
             }
+            
             return cell
         }
     }

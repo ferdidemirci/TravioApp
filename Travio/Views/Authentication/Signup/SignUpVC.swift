@@ -107,7 +107,7 @@ class SignUpVC: UIViewController {
         signUpViewModel.postData(newUser) { [weak self] status in
             guard let self = self else { return }
             if status {
-                signUpButton.isEnabled = true
+                self.signUpButton.isEnabled = true
                 self.navigationController?.popToRootViewController(animated: true)
                 self.delegate?.returned(message: "The registration process was completed successfully.")
             }  else {
