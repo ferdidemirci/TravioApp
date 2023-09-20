@@ -7,7 +7,6 @@
 
 import UIKit
 import SnapKit
-//import IQKeyboardManagerSwift
 
 protocol ReturnToLogin: AnyObject {
     func returned(message: String)
@@ -15,7 +14,7 @@ protocol ReturnToLogin: AnyObject {
 
 class LoginVC: UIViewController {
 
-    var loginViewModel = LoginVM()
+    var viewModel = LoginVM()
     
     private lazy var loginScreenImageView: UIImageView = {
         let image = UIImageView()
@@ -103,7 +102,7 @@ class LoginVC: UIViewController {
            return
        }
 
-        loginViewModel.postLogin(email: email, password: password) { status in
+        viewModel.postLogin(email: email, password: password) { status in
             if status {
                 self.loginButton.isEnabled = true
                 let vc = MainTabBarC()

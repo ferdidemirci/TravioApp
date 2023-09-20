@@ -11,8 +11,8 @@ import IQKeyboardManagerSwift
 
 class SignUpVC: UIViewController {
     
-    var signUpViewModel = SignUpVM()
-    var delegate: ReturnToLogin?
+    var viewModel = SignUpVM()
+    weak var delegate: ReturnToLogin?
     
     private lazy var backButton: UIButton = {
         let button = UIButton()
@@ -24,7 +24,7 @@ class SignUpVC: UIViewController {
 
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "SignUp"
+        label.text = "Sign Up"
         label.textColor = .white
         label.font = UIFont(name: AppFont.semiBold.rawValue, size: 36)
         return label
@@ -41,7 +41,7 @@ class SignUpVC: UIViewController {
     private lazy var usernameTextFieldView: CustomTextFieldView = {
         let view = CustomTextFieldView()
         view.labelText = "Username"
-        view.placeHolderText = "Enter your usernmae"
+        view.placeHolderText = "Enter your username"
         return view
     }()
     
@@ -104,7 +104,7 @@ class SignUpVC: UIViewController {
 
         self.signUpButton.isEnabled = true
         let newUser = User(full_name: username, email: email, password: password)
-        signUpViewModel.postData(newUser) { [weak self] status in
+        viewModel.postData(newUser) { [weak self] status in
             guard let self = self else { return }
             if status {
                 self.signUpButton.isEnabled = true
@@ -185,8 +185,8 @@ class SignUpVC: UIViewController {
 
 extension SignUpVC: UITextFieldDelegate {
     func textFieldDidChangeSelection(_ textField: UITextField) {
-        if !usernameTextFieldView.textField.text!.isEmpty &&
-            !emailTextFieldView.textField.text!.isEmpty
+        if !usernameTextFieldView.textField.text!.isEmpty
+            && !emailTextFieldView.textField.text!.isEmpty
             && passwordTextFieldView.textField.text!.count >= 8
             && passwordTextFieldView.textField.text!.count <= 15
             && passwordTextFieldView.textField.text == confirmPasswordTextFieldView.textField.text {

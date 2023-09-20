@@ -58,7 +58,9 @@ class TermsOfUseVC: UIViewController {
     private func setupViews(){
         navigationController?.navigationBar.isHidden = true
         view.backgroundColor = AppColor.primaryColor.colorValue()
-        view.addSubviews(backButton, titleLabel, mainView)
+        view.addSubviews(backButton,
+                         titleLabel,
+                         mainView)
         mainView.addSubviews(webView)
         setupLayouts()
     }
@@ -98,6 +100,5 @@ extension TermsOfUseVC: WKNavigationDelegate {
         DispatchQueue.main.async {
             self.webView.load(URLRequest(url: url))
         }
-        
     }
 }

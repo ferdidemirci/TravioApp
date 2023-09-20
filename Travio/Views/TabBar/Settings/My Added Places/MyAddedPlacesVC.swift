@@ -129,7 +129,6 @@ class MyAddedPlacesVC: UIViewController {
         }
     }
     
-    
 }
 
 extension MyAddedPlacesVC: UICollectionViewDelegateFlowLayout {
@@ -172,5 +171,4 @@ extension MyAddedPlacesVC: UIScrollViewDelegate {
             sortButton.isHidden = false
         }
     }
-
 }

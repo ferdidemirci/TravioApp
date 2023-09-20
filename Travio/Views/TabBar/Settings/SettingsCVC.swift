@@ -61,8 +61,8 @@ class SettingsCVC: UICollectionViewCell {
     private func setupViews() {
         contentView.addSubviews(containerView)
         containerView.addSubviews(iconImageView,
-                                titleLabel,
-                                forwardImageView)
+                                  titleLabel,
+                                  forwardImageView)
         setupLayouts()
     }
     

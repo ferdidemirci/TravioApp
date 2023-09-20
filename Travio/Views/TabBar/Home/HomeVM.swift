@@ -14,7 +14,6 @@ class HomeVM {
     var userPlaces: [Place] = []
     var placeArray: [Place] = []
 
-    
     func fetchPlaces(for section: Sections, completion: @escaping (Bool) -> Void) {
         var request: Router
         let query = 5

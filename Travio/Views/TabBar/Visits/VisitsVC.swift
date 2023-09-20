@@ -77,7 +77,8 @@ class VisitsVC: UIViewController {
         navigationController?.isNavigationBarHidden = true
         
         view.backgroundColor = AppColor.primaryColor.colorValue()
-        view.addSubviews(titleLabel, mainView)
+        view.addSubviews(titleLabel,
+                         mainView)
         setupLayout()
     }
     

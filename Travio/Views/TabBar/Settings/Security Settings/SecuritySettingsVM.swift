@@ -15,7 +15,6 @@ class SecuritySettingsVM {
     let sectionTitles = ["Change Password", "Privacy"]
     let cellTitles = [["New Password", "New Password Confirm"], ["Camera", "Photo Library", "Location"]]
     var passwords = ["Password": "", "confirmPassword": ""]
-    
     var cameraPermissionEnabled = false
     var photoLibraryPermissionEnabled = false
     var locationPermissionEnabled = false
@@ -32,21 +31,25 @@ class SecuritySettingsVM {
     }
     
     func requestPermissions(completion: @escaping () -> Void) {
+        
         PermissionHelper.requestCameraPermission { [weak self] granted in
             guard let self = self else { return }
             self.cameraPermissionEnabled = granted
             completion()
         }
+        
         PermissionHelper.requestPhotoLibraryPermission { [weak self] granted in
             guard let self = self else { return }
             self.photoLibraryPermissionEnabled = granted
             completion()
         }
+        
         PermissionHelper.requestLocationPermission { [weak self] granted in
             guard let self = self else { return }
             self.locationPermissionEnabled = granted
             completion()
         }
+        
     }
     
     func checkCameraPermission() {

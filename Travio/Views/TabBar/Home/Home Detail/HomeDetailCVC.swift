@@ -71,7 +71,10 @@ class HomeDetailCVC: UICollectionViewCell {
     
     func setupViews() {
         contentView.addSubviews(containerView)
-        containerView.addSubviews(placeImageView, titleLabel, stackView, activityIndicator)
+        containerView.addSubviews(placeImageView,
+                                  titleLabel,
+                                  stackView,
+                                  activityIndicator)
         setupLayouts()
     }
     

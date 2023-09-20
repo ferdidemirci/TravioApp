@@ -44,7 +44,7 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.isPagingEnabled = true
         collectionView.contentInsetAdjustmentBehavior = .never
-        collectionView.register(CustomDetailsSliderCVC.self, forCellWithReuseIdentifier: CustomDetailsSliderCVC().identifier)
+        collectionView.register(CustomDetailsSliderCVC.self, forCellWithReuseIdentifier: CustomDetailsSliderCVC.identifier)
         return collectionView
     }()
     
@@ -285,7 +285,12 @@ class CustomDetailsVC: UIViewController, MKMapViewDelegate {
     private func setupViews(){
         mapView.delegate = self
         view.backgroundColor = AppColor.backgroundLight.colorValue()
-        view.addSubviews(sliderImage, collectionView, pageControl, backButton, visitedButton, scrollView)
+        view.addSubviews(sliderImage,
+                         collectionView,
+                         pageControl,
+                         backButton,
+                         visitedButton,
+                         scrollView)
         setupLayout()
     }
     
@@ -390,7 +395,7 @@ extension CustomDetailsVC: UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomDetailsSliderCVC().identifier, for: indexPath) as? CustomDetailsSliderCVC else { return UICollectionViewCell() }
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomDetailsSliderCVC.identifier, for: indexPath) as? CustomDetailsSliderCVC else { return UICollectionViewCell() }
         cell.configure(model: viewModel.getImage(index: indexPath.row))
         return cell
     }

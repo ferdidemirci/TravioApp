@@ -297,6 +297,7 @@
 				81B83A9A2AB2F0CA00EA902C /* AuthenticationManager.swift */,
 				81B83A9C2AB3072100EA902C /* KeychainManager.swift */,
 				811837182AB487D900995BBD /* ImagePickerHelper.swift */,
+				C0A2E73D2AAF7C4100D3F879 /* PermissionHelper.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -425,7 +426,6 @@
 				C0A544572AA7153000CB24D7 /* SecuritySettingsVM.swift */,
 				C0BF37352AA277CB007C3595 /* PasswordTVC.swift */,
 				C0BF37332AA27710007C3595 /* PrivacyTVC.swift */,
-				C0A2E73D2AAF7C4100D3F879 /* PermissionHelper.swift */,
 			);
 			path = "Security Settings";
 			sourceTree = "<group>";

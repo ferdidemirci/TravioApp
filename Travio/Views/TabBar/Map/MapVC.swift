@@ -129,7 +129,8 @@ class MapVC: UIViewController, MKMapViewDelegate{
         
         self.navigationController?.navigationBar.isHidden = true
         view.backgroundColor = .systemBackground
-        view.addSubviews(mapView, collectionView)
+        view.addSubviews(mapView,
+                         collectionView)
         setupLayout()
     }
     
@@ -195,6 +196,4 @@ extension MapVC: ReturnToMap, ReturnToDismiss{
     func returned() {
         setupData()
     }
-    
-    
 }

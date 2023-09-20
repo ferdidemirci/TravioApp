@@ -21,7 +21,6 @@ class VisitsVM {
             case .failure:
                 completion(false)
             }
-            
         }
     }
 }

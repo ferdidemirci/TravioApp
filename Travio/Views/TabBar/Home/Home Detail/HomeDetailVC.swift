@@ -113,7 +113,9 @@ class HomeDetailVC: UIViewController {
     private func setupViews(){
         view.backgroundColor = AppColor.primaryColor.colorValue()
         titleLabel.text = sectionTitle
-        view.addSubviews(backButton, titleLabel, mainView)
+        view.addSubviews(backButton,
+                         titleLabel,
+                         mainView)
         setupLayout()
     }
     

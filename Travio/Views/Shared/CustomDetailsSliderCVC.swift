@@ -11,7 +11,7 @@ import Kingfisher
 
 class CustomDetailsSliderCVC: UICollectionViewCell {
     
-    var identifier = "CustomDetailsSliderCVC"
+    static let identifier = "CustomDetailsSliderCVC"
     
     private lazy var sliderImage: UIImageView = {
         let image = UIImageView()
